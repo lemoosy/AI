@@ -12,6 +12,9 @@ typedef struct sNetwork
 
 	// Nombre de couches.
 	int layerCount;
+
+	// Pas d'apprentissage (par défaut: 0.5).
+	float learningStep;
 }Network;
 
 Network* Network_Init(void);

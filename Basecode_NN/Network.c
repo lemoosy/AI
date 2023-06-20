@@ -5,6 +5,8 @@ Network* Network_Init(void)
 	Network* net = (Network*)calloc(1, sizeof(Network));
 	assert(net);
 
+	net->learningStep = 0.5f;
+
 	return net;
 }
 
@@ -106,7 +108,7 @@ void Network_Forward(Network* net, float inputs[NODE_PER_LAYER])
 	}
 }
 
-void Network_InitDelta(Network* net, float outputs[NODE_PER_LAYER])
+void __Network_InitDelta(Network* net, float outputs[NODE_PER_LAYER])
 {
 	// Dernière couche:
 
@@ -155,8 +157,28 @@ void Network_InitDelta(Network* net, float outputs[NODE_PER_LAYER])
 
 void Network_Backward(Network* net, float outputs[NODE_PER_LAYER])
 {
-	Network_InitDelta(net, outputs);
+	__Network_InitDelta(net, outputs);
 
+	int layerCount = net->layerCount;
 
+	for (int i = 1; i < layerCount; i++)
+	{
+		Layer* layerCurr = Network_GetLayer(net, i);
+		Layer* layerPrev = Network_GetLayer(net, i - 1);
+		
+		int layerCurrNodeCount = layerCurr->nodeCount;
+		int layerPrevNodeCount = layerPrev->nodeCount;
 
+		for (int j = 0; j < layerCurrNodeCount; j++)
+		{
+			Node* nodeCurr = Layer_GetNode(layerCurr, j);
+
+			for (int k = 0; k < layerPrevNodeCount; k++)
+			{
+				Node* nodePrev = Layer_GetNode(layerCurr, k);
+
+				nodeCurr->w[k] -= net->learningStep * nodeCurr->delta * nodePrev->a;
+			}
+		}
+	}
 }
