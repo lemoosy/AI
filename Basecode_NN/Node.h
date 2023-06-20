@@ -17,6 +17,9 @@ typedef struct sNode
 
 	// Valeur de la fonction d'activation.
 	float a;
+
+	// Valeur intermédiaire.
+	float delta;
 }Node;
 
 Node* Node_New(void);
