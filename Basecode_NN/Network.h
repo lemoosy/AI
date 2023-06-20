@@ -18,6 +18,7 @@ Network* Network_Init(void);
 void     Network_Copy(Network* net);
 void     Network_Destroy(Network* net);
 
+Layer*   Network_GetLayer(Network* net, int index);
 void     Network_AddLayer(Network* net, int nodeCount, float (*activation)(float), float (*activationDer)(float));
 
 void     Network_Forward(Network* net, float inputs[NODE_PER_LAYER]);

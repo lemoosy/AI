@@ -22,3 +22,5 @@ typedef struct sLayer
 Layer* Layer_New(int nodeCount, float (*activation)(float), float (*activationDer)(float));
 Layer* Layer_Copy(Layer* layer);
 void   Layer_Destroy(Layer* layer);
+
+Node*  Layer_GetNode(Layer* layer, int index);

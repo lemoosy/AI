@@ -50,3 +50,15 @@ void Layer_Destroy(Layer* layer)
 
 	free(layer);
 }
+
+Node* Layer_GetNode(Layer* layer, int index)
+{
+	if (index < 0)
+	{
+		index += layer->nodeCount;
+	}
+
+	assert((0 <= index) && (index < layer->nodeCount));
+
+	return layer->nodes[index];
+}
