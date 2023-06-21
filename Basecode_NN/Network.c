@@ -1,11 +1,11 @@
 #include "Network.h"
 
-Network* Network_Init(void)
+Network* Network_Init(float learningStep)
 {
 	Network* net = (Network*)calloc(1, sizeof(Network));
 	assert(net);
 
-	net->learningStep = 0.5f;
+	net->learningStep = learningStep;
 
 	return net;
 }
@@ -226,7 +226,15 @@ void __Network_InitDelta(Network* net, float outputs[NODE_PER_LAYER])
 	{
 		Node* node = Layer_GetNode(layerOutput, j);
 
+#ifdef SOFTMAX
+
+		node->d = (node->a - outputs[j]);
+
+#else
+
 		node->d = (node->a - outputs[j]) * layerOutput->activationDer(node->z);
+
+#endif
 	}
 
 	int netSize = net->size;

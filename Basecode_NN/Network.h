@@ -14,11 +14,11 @@ typedef struct sNetwork
 	// Nombre de couches.
 	int size;
 
-	// Pas d'apprentissage (par défaut: 0.5).
+	// Pas d'apprentissage.
 	float learningStep;
 }Network;
 
-Network* Network_Init(void);
+Network* Network_Init(float learningStep);
 void     Network_Copy(Network* net);
 void     Network_Destroy(Network* net);
 

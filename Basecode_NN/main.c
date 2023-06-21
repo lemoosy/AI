@@ -12,7 +12,7 @@ void Check_Print(Network* net, Data* data)
 
 		Network_Forward(net, sample.x);
 
-		printf("%.2f | ", sample.y[0]);
+		printf("%.2f %.2f %.2f | ", sample.y[0], sample.y[1], sample.y[2]);
 		Network_PrintLayer(net, -1, 'a');
 	}
 
@@ -23,9 +23,9 @@ int main(void)
 {
 	srand(time(NULL));
 
-	Data* data = Data_Import("../Data/iris.txt");
+	Data* data = Data_Import("../Data/iris_softmax.txt");
 
-	Network* net = Network_Init();
+	Network* net = Network_Init(0.1f);
 	Network_AddLayer(net, data->xSize, &linear, NULL);
 	Network_AddLayer(net, 3, &sigmoid, &sigmoidDer);
 	Network_AddLayer(net, data->ySize, &sigmoid, &sigmoidDer);
