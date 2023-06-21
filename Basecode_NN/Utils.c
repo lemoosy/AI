@@ -1,6 +1,6 @@
 #include "Utils.h"
 
-float Float_Random(float a, float b)
+float float_random(float a, float b)
 {
 	float r = rand();	// [0.0f, RAND_MAX]
 
@@ -9,4 +9,14 @@ float Float_Random(float a, float b)
 	r += a;				// [a, b]
 
 	return r;
+}
+
+float sigmoid(float x)
+{
+	return (1.0f / (1.0f + expf(-x)));
+}
+
+float sigmoidDer(float x)
+{
+	return (sigmoid(x) * (1.0f - sigmoid(x)));
 }

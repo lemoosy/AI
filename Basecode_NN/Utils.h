@@ -2,4 +2,7 @@
 
 #include "Settings.h"
 
-float Float_Random(float a, float b);
+float float_random(float a, float b);
+
+float sigmoid(float x);
+float sigmoidDer(float x);

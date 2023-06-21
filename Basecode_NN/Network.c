@@ -55,7 +55,7 @@ Layer* Network_GetLayer(Network* net, int index)
 	return net->layers[index];
 }
 
-void Network_AddLayer(Network* net, int nodeCount, float(*activation)(float), float(*activationDer)(float))
+void Network_AddLayer(Network* net, int nodeCount, float (*activation)(float), float (*activationDer)(float))
 {
 	assert(net->layerCount < LAYER_PER_NETWORK);
 
