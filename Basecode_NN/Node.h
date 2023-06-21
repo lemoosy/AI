@@ -19,7 +19,7 @@ typedef struct sNode
 	float a;
 
 	// Valeur intermédiaire.
-	float delta;
+	float d;
 }Node;
 
 Node* Node_New(void);

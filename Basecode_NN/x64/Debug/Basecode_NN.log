@@ -1,11 +1,4 @@
 ﻿  Data.c
-  Layer.c
-  Network.c
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Network.c(15,23): warning C4098: 'Network_Copy' : fonction 'void' retournant une valeur
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Network.c(29,12): warning C4098: 'Network_Copy' : fonction 'void' retournant une valeur
-  Node.c
-  Utils.c
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Utils.c(5,12): warning C4244: 'initialisation' : conversion de 'int' en 'float', perte possible de données
   main.c
   Génération de code en cours...
   Basecode_NN.vcxproj -> C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\x64\Debug\Basecode_NN.exe

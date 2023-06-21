@@ -1,6 +1,6 @@
 #include "Layer.h"
 
-Layer* Layer_New(int nodeCount, float (*activation)(float), float (*activationDer)(float))
+Layer* Layer_New(int size, float (*activation)(float), float (*activationDer)(float))
 {
 	Layer* layer = (Layer*)calloc(1, sizeof(Layer));
 	assert(layer);
@@ -8,12 +8,12 @@ Layer* Layer_New(int nodeCount, float (*activation)(float), float (*activationDe
 	layer->activation = activation;
 	layer->activationDer = activationDer;
 
-	for (int j = 0; j < nodeCount; j++)
+	for (int j = 0; j < size; j++)
 	{
 		layer->nodes[j] = Node_New();
 	}
 
-	layer->nodeCount = nodeCount;
+	layer->size = size;
 
 	return layer;
 }
@@ -27,9 +27,9 @@ Layer* Layer_Copy(Layer* layer)
 
 	*res = *layer;
 
-	int nodeCount = layer->nodeCount;
+	int size = layer->size;
 
-	for (int j = 0; j < nodeCount; j++)
+	for (int j = 0; j < size; j++)
 	{
 		res->nodes[j] = Node_Copy(layer->nodes[j]);
 	}
@@ -41,9 +41,9 @@ void Layer_Destroy(Layer* layer)
 {
 	if (!layer) return;
 
-	int nodeCount = layer->nodeCount;
+	int size = layer->size;
 
-	for (int j = 0; j < nodeCount; j++)
+	for (int j = 0; j < size; j++)
 	{
 		Node_Destroy(layer->nodes[j]);
 	}
@@ -55,10 +55,10 @@ Node* Layer_GetNode(Layer* layer, int index)
 {
 	if (index < 0)
 	{
-		index += layer->nodeCount;
+		index += layer->size;
 	}
 
-	assert((0 <= index) && (index < layer->nodeCount));
+	assert((0 <= index) && (index < layer->size));
 
 	return layer->nodes[index];
 }

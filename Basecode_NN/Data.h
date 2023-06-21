@@ -17,29 +17,31 @@ typedef struct sSample
 // Structure représentant un jeu de données.
 typedef struct sData
 {
+	// Informations sur le jeu données.
+	char* informations;
+
 	// Nombre d'échantillons.
-	int sampleCount;
+	int size;
 	
 	// Nombre d'entrées dans chaque échantillon.
-	int xCount;
+	int xSize;
 
 	// Nombre de sorties dans chaque échantillon.
-	int yCount;
+	int ySize;
 	
 	// Échantillons.
 	Sample* samples;
 }Data;
 
 // ---------- Fichier TXT ----------
-// Ligne (0)	Informations
-// Ligne (1)	N
-// Ligne (2)	xCount yCount
-// Ligne (3)	x[0] x[1] x[2] ... x[xCount-1] y[0] y[1] y[2] ... y[yCount-1]
-// Ligne (4)	x[0] x[1] x[2] ... x[xCount-1] y[0] y[1] y[2] ... y[yCount-1]
+// Ligne (0)		informations
+// Ligne (1)		size
+// Ligne (2)		xSize ySize
+// Ligne (3)		x[0] x[1] x[2] ... x[xSize-1] y[0] y[1] y[2] ... y[ySize-1]
+// Ligne (4)		x[0] x[1] x[2] ... x[xSize-1] y[0] y[1] y[2] ... y[ySize-1]
 // ...
-// Ligne (N+2)	x[0] x[1] x[2] ... x[xCount-1] y[0] y[1] y[2] ... y[yCount-1]
+// Ligne (size+2)	x[0] x[1] x[2] ... x[xSize-1] y[0] y[1] y[2] ... y[ySize-1]
 // ---------------------------------
 
 Data* Data_Import(char* path);
 void  Data_Destroy(Data* data);
-void  Data_Print(Data* data);
