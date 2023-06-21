@@ -227,7 +227,7 @@ void __Network_InitDelta(Network* net, float outputs[NODE_PER_LAYER])
 				sum += nodeNext->w[j] * nodeNext->d;
 			}
 			
-			Node* nodeCurr = Layer_GetNode(layerOutput, j);
+			Node* nodeCurr = Layer_GetNode(layerCurr, j);
 
 			nodeCurr->d = sum * layerCurr->activationDer(nodeCurr->z);
 		}

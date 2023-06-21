@@ -2,6 +2,25 @@
 #include "Data.h"
 #include "Settings.h"
 
+
+
+void Check_Print(Network* net, Data* data)
+{
+	int dataSize = data->size;
+
+	for (int i = 0; i < dataSize; i++)
+	{
+		Sample sample = data->samples[i];
+
+		Network_Forward(net, sample.x);
+
+		printf("%f | ", sample.y[0]);
+		Network_PrintLayer(net, -1, 'a');
+	}
+
+	putchar('\n');
+}
+
 int main(void)
 {
 	srand(time(NULL));
@@ -15,12 +34,16 @@ int main(void)
 
 	while (1)
 	{
+		Network_Learning(net, data);
+		int res = Network_CountError(net, data, 0.1f);
+		printf("res = %d \n", res);
+
+
+		Check_Print(net, data);
 
 
 
-
-
-
+		system("pause");
 	}
 
 	Network_Destroy(net);
