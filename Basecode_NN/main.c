@@ -2,8 +2,6 @@
 #include "Data.h"
 #include "Settings.h"
 
-
-
 void Check_Print(Network* net, Data* data)
 {
 	int dataSize = data->size;
@@ -14,7 +12,7 @@ void Check_Print(Network* net, Data* data)
 
 		Network_Forward(net, sample.x);
 
-		printf("%f | ", sample.y[0]);
+		printf("%.2f | ", sample.y[0]);
 		Network_PrintLayer(net, -1, 'a');
 	}
 
@@ -32,19 +30,15 @@ int main(void)
 	Network_AddLayer(net, 3, &sigmoid, &sigmoidDer);
 	Network_AddLayer(net, data->ySize, &sigmoid, &sigmoidDer);
 
-	while (1)
+	for (int i = 0; i < 100; i++)
 	{
 		Network_Learning(net, data);
 		int res = Network_CountError(net, data, 0.1f);
 		printf("res = %d \n", res);
-
-
-		Check_Print(net, data);
-
-
-
-		system("pause");
 	}
+
+	Check_Print(net, data);
+
 
 	Network_Destroy(net);
 	Data_Destroy(data);

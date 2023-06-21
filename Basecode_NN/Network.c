@@ -192,6 +192,29 @@ void Network_Forward(Network* net, float inputs[NODE_PER_LAYER])
 			nodeCurr->a = layerCurr->activation(nodeCurr->z);
 		}
 	}
+
+#ifdef SOFTMAX
+
+	Layer* layerOutput = Network_GetLayer(net, -1);
+	int layerOutputSize = layerOutput->size;
+
+	for (int j = 0; j < layerOutputSize; j++)
+	{
+		Node* nodeOutputInit = Layer_GetNode(layerOutput, j);
+
+		float sum = 0.0f;
+
+		for (int k = 0; k < layerOutputSize; k++)
+		{
+			Node* nodeOutputCurr = Layer_GetNode(layerOutput, k);
+
+			sum += expf(nodeOutputCurr->z);
+		}
+
+		nodeOutputInit->a = expf(nodeOutputInit->z) / sum;
+	}
+
+#endif
 }
 
 void __Network_InitDelta(Network* net, float outputs[NODE_PER_LAYER])
