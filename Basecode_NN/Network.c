@@ -55,11 +55,11 @@ Layer* Network_GetLayer(Network* net, int index)
 	return net->layers[index];
 }
 
-void Network_AddLayer(Network* net, int size, float (*activation)(float), float (*activationDer)(float))
+void Network_AddLayer(Network* net, int size, FunctionID activationID)
 {
 	assert(net->size < LAYER_PER_NETWORK);
 
-	net->layers[net->size] = Layer_New(size, activation, activationDer);
+	net->layers[net->size] = Layer_New(size, activationID);
 	net->size += 1;
 }
 
@@ -193,7 +193,7 @@ void Network_Forward(Network* net, float inputs[NODE_PER_LAYER])
 		}
 	}
 
-#ifdef SOFTMAX
+#ifdef _SOFTMAX
 
 	Layer* layerOutput = Network_GetLayer(net, -1);
 	int layerOutputSize = layerOutput->size;
@@ -226,7 +226,7 @@ void __Network_InitDelta(Network* net, float outputs[NODE_PER_LAYER])
 	{
 		Node* node = Layer_GetNode(layerOutput, j);
 
-#ifdef SOFTMAX
+#ifdef _SOFTMAX
 
 		node->d = (node->a - outputs[j]);
 

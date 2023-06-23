@@ -20,8 +20,3 @@ int* int_tab_random(int size);
 // Crée un tableau de taille size : { 3, 1, 2, 4, ... }
 int* int_tab_random_norep(int size);
 
-float linear(float x);
-float linearDer(float x);
-
-float sigmoid(float x);
-float sigmoidDer(float x);

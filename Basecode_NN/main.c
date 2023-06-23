@@ -26,9 +26,9 @@ int main(void)
 	Data* data = Data_Import("../Data/iris_softmax.txt");
 
 	Network* net = Network_Init(0.1f);
-	Network_AddLayer(net, data->xSize, &linear, NULL);
-	Network_AddLayer(net, 3, &sigmoid, &sigmoidDer);
-	Network_AddLayer(net, data->ySize, &sigmoid, &sigmoidDer);
+	Network_AddLayer(net, data->xSize, FUNCTION_LINEAR);
+	Network_AddLayer(net, 3, FUNCTION_SIGMOID);
+	Network_AddLayer(net, data->ySize, FUNCTION_SOFTMAX);
 
 	for (int i = 0; i < 100; i++)
 	{

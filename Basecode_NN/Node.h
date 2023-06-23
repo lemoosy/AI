@@ -25,3 +25,6 @@ typedef struct sNode
 Node* Node_New(void);
 Node* Node_Copy(Node* node);
 void  Node_Destroy(Node* node);
+
+void  Node_ExportBin(Node* node, FILE* file);
+Node* Node_ImportBin(FILE* file);

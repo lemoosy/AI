@@ -33,3 +33,18 @@ void Node_Destroy(Node* node)
 
 	free(node);
 }
+
+void Node_ExportBin(Node* node, FILE* file)
+{
+	fwrite(node, sizeof(Node), 1, file);
+}
+
+Node* Node_ImportBin(FILE* file)
+{
+	Node* node = (Node*)calloc(1, sizeof(Node));
+	assert(node);
+	
+	fread(node, sizeof(Node), 1, file);
+	
+	return node;
+}

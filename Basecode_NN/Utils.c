@@ -60,23 +60,3 @@ int* int_tab_random_norep(int size)
 
 	return tab;
 }
-
-float linear(float x)
-{
-	return x;
-}
-
-float linearDer(float x)
-{
-	return 1.0f;
-}
-
-float sigmoid(float x)
-{
-	return (1.0f / (1.0f + expf(-x)));
-}
-
-float sigmoidDer(float x)
-{
-	return (sigmoid(x) * (1.0f - sigmoid(x)));
-}

@@ -128,15 +128,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Data.c" />
+    <ClCompile Include="Function.c" />
     <ClCompile Include="Layer.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="Mat.c" />
     <ClCompile Include="Network.c" />
     <ClCompile Include="Node.c" />
     <ClCompile Include="Utils.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data.h" />
+    <ClInclude Include="Function.h" />
     <ClInclude Include="Layer.h" />
+    <ClInclude Include="Mat.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Settings.h" />
