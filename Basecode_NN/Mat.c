@@ -30,12 +30,11 @@ Mat* Mat_Copy(Mat* m)
 
 	int w = m->w;
 	int h = m->h;
+	int size = sizeof(data) * w;
 
-	int j;
-
-	for (j = 0; j < h; j++)
+	for (int j = 0; j < h; j++)
 	{
-		memcpy(res->value[j], m->value[j], sizeof(data) * w);
+		memcpy(res->value[j], m->value[j], size);
 	}
 
 	return res;
@@ -56,6 +55,33 @@ void Mat_Destroy(Mat* m)
 	free(m);
 }
 
+void Mat_Print(Mat* mat)
+{
+	if (mat)
+	{
+		int w = mat->w;
+		int h = mat->h;
+
+		data* row;
+
+		for (int j = 0; j < h; j++)
+		{
+			row = mat->value[j];
+
+			for (int i = 0; i < w; i++)
+			{
+				printf("%.2f ", row[i]);
+			}
+
+			putchar('\n');
+		}
+	}
+	else
+	{
+		printf("mat = NULL \n");
+	}
+}
+
 void Mat_Add(Mat* m1, Mat* m2)
 {
 	int w = m1->w;
@@ -63,18 +89,15 @@ void Mat_Add(Mat* m1, Mat* m2)
 
 	assert((w == m2->w) && (h == m2->h));
 	
-	int i;
-	int j;
-
 	data* m1Row;
 	data* m2Row;
 
-	for (j = 0; j < h; j++)
+	for (int j = 0; j < h; j++)
 	{
 		m1Row = m1->value[j];
 		m2Row = m2->value[j];
 
-		for (i = 0; i < w; i++)
+		for (int i = 0; i < w; i++)
 		{
 			m1Row[i] += m2Row[i];
 		}
@@ -88,18 +111,15 @@ void Mat_Sub(Mat* m1, Mat* m2)
 
 	assert((w == m2->w) && (h == m2->h));
 
-	int i;
-	int j;
-
 	data* m1Row;
 	data* m2Row;
 
-	for (j = 0; j < h; j++)
+	for (int j = 0; j < h; j++)
 	{
 		m1Row = m1->value[j];
 		m2Row = m2->value[j];
 
-		for (i = 0; i < w; i++)
+		for (int i = 0; i < w; i++)
 		{
 			m1Row[i] -= m2Row[i];
 		}
@@ -115,15 +135,11 @@ Mat* Mat_Prd(Mat* m1, Mat* m2)
 
 	Mat* res = Mat_New(h, w);
 	
-	int i;
-	int j;
-	int k;
-
-	for (j = 0; j < h; j++)
+	for (int j = 0; j < h; j++)
 	{
-		for (i = 0; i < w; i++)
+		for (int i = 0; i < w; i++)
 		{
-			for (k = 0; k < w; k++)
+			for (int k = 0; k < w; k++)
 			{
 				res->value[j][i] += m1->value[j][k] * m2->value[k][i];
 			}
@@ -138,16 +154,13 @@ void Mat_Scale(Mat* m, data s)
 	int w = m->w;
 	int h = m->h;
 
-	int i;
-	int j;
-
 	data* mRow;
 
-	for (j = 0; j < h; j++)
+	for (int j = 0; j < h; j++)
 	{
 		mRow = m->value[j];
 
-		for (i = 0; i < w; i++)
+		for (int i = 0; i < w; i++)
 		{
 			mRow[i] *= s;
 		}
