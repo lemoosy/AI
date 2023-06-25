@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Settings.h"
+#include "../Settings.h"
 
 // Renvoie un nombre dans [a, b].
 float float_random(float a, float b);
@@ -19,4 +19,3 @@ int* int_tab_random(int size);
 
 // Crée un tableau de taille size : { 3, 1, 2, 4, ... }
 int* int_tab_random_norep(int size);
-

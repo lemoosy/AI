@@ -1,14 +1,4 @@
-﻿  Data.c
-  Function.c
-  Layer.c
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Layer.c(114,14): error C2172: 'fwrite' : le paramètre réel n'est pas un pointeur : paramètre 1
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Layer.c(118,9): warning C4022: 'fwrite' : incompatibilité de pointeur pour le paramètre réel 1
-  main.c
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(24,8): warning C4244: 'fonction' : conversion de 'time_t' en 'unsigned int', perte possible de données
-  Network.c
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Network.c(15,23): warning C4098: 'Network_Copy' : fonction 'void' retournant une valeur
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Network.c(29,12): warning C4098: 'Network_Copy' : fonction 'void' retournant une valeur
-  Node.c
-  Utils.c
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Utils.c(5,12): warning C4244: 'initialisation' : conversion de 'int' en 'float', perte possible de données
-  Génération de code en cours...
+﻿  main.c
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(12,32): warning C4133: 'fonction' : types incompatibles - de 'data *' à 'Mat *'
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(23,8): warning C4244: 'fonction' : conversion de 'time_t' en 'unsigned int', perte possible de données
+  Basecode_NN.vcxproj -> C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\x64\Debug\Basecode_NN.exe

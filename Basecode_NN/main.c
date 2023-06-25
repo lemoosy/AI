@@ -1,8 +1,7 @@
 #include "Network.h"
-#include "Data.h"
 #include "Settings.h"
 
-void Check_Print(Network* net, Data* data)
+void Check_Print(Network* net, Batch* data)
 {
 	int dataSize = data->size;
 
@@ -23,25 +22,25 @@ int main(void)
 {
 	srand(time(NULL));
 
-	Data* data = Data_Import("../Data/iris_softmax.txt");
+	Batch* batch = Batch_Import("../Data/iris.txt");
 
-	Network* net = Network_Init(0.1f);
-	Network_AddLayer(net, data->xSize, FUNCTION_LINEAR);
+	Network* net = Network_New(0.1f);
+	Network_AddLayer(net, batch->xSize, FUNCTION_LINEAR);
 	Network_AddLayer(net, 3, FUNCTION_SIGMOID);
-	Network_AddLayer(net, data->ySize, FUNCTION_SOFTMAX);
+	Network_AddLayer(net, batch->ySize, FUNCTION_SIGMOID);
 
-	for (int i = 0; i < 100; i++)
+	Network_PrintLayer(net, 0, 'A');
+	Network_PrintLayer(net, 1, 'A');
+	Network_PrintLayer(net, 2, 'A');
+
+	for (int i = 0; i < 300; i++)
 	{
-		Network_Learning(net, data);
-		int res = Network_CountError(net, data, 0.1f);
+		Network_Learning(net, batch);
+		int res = Network_CountError(net, batch, 0.1f);
 		printf("res = %d \n", res);
 	}
 
-	Check_Print(net, data);
 
-
-	Network_Destroy(net);
-	Data_Destroy(data);
 
 	return EXIT_SUCCESS;
 }

@@ -1,34 +1,45 @@
 #pragma once
 
 #include "Function.h"
-#include "Node.h"
 #include "Settings.h"
+#include "Utils/Mat.h"
 
 // Structure représentant une couche dans un réseau de neurones.
 typedef struct sLayer
 {
-	// Fonction d'activation.
-	float (*activation)(float);
+	// Nombre de noeuds.
+	int size;
 
-	// Dérivée de la fonction d'activation.
-	float (*activationDer)(float);
+	// Poids entrants.
+	Mat* W;
+
+	// Biais.
+	Mat* B;
+
+	// Sorties de la fonction somme.
+	Mat* Z;
+
+	// Sorties de la fonction d'funcActivation.
+	Mat* A;
+
+	// Valeurs intermédiaires pour la backpropagation (dE/dz).
+	Mat* S;
 
 	// ID de la fonction d'activation.
-	FunctionID activationID;
+	FunctionID funcActivationID;
 
-	// Nombre de neurones.
-	int size;
-	
-	// Neurones.
-	Node* nodes[NODE_PER_LAYER];
+	// Fonction d'activation.
+	data (*funcActivation)(data);
+
+	// Dérivée de la fonction d'activation.
+	data (*funcActivationDer)(data);
 }Layer;
 
-Layer* Layer_New(int size, FunctionID activationID);
+// Crée une couche.
+Layer* Layer_New(Layer* layerPrev, int size, FunctionID funcActivationID);
+
+// Copie une couche.
 Layer* Layer_Copy(Layer* layer);
-void   Layer_Destroy(Layer* layer);
 
-Node*  Layer_GetNode(Layer* layer, int index);
-void   Layer_AddNode(Layer* layer, Node* node);
-
-void   Layer_ExportBin(Layer* layer, FILE* file);
-Layer* Layer_ImportBin(FILE* file);
+// Détruit une couche.
+void Layer_Destroy(Layer* layer);

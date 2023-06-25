@@ -1,35 +1,46 @@
 #pragma once
 
-#include "Data.h"
+#include "Batch.h"
+#include "Utils/Data.h"
 #include "Layer.h"
-#include "Node.h"
+#include "Utils/Mat.h"
+#include "Utils/DList.h"
+#include "Utils/Utils.h"
 #include "Settings.h"
 
 // Structure représentant un réseau de neurones.
 typedef struct sNetwork
 {
-	// Couches.
-	Layer* layers[LAYER_PER_NETWORK];
-
-	// Nombre de couches.
-	int size;
-
+	// Liste doublement chaînée représentant les couches du réseau.
+	DList* layers;
+	
 	// Pas d'apprentissage.
 	float learningStep;
 }Network;
 
-Network* Network_Init(float learningStep);
-void     Network_Copy(Network* net);
-void     Network_Destroy(Network* net);
+// Crée un réseau de neurones vide.
+Network* Network_New(float learningStep);
 
-Layer*   Network_GetLayer(Network* net, int index);
-void     Network_AddLayer(Network* net, int size, FunctionID activationID);
-void     Network_PrintLayer(Network* net, int index, char var);
+// Copie un réseau de neurones.
+Network* Network_Copy(Network* net);
 
-void     Network_Forward(Network* net, float inputs[NODE_PER_LAYER]);
-void     Network_Backward(Network* net, float outputs[NODE_PER_LAYER]);
+// Détruit un réseau de neurones.
+void Network_Destroy(Network* net);
 
-void     Network_Learning(Network* net, Data* data);
+// Ajoute une couche dans un réseau de neurones.
+void Network_AddLayer(Network* net, int size, FunctionID functionID);
 
-bool     Network_CkeckError(Network* net, float outputs[NODE_PER_LAYER], float epsilon);
-int      Network_CountError(Network* net, Data* data, float epsilon);
+// Affiche une matrice dans une couche dans un réseau de neurones.
+void Network_PrintLayer(Network* net, int index, char var);
+
+// Réalise la propagation vers l'avant.
+void Network_Forward(Network* net, Mat* inputs);
+
+// Réalise la propagation vers l'arrière (méthode du gradient).
+void Network_Backward(Network* net, Mat* outputs);
+
+// Apprends à un réseau de neurones un dataset.
+void Network_Learning(Network* net, Batch* data);
+
+//
+int Network_CountError(Network* net, Batch* batch, data epsilon);
