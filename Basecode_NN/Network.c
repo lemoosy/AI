@@ -48,7 +48,7 @@ void Network_AddLayer(Network* net, int size, FunctionID funcActivationID)
 
 void Network_PrintLayer(Network* net, int index, char var)
 {
-	printf("---------- Network_PrintLayer() { index=%d ; var=%c } ---------- \n\n ", index, var);
+	printf("---------- Network_PrintLayer() { index=%d ; var=%c } ---------- \n\n", index, var);
 
 	Layer* layer = DList_Get(net->layers, index);
 
@@ -87,7 +87,7 @@ void Network_Forward(Network* net, Mat* inputs)
 	DNode* nodeCurr = nodePrev->next;
 
 	Layer* layerPrev = (Layer*)nodePrev->value;
-	Layer* layerCurr;
+	Layer* layerCurr = NULL;
 
 	Mat_Copy2(inputs, layerPrev->A);
 	Mat_Compose(layerPrev->A, layerPrev->funcActivation);
@@ -98,11 +98,16 @@ void Network_Forward(Network* net, Mat* inputs)
 		layerCurr = (Layer*)nodeCurr->value;
 
 		Mat_Multiply2(layerCurr->W, layerPrev->A, layerCurr->Z);
-		Mat_Operation(layerCurr->Z, layerCurr->B, &Data_Add);
+		Mat_Add(layerCurr->Z, layerCurr->B);
 		Mat_Compose2(layerCurr->Z, layerCurr->funcActivation, layerCurr->A);
 
 		nodePrev = nodeCurr;
 		nodeCurr = nodeCurr->next;
+	}
+
+	if (layerCurr->funcActivationID == FUNCTION_SOFTMAX)
+	{
+		Mat_Scale(layerCurr->A, 1.0f / Mat_Sum(layerCurr->A));
 	}
 }
 
@@ -116,25 +121,25 @@ void __Network_InitDelta(Network* net, Mat* outputs)
 	Layer* layerCurr;
 
 	Mat_Copy2(layerNext->A, layerNext->S);
-	Mat_Operation(layerNext->S, outputs, &Data_Sub);
-	Mat_Compose(layerNext->Z, layerNext->funcActivationDer);
-	Mat_Operation(layerNext->S, layerNext->Z, &Data_Multiply);
+	Mat_Sub(layerNext->S, outputs);
 
-	while (nodeCurr != nodeSent->next)
+	if (layerNext->funcActivationID != FUNCTION_SOFTMAX)
+	{
+		Mat_Compose(layerNext->Z, layerNext->funcActivationDer); // Z^(L+1) inutile pour la suite.
+		Mat_Product(layerNext->S, layerNext->Z);
+	}
+
+	while (nodeCurr != nodeSent)
 	{
 		layerNext = (Layer*)nodeNext->value;
 		layerCurr = (Layer*)nodeCurr->value;
 
-		// todo opti
-
 		Mat* W_T = Mat_Transpose(layerNext->W);
-		Mat* S_L = Mat_Multiply(W_T, layerNext->S);
+		
+		Mat_Multiply2(W_T, layerNext->S, layerCurr->S);
+		Mat_Compose(layerCurr->Z, layerCurr->funcActivationDer); // Z^(L+1) inutile pour la suite.
+		Mat_Product(layerCurr->S, layerCurr->Z);
 
-		Mat_Compose(layerCurr->Z, layerCurr->funcActivationDer);
-		Mat_Operation(S_L, layerCurr->Z, &Data_Multiply);
-		Mat_Copy2(S_L, layerCurr->S);
-
-		Mat_Destroy(S_L);
 		Mat_Destroy(W_T);
 
 		nodeNext = nodeCurr;
@@ -147,78 +152,67 @@ void Network_Backward(Network* net, Mat* outputs)
 	__Network_InitDelta(net, outputs);
 
 	DNode* nodeSent = net->layers->sentinel;
-	DNode* nodeNext = nodeSent->prev;
-	DNode* nodeCurr = nodeNext->prev;
+	DNode* nodeCurr = nodeSent->prev;
+	DNode* nodePrev = nodeCurr->prev;
 
-	Layer* layerNext = (Layer*)nodeNext->value;
-	Layer* layerCurr;
+	Layer* layerCurr = (Layer*)nodeCurr->value;
+	Layer* layerPrev;
 
 	data learningStep = net->learningStep;
 
-	while (nodeCurr != nodeSent->next)
-	{
-		layerNext = (Layer*)nodeNext->value;
-		layerCurr = (Layer*)nodeCurr->value;
+	Mat* A_T;
+	Mat* tmp;
 
-		Mat* A_T = Mat_Transpose(layerCurr->A);
-		Mat* der = Mat_Multiply(layerNext->S, A_T);
-		
-		Mat_Scale(der, learningStep);
-		Mat_Operation(layerNext->W, der, &Data_Sub);
-		
-		nodeNext = nodeCurr;
-		nodeCurr = nodeCurr->prev;
+	while (nodePrev != nodeSent)
+	{
+		layerCurr = (Layer*)nodeCurr->value;
+		layerPrev = (Layer*)nodePrev->value;
+
+		Mat_Scale(layerCurr->S, learningStep);	// n * S^i
+
+		A_T = Mat_Transpose(layerPrev->A);
+		tmp = Mat_Multiply(layerCurr->S, A_T);	// n * S^i * A^(i-1).T
+		Mat_Sub(layerCurr->W, tmp);				// W^i -= n * S^i * A^(i-1).T
+		Mat_Sub(layerCurr->B, layerCurr->S);	// B^i -= n * S^i
+
+		Mat_Destroy(tmp);
+		Mat_Destroy(A_T);
+
+		nodeCurr = nodePrev;
+		nodePrev = nodePrev->prev;
 	}
 }
 
 void Network_Learning(Network* net, Batch* batch)
 {
 	int size = batch->size;
-	int xSize = batch->xSize;
-	int ySize = batch->ySize;
-	
 	int* index = int_tab_random_norep(size);
-
-	Mat* X = Mat_New(1, xSize);
-	Mat* Y = Mat_New(1, ySize);
 
 	for (int _ = 0; _ < size; _++)
 	{
-		int i = index[_];
+		Sample sample = batch->samples[index[_]];
 
-		Sample sample = batch->samples[i];
-
-		memcpy(X->values, sample.x, sizeof(data) * xSize);
-		memcpy(Y->values, sample.y, sizeof(data) * ySize);
-
-		Network_Forward(net, X);
-		Network_Backward(net, Y);
+		Network_Forward(net, sample.X);
+		Network_Backward(net, sample.Y);
 	}
+
+	free(index);
 }
 
 int Network_CountError(Network* net, Batch* batch, data epsilon)
 {
 	int res = 0;
-
 	int size = batch->size;
-	int xSize = batch->xSize;
-	int ySize = batch->ySize;
-
-	Mat* X = Mat_New(1, xSize);
-	Mat* Y = Mat_New(1, ySize);
 
 	for (int i = 0; i < size; i++)
 	{
 		Sample sample = batch->samples[i];
 
-		memcpy(X->values, sample.x, sizeof(data) * xSize);
-		memcpy(Y->values, sample.y, sizeof(data) * ySize);
-
-		Network_Forward(net, X);
+		Network_Forward(net, sample.X);
 
 		Layer* layerOutput = (Layer*)DList_Get(net->layers, -1);
 
-		res += !Mat_Equal(layerOutput->A, Y, 0.1f);
+		res += !Mat_Equal(layerOutput->A, sample.Y, epsilon);
 	}
 
 	return res;

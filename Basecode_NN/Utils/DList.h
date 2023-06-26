@@ -46,6 +46,9 @@ bool DList_IsEmpty(DList* list);
 // Vérifie si une valeur est dans une liste.
 bool DList_IsIn(DList* list, void* value, int (*funcCompare)(void*, void*));
 
+// Renvoie la valeur à l'indice <index> dans une liste.
+void* DList_Get(DList* list, int index);
+
 // Insère une valeur en premier dans une liste.
 void DList_InsertFirst(DList* list, void* value);
 
@@ -73,9 +76,6 @@ void* DList_PopFirst(DList* list);
 // Retire et renvoie la dernière valeur dans une liste.
 void* DList_PopLast(DList* list);
 
-DNode* __DList_Get(DList* list, int index);
-// Renvoie la valeur à l'indice <index> dans une liste.
-void* DList_Get(DList* list, int index);
 
 // Retire et renvoie la valeur à l'indice <index> d'une liste.
 void* DList_RemoveAt(DList* list, int index);

@@ -23,22 +23,24 @@ Batch* Batch_Import(char* path)
 	Sample* samples = (Sample*)calloc(size, sizeof(Sample));
 	assert(samples);
 
+	data* values;
+
 	for (int i = 0; i < size; i++)
 	{
-		samples[i].x = (data*)calloc(xSize, sizeof(data));
-		assert(samples[i].x);
+		samples[i].X = Mat_New(1, xSize);
+		values = samples[i].X->values;
 
 		for (int j = 0; j < xSize; j++)
 		{
-			fscanf(file, "%f", &(samples[i].x[j]));
+			fscanf(file, "%f", &values[j]);
 		}
 
-		samples[i].y = (data*)calloc(ySize, sizeof(data));
-		assert(samples[i].y);
+		samples[i].Y = Mat_New(1, ySize);
+		values = samples[i].Y->values;
 
 		for (int j = 0; j < ySize; j++)
 		{
-			fscanf(file, "%f", &(samples[i].y[j]));
+			fscanf(file, "%f", &values[j]);
 		}
 	}
 
@@ -65,10 +67,10 @@ void Batch_Destroy(Batch* batch)
 
 	for (int i = 0; i < size; i++)
 	{
-		free(samples[i].x);
-		free(samples[i].y);
+		Mat_Destroy(samples[i].X);
+		Mat_Destroy(samples[i].Y);
 	}
 
-	free(batch->samples);
+	free(samples);
 	free(batch);
 }

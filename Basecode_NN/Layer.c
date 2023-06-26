@@ -12,8 +12,8 @@ Layer* Layer_New(Layer* layerPrev, int size, FunctionID funcActivationID)
 		layer->W = Mat_New(layerPrev->size, size);
 		layer->B = Mat_New(1, size);
 
-		Mat_Randomize(layer->W, (data)-1, (data)+1);
-		Mat_Randomize(layer->B, (data)-1, (data)+1);
+		Mat_Randomize(layer->W, (data)-1, (data)+1, &float_random);
+		Mat_Randomize(layer->B, (data)-1, (data)+1, &float_random);
 	}
 
 	layer->Z = Mat_New(1, size);
@@ -45,7 +45,7 @@ Layer* Layer_New(Layer* layerPrev, int size, FunctionID funcActivationID)
 		break;
 
 	case FUNCTION_SOFTMAX:
-		layer->funcActivation = &linear;
+		layer->funcActivation = &expf;
 		layer->funcActivationDer = &linearDer;
 		break;
 

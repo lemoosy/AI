@@ -2,13 +2,13 @@
 
 float float_random(float a, float b)
 {
-	float r = rand();	// [0.0f, RAND_MAX]
+	float res = rand();	// [0, RAND_MAX]
 
-	r /= RAND_MAX;		// [0.0f, 1.0f]
-	r *= (b - a);		// [0.0f, (b - a)]
-	r += a;				// [a, b]
+	res /= RAND_MAX;	// [0, 1]
+	res *= (b - a);		// [0, (b - a)]
+	res += a;			// [a, b]
 
-	return r;
+	return res;
 }
 
 int int_random(int a, int b)
@@ -31,19 +31,6 @@ int* int_tab(int size)
 	for (int i = 0; i < size; i++)
 	{
 		tab[i] = i;
-	}
-
-	return tab;
-}
-
-int* int_tab_random(int size)
-{
-	int* tab = (int*)calloc(size, sizeof(int));
-	assert(tab);
-
-	for (int i = 0; i < size; i++)
-	{
-		tab[i] = int_random(0, size - 1);
 	}
 
 	return tab;

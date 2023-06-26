@@ -1,16 +1,16 @@
 #pragma once
 
 #include "Settings.h"
-#include "Utils/Data.h"
+#include "Utils/Mat.h"
 
 // Structure représentant un échantillon.
 typedef struct sSample
 {
 	// Entrées.
-	data* x;
+	Mat* X;
 
 	// Sorties.
-	data* y;
+	Mat* Y;
 }Sample;
 
 // Structure représentant un jeu de données.
@@ -42,4 +42,4 @@ typedef struct sBatch
 Batch* Batch_Import(char* path);
 
 // Détruit un jeu de données.
-void  Batch_Destroy(Batch* data);
+void Batch_Destroy(Batch* batch);

@@ -102,6 +102,45 @@ bool DList_IsIn(DList* list, void* value, int (*funcCompare)(void*, void*))
 	return false;
 }
 
+DNode* __DList_Get(DList* list, int index)
+{
+	DNode* curr = NULL;
+
+	if ((0 <= index) && (index < list->size))
+	{
+		curr = list->sentinel->next;
+
+		while (index > 0)
+		{
+			curr = curr->next;
+			index--;
+		}
+	}
+	else if ((0 > index) && (index >= -list->size))
+	{
+		curr = list->sentinel->prev;
+
+		while (index < -1)
+		{
+			curr = curr->prev;
+			index++;
+		}
+	}
+	else
+	{
+		abort();
+	}
+
+	return curr;
+}
+
+void* DList_Get(DList* list, int index)
+{
+	DNode* node = __DList_Get(list, index);
+
+	return node->value;
+}
+
 void __DList_InsertFirst(DList* list, DNode* node)
 {
 	node->prev = list->sentinel;
@@ -265,9 +304,6 @@ DNode* __DList_PopFirst(DList* list)
 	node->prev->next = node->next;
 	node->next->prev = node->prev;
 
-	node->prev = NULL;
-	node->next = NULL;
-
 	list->size -= 1;
 
 	return node;
@@ -293,9 +329,6 @@ DNode* __DList_PopLast(DList* list)
 	node->prev->next = node->next;
 	node->next->prev = node->prev;
 
-	node->prev = NULL;
-	node->next = NULL;
-
 	list->size -= 1;
 
 	return node;
@@ -310,45 +343,6 @@ void* DList_PopLast(DList* list)
 	free(node);
 
 	return value;
-}
-
-DNode* __DList_Get(DList* list, int index)
-{
-	DNode* curr = NULL;
-
-	if ((0 <= index) && (index < list->size))
-	{
-		curr = list->sentinel->next;
-
-		while (curr != list->sentinel && index > 0)
-		{
-			curr = curr->next;
-			index--;
-		}
-	}
-	else if ((0 > index) && (-index <= list->size))
-	{
-		curr = list->sentinel->prev;
-
-		while (curr != list->sentinel && index < -1)
-		{
-			curr = curr->prev;
-			index++;
-		}
-	}
-	else
-	{
-		assert(false);
-	}
-
-	return curr;
-}
-
-void* DList_Get(DList* list, int index)
-{
-	DNode* node = __DList_Get(list, index);
-
-	return node->value;
 }
 
 DNode* __DList_RemoveAt(DList* list, int index)

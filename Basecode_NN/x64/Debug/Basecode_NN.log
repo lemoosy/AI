@@ -1,4 +1,2 @@
-﻿  main.c
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(12,32): warning C4133: 'fonction' : types incompatibles - de 'data *' à 'Mat *'
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(23,8): warning C4244: 'fonction' : conversion de 'time_t' en 'unsigned int', perte possible de données
+﻿  Batch.c
   Basecode_NN.vcxproj -> C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\x64\Debug\Basecode_NN.exe

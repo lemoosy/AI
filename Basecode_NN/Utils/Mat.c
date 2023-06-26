@@ -76,7 +76,7 @@ void Mat_Print(Mat* m)
 	}
 }
 
-void Mat_Operation(Mat* m1, Mat* m2, data (*funcOperation)(data, data))
+void Mat_Add(Mat* m1, Mat* m2)
 {
 	assert((m1->w == m2->w) && (m1->h == m2->h));
 
@@ -87,7 +87,37 @@ void Mat_Operation(Mat* m1, Mat* m2, data (*funcOperation)(data, data))
 
 	for (int i = 0; i < size; i++)
 	{
-		v1[i] = funcOperation(v1[i], v2[i]);
+		v1[i] += v2[i];
+	}
+}
+
+void Mat_Sub(Mat* m1, Mat* m2)
+{
+	assert((m1->w == m2->w) && (m1->h == m2->h));
+
+	int size = m1->w * m2->h;
+
+	data* v1 = m1->values;
+	data* v2 = m2->values;
+
+	for (int i = 0; i < size; i++)
+	{
+		v1[i] -= v2[i];
+	}
+}
+
+void Mat_Product(Mat* m1, Mat* m2)
+{
+	assert((m1->w == m2->w) && (m1->h == m2->h));
+
+	int size = m1->w * m2->h;
+
+	data* v1 = m1->values;
+	data* v2 = m2->values;
+
+	for (int i = 0; i < size; i++)
+	{
+		v1[i] *= v2[i];
 	}
 }
 
@@ -103,30 +133,58 @@ void Mat_Scale(Mat* m, data s)
 	}
 }
 
+void Mat_Scale2(Mat* m, data s, Mat* res)
+{
+	assert((m->w == res->w) && (m->h == res->h));
+
+	int size = m->w * m->h;
+
+	data* v1 = m->values;
+	data* v2 = res->values;
+
+	for (int i = 0; i < size; i++)
+	{
+		v2[i] = v1[i] * s;
+	}
+}
+
+data Mat_Sum(Mat* m)
+{
+	int size = m->w * m->h;
+
+	data res = (data)0;
+	data* v = m->values;
+
+	for (int i = 0; i < size; i++)
+	{
+		res += v[i];
+	}
+
+	return res;
+}
+
 Mat* Mat_Multiply(Mat* m1, Mat* m2)
 {
-	int w = m1->w;
-	int h = m2->h;
+	int w1 = m1->w;
+	int h1 = m1->h;
+	int w2 = m2->w;
 	
-	assert(w == h);
+	assert(w1 == m2->h);
 
-	Mat* res = Mat_New(m2->w, m1->h);
+	Mat* res = Mat_New(w2, h1);
 
-	int idx = 0;
-
-	for (int j = 0; j < m1->h; j++)
+	for (int j = 0; j < h1; j++)
 	{
-		for (int i = 0; i < m2->w; i++)
+		for (int i = 0; i < w2; i++)
 		{
 			data sum = (data)0;
 
-			for (int k = 0; k < w; k++)
+			for (int k = 0; k < w1; k++)
 			{
 				sum += Mat_Get(m1, k, j) * Mat_Get(m2, i, k);
 			}
 
-			res->values[idx] = sum;
-			idx++;
+			Mat_Set(res, i, j, sum);
 		}
 	}
 
@@ -135,27 +193,25 @@ Mat* Mat_Multiply(Mat* m1, Mat* m2)
 
 void Mat_Multiply2(Mat* m1, Mat* m2, Mat* res)
 {
-	int w = m1->w;
-	int h = m2->h;
+	int w1 = m1->w;
+	int h1 = m1->h;
+	int w2 = m2->w;
 
-	assert(m1->w == m2->h);
-	assert((res->w == m2->w) && (res->h == m1->h));
+	assert(w1 == m2->h);
+	assert((res->w == w2) && (res->h == h1));
 
-	int idx = 0;
-
-	for (int j = 0; j < m1->h; j++)
+	for (int j = 0; j < h1; j++)
 	{
-		for (int i = 0; i < m2->w; i++)
+		for (int i = 0; i < w2; i++)
 		{
 			data sum = (data)0;
 
-			for (int k = 0; k < w; k++)
+			for (int k = 0; k < w1; k++)
 			{
 				sum += Mat_Get(m1, k, j) * Mat_Get(m2, i, k);
 			}
 
-			res->values[idx] = sum;
-			idx++;
+			Mat_Set(res, i, j, sum);
 		}
 	}
 }
@@ -174,6 +230,8 @@ void Mat_Compose(Mat* m, data (*funcCompose)(data))
 
 void Mat_Compose2(Mat* m, data (*funcCompose)(data), Mat* res)
 {
+	assert((m->w == res->w) && (m->h == res->h));
+
 	int size = m->w * m->h;
 
 	data* v1 = m->values;
@@ -203,7 +261,7 @@ Mat* Mat_Transpose(Mat* m)
 	return res;
 }
 
-void Mat_Randomize(Mat* m, data a, data b)
+void Mat_Randomize(Mat* m, data a, data b, data (*funcRandom)(data, data))
 {
 	int size = m->w * m->h;
 
@@ -211,7 +269,7 @@ void Mat_Randomize(Mat* m, data a, data b)
 
 	for (int i = 0; i < size; i++)
 	{
-		v[i] = Data_Random(a, b);
+		v[i] = funcRandom(a, b);
 	}
 }
 

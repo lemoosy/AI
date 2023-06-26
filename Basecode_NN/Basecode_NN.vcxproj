@@ -132,7 +132,6 @@
     <ClCompile Include="Layer.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Network.c" />
-    <ClCompile Include="Utils\Data.c" />
     <ClCompile Include="Utils\DList.c" />
     <ClCompile Include="Utils\Mat.c" />
     <ClCompile Include="Utils\Utils.c" />
@@ -143,7 +142,6 @@
     <ClInclude Include="Layer.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="Settings.h" />
-    <ClInclude Include="Utils\Data.h" />
     <ClInclude Include="Utils\DList.h" />
     <ClInclude Include="Utils\Mat.h" />
     <ClInclude Include="Utils\Utils.h" />

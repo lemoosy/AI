@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Batch.h"
-#include "Utils/Data.h"
 #include "Layer.h"
 #include "Utils/Mat.h"
 #include "Utils/DList.h"
@@ -39,8 +38,8 @@ void Network_Forward(Network* net, Mat* inputs);
 // Réalise la propagation vers l'arrière (méthode du gradient).
 void Network_Backward(Network* net, Mat* outputs);
 
-// Apprends à un réseau de neurones un dataset.
-void Network_Learning(Network* net, Batch* data);
+// Apprends à un réseau de neurones un je ude données.
+void Network_Learning(Network* net, Batch* batch);
 
-//
+// 
 int Network_CountError(Network* net, Batch* batch, data epsilon);

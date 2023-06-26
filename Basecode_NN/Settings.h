@@ -9,3 +9,5 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
+typedef float data;

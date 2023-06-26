@@ -3,14 +3,15 @@
 #include "Function.h"
 #include "Settings.h"
 #include "Utils/Mat.h"
+#include "Utils/Utils.h"
 
 // Structure représentant une couche dans un réseau de neurones.
 typedef struct sLayer
 {
-	// Nombre de noeuds.
+	// Nombre de neurones.
 	int size;
 
-	// Poids entrants.
+	// Poids.
 	Mat* W;
 
 	// Biais.
@@ -19,7 +20,7 @@ typedef struct sLayer
 	// Sorties de la fonction somme.
 	Mat* Z;
 
-	// Sorties de la fonction d'funcActivation.
+	// Sorties de la fonction d'activation.
 	Mat* A;
 
 	// Valeurs intermédiaires pour la backpropagation (dE/dz).

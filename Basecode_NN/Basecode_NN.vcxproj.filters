@@ -27,25 +27,22 @@
     <ClCompile Include="Network.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\Utils.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Batch.c">
       <Filter>Fichiers sources\%2a</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\Data.c">
-      <Filter>Fichiers sources\%2a</Filter>
-    </ClCompile>
-    <ClCompile Include="Function.c">
+    <ClCompile Include="Utils\DList.c">
       <Filter>Fichiers sources\%2a</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Mat.c">
       <Filter>Fichiers sources\%2a</Filter>
     </ClCompile>
-    <ClCompile Include="Layer.c">
+    <ClCompile Include="Function.c">
       <Filter>Fichiers sources\%2a</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\DList.c">
+    <ClCompile Include="Utils\Utils.c">
+      <Filter>Fichiers sources\%2a</Filter>
+    </ClCompile>
+    <ClCompile Include="Layer.c">
       <Filter>Fichiers sources\%2a</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,28 +50,25 @@
     <ClInclude Include="Network.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\Utils.h">
+    <ClInclude Include="Settings.h">
       <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\Data.h">
-      <Filter>Fichiers d%27en-tête\%2a</Filter>
     </ClInclude>
     <ClInclude Include="Batch.h">
       <Filter>Fichiers d%27en-tête\%2a</Filter>
     </ClInclude>
-    <ClInclude Include="Function.h">
+    <ClInclude Include="Utils\DList.h">
       <Filter>Fichiers d%27en-tête\%2a</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Mat.h">
       <Filter>Fichiers d%27en-tête\%2a</Filter>
     </ClInclude>
-    <ClInclude Include="Settings.h">
+    <ClInclude Include="Function.h">
+      <Filter>Fichiers d%27en-tête\%2a</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Utils.h">
       <Filter>Fichiers d%27en-tête\%2a</Filter>
     </ClInclude>
     <ClInclude Include="Layer.h">
-      <Filter>Fichiers d%27en-tête\%2a</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils\DList.h">
       <Filter>Fichiers d%27en-tête\%2a</Filter>
     </ClInclude>
   </ItemGroup>
