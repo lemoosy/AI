@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Batch.c" />
+    <ClCompile Include="Connect4\Connect4.c" />
     <ClCompile Include="Function.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="NN\Layer.c" />
@@ -138,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Batch.h" />
+    <ClInclude Include="Connect4\Connect4.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="NN\Layer.h" />
     <ClInclude Include="NN\Network.h" />

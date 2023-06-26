@@ -38,6 +38,12 @@ int main(void)
 	Network_AddLayer(net, 3, FUNCTION_SIGMOID);
 	Network_AddLayer(net, batch->ySize, FUNCTION_SOFTMAX);
 
+
+	Game*
+
+
+
+
 	for (int i = 0; i < 100; i++)
 	{
 		Network_Learning(net, batch);

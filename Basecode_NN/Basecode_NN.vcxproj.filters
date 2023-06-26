@@ -57,6 +57,9 @@
     <ClCompile Include="Batch.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Connect4\Connect4.c">
+      <Filter>Fichiers sources\Connect4</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Settings.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="Batch.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Connect4\Connect4.h">
+      <Filter>Fichiers d%27en-tête\Connect4</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

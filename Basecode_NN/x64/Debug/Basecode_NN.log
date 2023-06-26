@@ -1,4 +1,6 @@
-﻿  main.c
+﻿  Connect4.c
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Connect4\Connect4.c(77,15): warning C4553: '==' : résultat de l'expression non utilisé ; souhaitiez-vous utiliser '=' ?
+  main.c
 C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(31,8): warning C4244: 'fonction' : conversion de 'time_t' en 'unsigned int', perte possible de données
   Network.c
   Génération de code en cours...
