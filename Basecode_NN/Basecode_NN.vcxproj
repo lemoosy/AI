@@ -129,9 +129,9 @@
   <ItemGroup>
     <ClCompile Include="Batch.c" />
     <ClCompile Include="Function.c" />
-    <ClCompile Include="Layer.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="Network.c" />
+    <ClCompile Include="NN\Layer.c" />
+    <ClCompile Include="NN\Network.c" />
     <ClCompile Include="Utils\DList.c" />
     <ClCompile Include="Utils\Mat.c" />
     <ClCompile Include="Utils\Utils.c" />
@@ -139,8 +139,8 @@
   <ItemGroup>
     <ClInclude Include="Batch.h" />
     <ClInclude Include="Function.h" />
-    <ClInclude Include="Layer.h" />
-    <ClInclude Include="Network.h" />
+    <ClInclude Include="NN\Layer.h" />
+    <ClInclude Include="NN\Network.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Utils\DList.h" />
     <ClInclude Include="Utils\Mat.h" />

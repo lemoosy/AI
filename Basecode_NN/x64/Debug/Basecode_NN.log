@@ -1,2 +1,5 @@
-﻿  Batch.c
+﻿  main.c
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(31,8): warning C4244: 'fonction' : conversion de 'time_t' en 'unsigned int', perte possible de données
+  Network.c
+  Génération de code en cours...
   Basecode_NN.vcxproj -> C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\x64\Debug\Basecode_NN.exe

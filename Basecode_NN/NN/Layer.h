@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Function.h"
-#include "Settings.h"
-#include "Utils/Mat.h"
-#include "Utils/Utils.h"
+#include "../Function.h"
+#include "../Settings.h"
+#include "../Utils/Mat.h"
+#include "../Utils/Utils.h"
 
 // Structure représentant une couche dans un réseau de neurones.
 typedef struct sLayer

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Batch.h"
+#include "../Batch.h"
+#include "../Settings.h"
+#include "../Utils/DList.h"
+#include "../Utils/Mat.h"
+#include "../Utils/Utils.h"
 #include "Layer.h"
-#include "Utils/Mat.h"
-#include "Utils/DList.h"
-#include "Utils/Utils.h"
-#include "Settings.h"
 
 // Structure représentant un réseau de neurones.
 typedef struct sNetwork
@@ -41,5 +41,5 @@ void Network_Backward(Network* net, Mat* outputs);
 // Apprends à un réseau de neurones un je ude données.
 void Network_Learning(Network* net, Batch* batch);
 
-// 
+// Compte le nombre d'erreurs que fait un réseau de neurones sur un jeu de données (à epsilon près). 
 int Network_CountError(Network* net, Batch* batch, data epsilon);

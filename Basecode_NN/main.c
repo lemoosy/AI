@@ -1,4 +1,4 @@
-#include "Network.h"
+#include "NN/Network.h"
 #include "Settings.h"
 
 void Check_Print(Network* net, Batch* batch)
@@ -41,10 +41,11 @@ int main(void)
 	for (int i = 0; i < 100; i++)
 	{
 		Network_Learning(net, batch);
-		int res = Network_CountError(net, batch, 0.1f);
+		int res = Network_CountError(net, batch, 0.7f);
 	}
 
 	Check_Print(net, batch);
+	printf("ERROR = %d \n", Network_CountError(net, batch, 0.1f));
 
 	return EXIT_SUCCESS;
 }

@@ -13,10 +13,22 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\%2a">
-      <UniqueIdentifier>{07b1a70b-1b7e-42ee-aaa9-485fad2b5e9d}</UniqueIdentifier>
+    <Filter Include="Fichiers d%27en-tête\NN">
+      <UniqueIdentifier>{7837ac61-e456-41c6-baf2-e20f7c39f089}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers sources\%2a">
+    <Filter Include="Fichiers sources\NN">
+      <UniqueIdentifier>{20c2ba8e-494f-4ddd-9e47-5362562d09a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Connect4">
+      <UniqueIdentifier>{20363289-0fa7-4709-8d26-801ecc6fa4e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Connect4">
+      <UniqueIdentifier>{39f7c99a-4645-4af4-ad77-7398b81282c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Utils">
+      <UniqueIdentifier>{f57527fd-00c6-4665-8235-9be4f13f4a3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Utils">
       <UniqueIdentifier>{6924755f-98e2-4935-b0fd-30de71862cec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -24,52 +36,52 @@
     <ClCompile Include="main.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Network.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Batch.c">
-      <Filter>Fichiers sources\%2a</Filter>
-    </ClCompile>
     <ClCompile Include="Utils\DList.c">
-      <Filter>Fichiers sources\%2a</Filter>
+      <Filter>Fichiers sources\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Mat.c">
-      <Filter>Fichiers sources\%2a</Filter>
+      <Filter>Fichiers sources\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Function.c">
-      <Filter>Fichiers sources\%2a</Filter>
+      <Filter>Fichiers sources\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Utils.c">
-      <Filter>Fichiers sources\%2a</Filter>
+      <Filter>Fichiers sources\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Layer.c">
-      <Filter>Fichiers sources\%2a</Filter>
+    <ClCompile Include="NN\Layer.c">
+      <Filter>Fichiers sources\NN</Filter>
+    </ClCompile>
+    <ClCompile Include="NN\Network.c">
+      <Filter>Fichiers sources\NN</Filter>
+    </ClCompile>
+    <ClCompile Include="Batch.c">
+      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Network.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Settings.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Batch.h">
-      <Filter>Fichiers d%27en-tête\%2a</Filter>
+    <ClInclude Include="NN\Layer.h">
+      <Filter>Fichiers d%27en-tête\NN</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\DList.h">
-      <Filter>Fichiers d%27en-tête\%2a</Filter>
+    <ClInclude Include="NN\Network.h">
+      <Filter>Fichiers d%27en-tête\NN</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Mat.h">
-      <Filter>Fichiers d%27en-tête\%2a</Filter>
-    </ClInclude>
-    <ClInclude Include="Function.h">
-      <Filter>Fichiers d%27en-tête\%2a</Filter>
+      <Filter>Fichiers d%27en-tête\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Utils.h">
-      <Filter>Fichiers d%27en-tête\%2a</Filter>
+      <Filter>Fichiers d%27en-tête\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Layer.h">
-      <Filter>Fichiers d%27en-tête\%2a</Filter>
+    <ClInclude Include="Utils\DList.h">
+      <Filter>Fichiers d%27en-tête\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Function.h">
+      <Filter>Fichiers d%27en-tête\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Batch.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
