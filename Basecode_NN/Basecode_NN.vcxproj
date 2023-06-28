@@ -127,8 +127,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Ant\Game.c" />
     <ClCompile Include="Batch.c" />
-    <ClCompile Include="Connect4\Connect4.c" />
+    <ClCompile Include="Connect4\AI.c" />
+    <ClCompile Include="Connect4\Game.c" />
     <ClCompile Include="Function.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="NN\Layer.c" />
@@ -138,8 +140,10 @@
     <ClCompile Include="Utils\Utils.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ant\Game.h" />
     <ClInclude Include="Batch.h" />
-    <ClInclude Include="Connect4\Connect4.h" />
+    <ClInclude Include="Connect4\AI.h" />
+    <ClInclude Include="Connect4\Game.h" />
     <ClInclude Include="Function.h" />
     <ClInclude Include="NN\Layer.h" />
     <ClInclude Include="NN\Network.h" />

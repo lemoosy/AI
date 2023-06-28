@@ -31,6 +31,12 @@
     <Filter Include="Fichiers sources\Utils">
       <UniqueIdentifier>{6924755f-98e2-4935-b0fd-30de71862cec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\Ant">
+      <UniqueIdentifier>{4fcf4766-1545-4889-8d00-e51443b913af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Ant">
+      <UniqueIdentifier>{fa171870-8b55-45b0-811a-fbeb6854deb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -57,8 +63,14 @@
     <ClCompile Include="Batch.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Connect4\Connect4.c">
+    <ClCompile Include="Connect4\Game.c">
       <Filter>Fichiers sources\Connect4</Filter>
+    </ClCompile>
+    <ClCompile Include="Connect4\AI.c">
+      <Filter>Fichiers sources\Connect4</Filter>
+    </ClCompile>
+    <ClCompile Include="Ant\Game.c">
+      <Filter>Fichiers sources\Ant</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,8 +98,14 @@
     <ClInclude Include="Batch.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Connect4\Connect4.h">
+    <ClInclude Include="Connect4\Game.h">
       <Filter>Fichiers d%27en-tête\Connect4</Filter>
+    </ClInclude>
+    <ClInclude Include="Connect4\AI.h">
+      <Filter>Fichiers d%27en-tête\Connect4</Filter>
+    </ClInclude>
+    <ClInclude Include="Ant\Game.h">
+      <Filter>Fichiers d%27en-tête\Ant</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

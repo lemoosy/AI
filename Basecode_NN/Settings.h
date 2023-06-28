@@ -9,5 +9,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <windows.h>
 
 typedef float data;
+
+//#define GAME_CONNECT4
+#define GAME_ANT

@@ -1,30 +1,37 @@
 #include "NN/Network.h"
 #include "Settings.h"
 
-void Check_Print(Network* net, Batch* batch)
+#ifdef GAME_ANT
+
+#include "Ant/Game.h"
+
+int main(void)
 {
-	int batchSize = batch->size;
-	
-	Mat* X = Mat_New(1, 3);
+	srand(time(NULL));
 
-	for (int i = 0; i < batchSize; i++)
+	/*Game* game = Game_New();
+
+	while (game->state == GAME_IN_PROGRESS)
 	{
-		Sample sample = batch->samples[i];
-
-		Network_Forward(net, sample.X);
-
-		printf("res TXT : \n");
-		Mat_Print(sample.Y);
-
-		printf("res NN : \n");
-		Layer* layerOutput = DList_Get(net->layers, -1);
-		Mat_Print(layerOutput->A);
-
-		putchar('\n');
+		system("cls");
+		Game_Print(game);
+		Game_Update(game);
+		Sleep(500);
 	}
 
-	putchar('\n');
+	Game_Destroy(game);*/
+
+	main2();
+
+	return EXIT_SUCCESS;
 }
+
+#endif // GAME_ANT
+
+#ifdef GAME_CONNECT4
+
+#include "Connect4/Game.h"
+#include "Connect4/AI.h"
 
 int main(void)
 {
@@ -33,25 +40,21 @@ int main(void)
 	Batch* batch = Batch_Import("../Data/iris_softmax.txt");
 
 	Network* net = Network_New(0.1f);
+	Network_AddLayer(net, GRID_W * GRID_H * 2, FUNCTION_LINEAR);
+	Network_AddLayer(net, 256, FUNCTION_SIGMOID);
+	Network_AddLayer(net, 256, FUNCTION_SIGMOID);
+	Network_AddLayer(net, 256, FUNCTION_SIGMOID);
+	Network_AddLayer(net, 256, FUNCTION_SIGMOID);
+	Network_AddLayer(net, 256, FUNCTION_SIGMOID);
+	Network_AddLayer(net, GRID_W, FUNCTION_SOFTMAX);
+	
+	//Game_MinimaxVSPlayer();
+	Game_MinimaxVSNN(net, 20000);
 
-	Network_AddLayer(net, batch->xSize, FUNCTION_LINEAR);
-	Network_AddLayer(net, 3, FUNCTION_SIGMOID);
-	Network_AddLayer(net, batch->ySize, FUNCTION_SOFTMAX);
-
-
-	Game*
-
-
-
-
-	for (int i = 0; i < 100; i++)
-	{
-		Network_Learning(net, batch);
-		int res = Network_CountError(net, batch, 0.7f);
-	}
-
-	Check_Print(net, batch);
-	printf("ERROR = %d \n", Network_CountError(net, batch, 0.1f));
+	Batch_Destroy(batch);
+	Network_Destroy(net);
 
 	return EXIT_SUCCESS;
 }
+
+#endif // GAME_CONNECT4

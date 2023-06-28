@@ -1,7 +1,15 @@
-﻿  Connect4.c
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Connect4\Connect4.c(77,15): warning C4553: '==' : résultat de l'expression non utilisé ; souhaitiez-vous utiliser '=' ?
-  main.c
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(31,8): warning C4244: 'fonction' : conversion de 'time_t' en 'unsigned int', perte possible de données
-  Network.c
-  Génération de code en cours...
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(1098,5): warning MSB8027: Deux ou plusieurs fichiers avec le nom Game.c généreront des sorties vers le même emplacement. Cela peut entraîner une génération incorrecte. Les fichiers impliqués sont Ant\Game.c, Connect4\Game.c.
+  Game.c
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Ant\Game.c(190,15): warning C4113: 'float (__cdecl *)(float,float)' est différent de 'float (__cdecl *)(float)' dans les listes de paramètres
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Ant\Game.c(193,19): warning C4113: 'float (__cdecl *)(float)' est différent de 'float (__cdecl *)(float,float)' dans les listes de paramètres
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Ant\Game.c(196,20): warning C4113: 'float (__cdecl *)(float,float)' est différent de 'float (__cdecl *)(float)' dans les listes de paramètres
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Ant\Game.c(199,19): warning C4113: 'float (__cdecl *)(float)' est différent de 'float (__cdecl *)(float,float)' dans les listes de paramètres
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Ant\Game.c(202,25): warning C4113: 'float (__cdecl *)(float,float)' est différent de 'float (__cdecl *)(float)' dans les listes de paramètres
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Ant\Game.c(205,19): warning C4113: 'float (__cdecl *)(float)' est différent de 'float (__cdecl *)(float,float)' dans les listes de paramètres
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Ant\Game.c(208,23): warning C4113: 'float (__cdecl *)(float,float)' est différent de 'float (__cdecl *)(float)' dans les listes de paramètres
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Ant\Game.c(211,19): warning C4113: 'float (__cdecl *)(float)' est différent de 'float (__cdecl *)(float,float)' dans les listes de paramètres
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Ant\Game.c(397,3): warning C4033: 'TreeAI_NewRec' doit retourner une valeur
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Ant\Game.c(606,28): warning C4047: 'fonction' : les niveaux d'indirection de 'void *(__cdecl *)(void *)' et de 'void (__cdecl *)(void *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Ant\Game.c(606,23): warning C4022: 'Tree_Destroy' : incompatibilité de pointeur pour le paramètre réel 2
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\Ant\Game.c(417): warning C4715: 'TreeAI_NewRec' : les chemins de contrôle ne retournent pas tous une valeur
   Basecode_NN.vcxproj -> C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\x64\Debug\Basecode_NN.exe
