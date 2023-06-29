@@ -12,7 +12,7 @@ typedef struct sBTreeNode
 typedef struct sBTree
 {
 	BTreeNode* root;
-	float score; // PG
+	float score;		// for BTreeAI.h
 }BTree;
 
 BTree*     BTree_New(void);

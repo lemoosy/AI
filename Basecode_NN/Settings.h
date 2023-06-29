@@ -10,6 +10,7 @@
 #include <string.h>
 #include <time.h>
 #include <windows.h>
+#include <stdarg.h>
 
 typedef float data;
 

@@ -1,6 +1,6 @@
 #include "BTreeAI.h"
 
-BTreeNode* BTreeAI_NewRec(int depth, DList* T, DList* F1, DList* F2)
+BTreeNode* BTreeAI_NewRec(int depth, DList* F[MAX_ARG])
 {
 	BTreeNode* node = (BTreeNode*)calloc(1, sizeof(BTreeNode));
 	assert(node);
@@ -9,48 +9,36 @@ BTreeNode* BTreeAI_NewRec(int depth, DList* T, DList* F1, DList* F2)
 
 	if (depth == 0)
 	{
-		function = (Function*)DList_Get(T, int_random(0, T->size - 1));
+		function = (Function*)DList_Get(F[0], int_random(0, F[0]->size - 1));
 	}
 	else
 	{
-		int size = (T->size + F1->size + F2->size);
+		int i = int_random(0, MAX_ARG - 1);
+		int j = int_random(0, F[i]->size - 1);
 
-		int random = int_random(0, size - 1);
-
-		if (random < T->size)
-		{
-			function = (Function*)DList_Get(T, int_random(0, T->size - 1));
-		}
-		else if (random < T->size + F1->size)
-		{
-			function = (Function*)DList_Get(F1, int_random(0, F1->size - 1));
-		}
-		else
-		{
-			function = (Function*)DList_Get(F2, int_random(0, F2->size - 1));
-		}
+		function = (Function*)DList_Get(F[i], j);
 	}
 
 	node->value = function;
 
 	if (function->size > 0)
 	{
-		node->left = BTreeAI_NewRec(depth - 1, T, F1, F2);
+		node->left = BTreeAI_NewRec(depth - 1, F);
 	}
 
 	if (function->size > 1)
 	{
-		node->right = BTreeAI_NewRec(depth - 1, T, F1, F2);
+		node->right = BTreeAI_NewRec(depth - 1, F);
 	}
 
 	return node;
 }
 
-BTree* BTreeAI_New(DList* T, DList* F1, DList* F2)
+BTree* BTreeAI_New(DList* F[MAX_ARG])
 {
 	BTree* tree = BTree_New();
 
-	tree->root = BTreeAI_NewRec(MAX_DEPTH, T, F1, F2);
+	tree->root = BTreeAI_NewRec(MAX_DEPTH, F);
 
 	return tree;
 }
@@ -61,19 +49,21 @@ float BTreeAI_ExecuteRec(BTreeNode* node)
 
 	if (function->size == 0)
 	{
-		return *(function->input);
+		return *((float*)function->f);
 	}
 
 	float a = BTreeAI_ExecuteRec(node->left);
 
 	if (function->size == 1)
 	{
-		return function->f1(a);
+		float (*f1)(float) = (float (*)(float))function->f;
+		return f1(a);
 	}
 
 	float b = BTreeAI_ExecuteRec(node->right);
 
-	return function->f2(a, b);
+	float (*f2)(float, float) = (float (*)(float, float))function->f;
+	return f2(a, b);
 }
 
 float BTreeAI_Execute(BTree* tree)
@@ -81,7 +71,7 @@ float BTreeAI_Execute(BTree* tree)
 	return BTreeAI_ExecuteRec(tree->root);
 }
 
-void BTreeAI_UpdateScore(BTree* tree, DList* T)
+void BTreeAI_UpdateScore(BTree* tree, DList* F[MAX_ARG])
 {
 	// SPÉ
 
@@ -100,11 +90,11 @@ void BTreeAI_UpdateScore(BTree* tree, DList* T)
 
 	tree->score = 0.0f;
 
-	Function* func0 = (Function*)DList_Get(T, 0);
-	Function* func1 = (Function*)DList_Get(T, 1);
+	Function* func0 = (Function*)DList_Get(F[0], 0);
+	Function* func1 = (Function*)DList_Get(F[0], 1);
 
-	float* a = func0->input;
-	float* b = func1->input;
+	float* a = (float*)func0->f;
+	float* b = (float*)func1->f;
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -112,9 +102,9 @@ void BTreeAI_UpdateScore(BTree* tree, DList* T)
 		*b = triangles[i][1];
 
 		float res = sqrtf(*a * *a + *b * *b);
-		float resBTree = BTreeAI_Execute(tree);
+		float resTree = BTreeAI_Execute(tree);
 
-		tree->score += (res != resBTree);
+		tree->score += (res != resTree);
 	}
 }
 
@@ -179,7 +169,7 @@ void BTreeAI_Crossover(BTree* t1, BTree* t2)
 	}
 }
 
-void BTreeAI_Mutation(BTree* tree, DList* T, DList* F1, DList* F2)
+void BTreeAI_Mutation(BTree* tree, DList* F[MAX_ARG])
 {
 	int treeSize = BTree_GetSize(tree);
 	
@@ -188,16 +178,5 @@ void BTreeAI_Mutation(BTree* tree, DList* T, DList* F1, DList* F2)
 
 	Function* func = (Function*)node->value;
 
-	if (func->size == 0)
-	{
-		node->value = DList_Get(T, int_random(0, T->size - 1));
-	}
-	else if (func->size == 1)
-	{
-		node->value = DList_Get(F1, int_random(0, F1->size - 1));
-	}
-	else
-	{
-		node->value = DList_Get(F2, int_random(0, F2->size - 1));
-	}
+	node->value = DList_Get(F[func->size], int_random(0, F[func->size]->size - 1));
 }

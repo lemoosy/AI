@@ -7,12 +7,12 @@
 
 #define MAX_DEPTH 3
 
-BTree* BTreeAI_New(DList* T, DList* F1, DList* F2);
+BTree* BTreeAI_New(DList* F[MAX_ARG]);
 
 float  BTreeAI_Execute(BTree* tree);
 
-void   BTreeAI_UpdateScore(BTree* tree, DList* T);
+void   BTreeAI_UpdateScore(BTree* tree, DList* F[MAX_ARG]);
 int    BTreeAI_CompareScore(BTree* t1, BTree* t2);
 
 void   BTreeAI_Crossover(BTree* t1, BTree* t2);
-void   BTreeAI_Mutation(BTree* tree, DList* T, DList* F1, DList* F2);
+void   BTreeAI_Mutation(BTree* tree, DList* F[MAX_ARG]);

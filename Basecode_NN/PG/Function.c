@@ -37,32 +37,32 @@ Function* Function_New(FunctionID id, float* input)
 	switch (id)
 	{
 	case FUNCTION_INPUT:
-		func->input = input;
+		func->f = input;
 		break;
 
 	case FUNCTION_SRT:
 		func->size = 1;
-		func->f1 = &srt;
+		func->f = &srt;
 		break;
 
 	case FUNCTION_ADD:
 		func->size = 2;
-		func->f2 = &add;
+		func->f = &add;
 		break;
 
 	case FUNCTION_SUB:
 		func->size = 2;
-		func->f2 = &sub;
+		func->f = &sub;
 		break;
 
 	case FUNCTION_MUL:
 		func->size = 2;
-		func->f2 = &multiply;
+		func->f = &multiply;
 		break;
 
 	case FUNCTION_DIV:
 		func->size = 2;
-		func->f2 = &divide;
+		func->f = &divide;
 		break;
 
 	default:
@@ -89,7 +89,7 @@ void Function_Destroy(Function* func)
 {
 	if (!func) return;
 
-	if (func->input) free(func->input);
+	if (func->size == 0) free(func->f);
 	free(func);
 }
 

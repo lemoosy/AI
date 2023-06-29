@@ -2,6 +2,8 @@
 
 #include "../Settings.h"
 
+#define MAX_ARG 1 + 2
+
 typedef enum eFunctionID
 {
 	// 0 argument:
@@ -30,15 +32,9 @@ typedef struct sFunction
 
 	// Nombre d'arguments.
 	int size;
-	
-	// 0 argument.
-	float* input;
 
-	// 1 argument.
-	float (*f1)(float);
-	
-	// 2 arguments.
-	float (*f2)(float, float);
+	// Fonction OU Entrée.
+	void* f;
 }Function;
 
 Function* Function_New(FunctionID id, float* input);

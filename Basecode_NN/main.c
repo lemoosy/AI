@@ -9,18 +9,22 @@ int main(void)
 {
 	srand(time(NULL));
 
-	DList* T = DList_New();
-	DList_InsertLast(T, Function_New(FUNCTION_INPUT, calloc(1, sizeof(float))));
-	DList_InsertLast(T, Function_New(FUNCTION_INPUT, calloc(1, sizeof(float))));
-
-	DList* F1 = DList_New();
-	DList_InsertLast(F1, Function_New(FUNCTION_SRT, NULL));
+	DList* F[MAX_ARG] = { 0 };
 	
-	DList* F2 = DList_New();
-	DList_InsertLast(F2, Function_New(FUNCTION_ADD, NULL));
-	DList_InsertLast(F2, Function_New(FUNCTION_SUB, NULL));
-	DList_InsertLast(F2, Function_New(FUNCTION_MUL, NULL));
-	DList_InsertLast(F2, Function_New(FUNCTION_DIV, NULL));
+	for (int i = 0; i < MAX_ARG; i++)
+	{
+		F[i] = DList_New();
+	}
+
+	DList_InsertLast(F[0], Function_New(FUNCTION_INPUT, calloc(1, sizeof(float))));
+	DList_InsertLast(F[0], Function_New(FUNCTION_INPUT, calloc(1, sizeof(float))));
+
+	DList_InsertLast(F[1], Function_New(FUNCTION_SRT, NULL));
+	
+	DList_InsertLast(F[2], Function_New(FUNCTION_ADD, NULL));
+	DList_InsertLast(F[2], Function_New(FUNCTION_SUB, NULL));
+	DList_InsertLast(F[2], Function_New(FUNCTION_MUL, NULL));
+	DList_InsertLast(F[2], Function_New(FUNCTION_DIV, NULL));
 
 	int populationSize = 100;
 	DList* population = DList_New();
@@ -32,8 +36,8 @@ int main(void)
 
 	for (int i = 0; i < populationSize; i++)
 	{
-		BTree* tree = BTreeAI_New(T, F1, F2);
-		BTreeAI_UpdateScore(tree, T);
+		BTree* tree = BTreeAI_New(F);
+		BTreeAI_UpdateScore(tree, F);
 		DList_InsertSorted(population, tree, false, &BTreeAI_CompareScore);
 	}
 
@@ -77,11 +81,11 @@ int main(void)
 			BTree* t2 = (BTree*)DList_Get(selection, r2);
 
 			BTreeAI_Crossover(t1, t2);
-			BTreeAI_Mutation(t1, T, F1, F2);
-			BTreeAI_Mutation(t2, T, F1, F2);
+			BTreeAI_Mutation(t1, F);
+			BTreeAI_Mutation(t2, F);
 
-			BTreeAI_UpdateScore(t1, T);
-			BTreeAI_UpdateScore(t2, T);
+			BTreeAI_UpdateScore(t1, F);
+			BTreeAI_UpdateScore(t2, F);
 		}
 
 
@@ -97,8 +101,8 @@ int main(void)
 
 		for (int i = 0; i < populationSize - selectionSize * 2; i++)
 		{
-			BTree* tree = BTreeAI_New(T, F1, F2);
-			BTreeAI_UpdateScore(tree, T);
+			BTree* tree = BTreeAI_New(F);
+			BTreeAI_UpdateScore(tree, F);
 			DList_InsertSorted(population, tree, false, &BTreeAI_CompareScore);
 		}
 
@@ -120,9 +124,6 @@ int main(void)
 		}
 	}
 
-	DList_Destroy(F2, &Function_Destroy);
-	DList_Destroy(F1, &Function_Destroy);
-	DList_Destroy(T, &Function_Destroy);
 
 	return EXIT_SUCCESS;
 }
