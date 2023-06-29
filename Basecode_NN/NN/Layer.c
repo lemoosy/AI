@@ -22,7 +22,7 @@ Layer* Layer_New(Layer* layerPrev, int size, FunctionID funcActivationID)
 
 	layer->funcActivationID = funcActivationID;
 
-	switch (funcActivationID)
+	/*switch (funcActivationID)
 	{
 	case FUNCTION_LINEAR:
 		layer->funcActivation = &linear;
@@ -54,7 +54,7 @@ Layer* Layer_New(Layer* layerPrev, int size, FunctionID funcActivationID)
 		printf("ERROR - [funcActivationID=%d] \n", funcActivationID);
 		abort();
 		break;
-	}
+	}*/
 
 	return layer;
 }

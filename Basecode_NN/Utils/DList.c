@@ -367,3 +367,13 @@ void* DList_RemoveAt(DList* list, int index)
 
 	return value;
 }
+
+DList* DList_Fusion(DList* l1, DList* l2)
+{
+	if (l1->size == 0) return l1;
+	if (l2->size == 0) return l2;
+
+
+
+	return NULL;
+}

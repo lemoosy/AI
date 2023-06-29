@@ -24,10 +24,10 @@
 //}AINode;
 //
 //// 
-//typedef struct sAITree
+//typedef struct sAIBTree
 //{
 //    AINode* root;
-//}AITree;
+//}AIBTree;
 //
 ////
 //int AI_Minimax_GetMove(Game* game, PlayerID turn);

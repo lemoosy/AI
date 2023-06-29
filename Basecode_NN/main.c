@@ -1,32 +1,133 @@
-#include "NN/Network.h"
+//#include "NN/Network.h"
 #include "Settings.h"
 
-#ifdef GAME_ANT
+#ifdef GAME_PG
 
-#include "Ant/Game.h"
+#include "PG/BTreeAI.h"
 
 int main(void)
 {
 	srand(time(NULL));
 
-	/*Game* game = Game_New();
+	DList* T = DList_New();
+	DList_InsertLast(T, Function_New(FUNCTION_INPUT, calloc(1, sizeof(float))));
+	DList_InsertLast(T, Function_New(FUNCTION_INPUT, calloc(1, sizeof(float))));
 
-	while (game->state == GAME_IN_PROGRESS)
+	DList* F1 = DList_New();
+	DList_InsertLast(F1, Function_New(FUNCTION_SRT, NULL));
+	
+	DList* F2 = DList_New();
+	DList_InsertLast(F2, Function_New(FUNCTION_ADD, NULL));
+	DList_InsertLast(F2, Function_New(FUNCTION_SUB, NULL));
+	DList_InsertLast(F2, Function_New(FUNCTION_MUL, NULL));
+	DList_InsertLast(F2, Function_New(FUNCTION_DIV, NULL));
+
+	int populationSize = 100;
+	DList* population = DList_New();
+
+	int selectionSize = 10;
+	DList* selection = DList_New();
+
+	// Create population:
+
+	for (int i = 0; i < populationSize; i++)
 	{
-		system("cls");
-		Game_Print(game);
-		Game_Update(game);
-		Sleep(500);
+		BTree* tree = BTreeAI_New(T, F1, F2);
+		BTreeAI_UpdateScore(tree, T);
+		DList_InsertSorted(population, tree, false, &BTreeAI_CompareScore);
 	}
 
-	Game_Destroy(game);*/
+	int iterCount = 0;
 
-	main2();
+	while (1)
+	{
+		// Create selection:
+
+		for (int i = 0; i < selectionSize; i++)
+		{
+			BTree* tree = (BTree*)DList_PopFirst(population);
+			DList_InsertLast(selection, tree);
+		}
+
+		// Clear population:
+
+		for (int i = 0; i < populationSize - selectionSize; i++)
+		{
+			BTree* tree = (BTree*)DList_PopFirst(population);
+			BTree_Destroy(tree, NULL);
+		}
+
+		// Copy selection x2:
+
+		for (int i = 0; i < selectionSize; i++)
+		{
+			BTree* tree = (BTree*)DList_Get(selection, i);
+			BTree* copy = BTree_Copy(tree, NULL);
+			DList_InsertLast(selection, copy);
+		}
+
+		// Crossover + Mutation:
+
+		for (int i = 0; i < 3; i++)
+		{
+			int r1 = int_random(0, selectionSize - 1);
+			int r2 = int_random(0, selectionSize - 1);
+
+			BTree* t1 = (BTree*)DList_Get(selection, r1);
+			BTree* t2 = (BTree*)DList_Get(selection, r2);
+
+			BTreeAI_Crossover(t1, t2);
+			BTreeAI_Mutation(t1, T, F1, F2);
+			BTreeAI_Mutation(t2, T, F1, F2);
+
+			BTreeAI_UpdateScore(t1, T);
+			BTreeAI_UpdateScore(t2, T);
+		}
+
+
+		// Clear selection:
+
+		for (int i = 0; i < selectionSize * 2; i++)
+		{
+			BTree* tree = (BTree*)DList_PopFirst(selection);
+			DList_InsertSorted(population, tree, false, &BTreeAI_CompareScore);
+		}
+
+		// Fill population:
+
+		for (int i = 0; i < populationSize - selectionSize * 2; i++)
+		{
+			BTree* tree = BTreeAI_New(T, F1, F2);
+			BTreeAI_UpdateScore(tree, T);
+			DList_InsertSorted(population, tree, false, &BTreeAI_CompareScore);
+		}
+
+		// iterCount:
+
+		iterCount += 1;
+
+		printf("iterCount = %d \n", iterCount);
+
+		for (int i = 0; i < 10; i++)
+		{
+			BTree* tree = DList_Get(population, i);
+
+			if (tree->score == 0.0f)
+			{
+				BTree_Print(tree, &Function_Print);
+				system("pause");
+			}
+		}
+	}
+
+	DList_Destroy(F2, &Function_Destroy);
+	DList_Destroy(F1, &Function_Destroy);
+	DList_Destroy(T, &Function_Destroy);
 
 	return EXIT_SUCCESS;
 }
 
-#endif // GAME_ANT
+#endif
 
 #ifdef GAME_CONNECT4
 

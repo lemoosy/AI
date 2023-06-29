@@ -76,6 +76,7 @@ void* DList_PopFirst(DList* list);
 // Retire et renvoie la dernière valeur dans une liste.
 void* DList_PopLast(DList* list);
 
-
 // Retire et renvoie la valeur à l'indice <index> d'une liste.
 void* DList_RemoveAt(DList* list, int index);
+
+DList* DList_Fusion(DList* l1, DList* l2);

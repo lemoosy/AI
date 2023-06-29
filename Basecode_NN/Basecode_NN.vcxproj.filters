@@ -31,11 +31,11 @@
     <Filter Include="Fichiers sources\Utils">
       <UniqueIdentifier>{6924755f-98e2-4935-b0fd-30de71862cec}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\Ant">
-      <UniqueIdentifier>{4fcf4766-1545-4889-8d00-e51443b913af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers sources\Ant">
+    <Filter Include="Fichiers sources\PG">
       <UniqueIdentifier>{fa171870-8b55-45b0-811a-fbeb6854deb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\PG">
+      <UniqueIdentifier>{4fcf4766-1545-4889-8d00-e51443b913af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,9 +46,6 @@
       <Filter>Fichiers sources\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Mat.c">
-      <Filter>Fichiers sources\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Function.c">
       <Filter>Fichiers sources\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Utils.c">
@@ -69,8 +66,17 @@
     <ClCompile Include="Connect4\AI.c">
       <Filter>Fichiers sources\Connect4</Filter>
     </ClCompile>
-    <ClCompile Include="Ant\Game.c">
-      <Filter>Fichiers sources\Ant</Filter>
+    <ClCompile Include="PG\BTree.c">
+      <Filter>Fichiers sources\PG</Filter>
+    </ClCompile>
+    <ClCompile Include="PG\Function.c">
+      <Filter>Fichiers sources\PG</Filter>
+    </ClCompile>
+    <ClCompile Include="PG\BTreeAI.c">
+      <Filter>Fichiers sources\PG</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Function.c">
+      <Filter>Fichiers sources\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,9 +98,6 @@
     <ClInclude Include="Utils\DList.h">
       <Filter>Fichiers d%27en-tête\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Function.h">
-      <Filter>Fichiers d%27en-tête\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Batch.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -104,8 +107,17 @@
     <ClInclude Include="Connect4\AI.h">
       <Filter>Fichiers d%27en-tête\Connect4</Filter>
     </ClInclude>
-    <ClInclude Include="Ant\Game.h">
-      <Filter>Fichiers d%27en-tête\Ant</Filter>
+    <ClInclude Include="PG\BTree.h">
+      <Filter>Fichiers d%27en-tête\PG</Filter>
+    </ClInclude>
+    <ClInclude Include="PG\Function.h">
+      <Filter>Fichiers d%27en-tête\PG</Filter>
+    </ClInclude>
+    <ClInclude Include="PG\BTreeAI.h">
+      <Filter>Fichiers d%27en-tête\PG</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Function.h">
+      <Filter>Fichiers d%27en-tête\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

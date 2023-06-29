@@ -14,4 +14,4 @@
 typedef float data;
 
 //#define GAME_CONNECT4
-#define GAME_ANT
+#define GAME_PG

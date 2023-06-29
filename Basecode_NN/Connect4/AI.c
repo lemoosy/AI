@@ -14,7 +14,7 @@
 //    free(node);
 //}
 //
-//void AITree_Destroy(AITree* tree)
+//void AIBTree_Destroy(AIBTree* tree)
 //{
 //    if (!tree) return;
 //
@@ -110,9 +110,9 @@
 //    return node;
 //}
 //
-//AITree* AITree_Minimax_New(Game* game, PlayerID turn)
+//AIBTree* AIBTree_Minimax_New(Game* game, PlayerID turn)
 //{
-//    AITree* tree = (AITree*)calloc(1, sizeof(AITree));
+//    AIBTree* tree = (AIBTree*)calloc(1, sizeof(AIBTree));
 //    assert(tree);
 //
 //    Game* copy = Game_Copy(game);
@@ -125,9 +125,9 @@
 //
 //int AI_Minimax_GetMove(Game* game, PlayerID turn)
 //{
-//    AITree* tree = AITree_Minimax_New(game, turn);
+//    AIBTree* tree = AIBTree_Minimax_New(game, turn);
 //    int res = tree->root->move;
-//    AITree_Destroy(tree);
+//    AIBTree_Destroy(tree);
 //
 //    return res;
 //}
