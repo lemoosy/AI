@@ -16,6 +16,7 @@ TreeNode* Tree_CopyRec(TreeNode* node, void* (*dataCopy)(void*))
 	assert(res);
 
 	res->value = dataCopy(node->value);
+	res->size = node->size;
 
 	for (int i = 0; i < MAX_CHILDREN; i++)
 	{
@@ -33,6 +34,7 @@ Tree* Tree_Copy(Tree* tree, void* (*funcCopy)(void*))
 	assert(res);
 
 	res->root = Tree_CopyRec(tree->root, funcCopy);
+	res->id = tree->id;
 	res->score = tree->score;
 
 	return res;
@@ -84,14 +86,25 @@ void Tree_PrintRec(TreeNode* node, void (*funcPrint)(void*), int depth)
 
 void Tree_Print(Tree* tree, void (*funcPrint)(void*))
 {
-	/*int treeSize = Tree_GetSize(tree);
-
-	printf("Tree (size=%d) : \n", treeSize);*/
-
-	Tree_PrintRec(tree->root, funcPrint, 0);
+	if (tree)
+	{
+		if (tree->root)
+		{
+			printf("Tree (size=%d)\n", tree->root->size);
+			Tree_PrintRec(tree->root, funcPrint, 0);
+		}
+		else
+		{
+			printf("Tree is empty.\n");
+		}
+	}
+	else
+	{
+		printf("Tree is nil.\n");
+	}
 }
 
-int Tree_GetSizeRec(TreeNode* node)
+int Tree_UpdateSizeRec(TreeNode* node)
 {
 	if (!node) return 0;
 
@@ -99,22 +112,24 @@ int Tree_GetSizeRec(TreeNode* node)
 
 	for (int i = 0; i < MAX_CHILDREN; i++)
 	{
-		res += Tree_GetSizeRec(node->children[i]);
+		res += Tree_UpdateSizeRec(node->children[i]);
 	}
 
-	return (res + 1);
+	node->size = (res + 1);
+
+	return node->size;
 }
 
-int Tree_GetSize(Tree* tree)
+int Tree_UpdateSize(Tree* tree)
 {
-	return Tree_GetSizeRec(tree->root);
+	return Tree_UpdateSizeRec(tree->root);
 }
 
 TreeNode* Tree_GetNodeRec(TreeNode* node, int* index, TreeNode** parent, int* child)
 {
 	if (!node) return NULL;
-	if (*index == 0) return node;
 
+	if (*index == 0) return node;
 	*index -= 1;
 	
 	for (int i = 0; i < MAX_CHILDREN; i++)
@@ -138,16 +153,13 @@ TreeNode* Tree_GetNodeRec(TreeNode* node, int* index, TreeNode** parent, int* ch
 
 TreeNode* Tree_GetNode(Tree* tree, int index, TreeNode** parent, int* child)
 {
-	int treeSize = Tree_GetSize(tree);
+	assert((0 <= index) && (index < tree->root->size));
 
-	assert((0 <= index) && (index < treeSize));
-
+	int index2 = index;
 	*parent = NULL;
 	*child = -1;
 
-	int i = index;
-
-	return Tree_GetNodeRec(tree->root, &i, parent, child);
+	return Tree_GetNodeRec(tree->root, &index2, parent, child);
 }
 
 void Tree_GetNodeListRec(TreeNode* node, void* value, int (*dataCompare)(void*, void*), DList* list)

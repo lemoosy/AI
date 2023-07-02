@@ -12,13 +12,15 @@
 typedef enum eGameState
 {
 	GAME_IN_PROGRESS = 0,
-	GAME_IS_OVER
+	GAME_IS_OVER,
+	GAME_IS_FINISH
 }GameState;
 
 typedef enum eCellID
 {
 	CELL_EMPTY = 0,
-	CELL_FOOD = 1
+	CELL_FOOD = 1,
+	CELL_BOMB = 2
 }CellID;
 
 typedef enum eDirection
@@ -43,6 +45,7 @@ typedef struct sAnt
 
 bool Ant_OutOfDimension(Ant ant);
 bool Ant_OnFood(Ant ant);
+bool Ant_OnBomb(void);
 
 // res = NONE
 void* Ant_SetDirectionLeft(TreeNode* node);
@@ -53,6 +56,7 @@ void* Ant_Move(TreeNode* node);
 
 // res = BOOL
 void* Ant_AheadFood(void* node);
+void* Ant_AheadBomb(void* node);
 
 typedef struct sGame
 {

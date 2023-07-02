@@ -11,13 +11,13 @@ typedef enum eTypeID
 	TYPE_NONE,
 	TYPE_BOOL,
 	TYPE_REAL,
-
 	TYPE_COUNT
 }TypeID;
 
+// Structure représentant une fonction (permet d'avoir plus d'information sur une fonction).
 typedef struct sFunction
 {
-	// Nom pour l'affichage.
+	// Nom (pour l'affichage).
 	char* name;
 	
 	// Nombre d'arguments.
@@ -36,6 +36,6 @@ typedef struct sFunction
 Function* Function_New(char* name, int size, float* f, TypeID res, TypeID arg[MAX_ARG + 1]);
 Function* Function_Copy(Function* func);
 void      Function_Destroy(Function* func);
-int       Function_CompareRes(void* _func0, void* _func1);
+int       Function_Compare(void* _func0, void* _func1);
 void      Function_Print(Function* func);
 Function* Function_GetRandomByRes(DList*** F, TypeID res);

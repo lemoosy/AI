@@ -1,17 +1,18 @@
 #include "Ant.h"
 
-bool Ant_OutOfDimension(void)
+bool Ant_OutOfDimension(Ant ant)
 {
-	Ant ant = g_game.ant;
-
 	return ((ant.i < 0) || (ant.j < 0) || (ant.i >= GRID_W) || (ant.j >= GRID_H));
 }
 
-bool Ant_OnFood(void)
+bool Ant_OnFood(Ant ant)
 {
-	Ant ant = g_game.ant;
-
 	return (g_game.grid[ant.j][ant.i] == CELL_FOOD);
+}
+
+bool Ant_OnBomb(Ant ant)
+{
+	return (g_game.grid[ant.j][ant.i] == CELL_BOMB);
 }
 
 // ------------------------------ TreeAI ------------------------------
@@ -22,10 +23,7 @@ void* Ant_SetDirectionLeft(TreeNode* node)
 {
 	Ant* ant = &(g_game.ant);
 
-	if (ant->direction != RIGHT)
-	{
-		ant->direction = LEFT;
-	}
+	ant->direction = LEFT;
 
 	return NULL;
 }
@@ -34,10 +32,7 @@ void* Ant_SetDirectionRight(TreeNode* node)
 {
 	Ant* ant = &(g_game.ant);
 
-	if (ant->direction != LEFT)
-	{
-		ant->direction = RIGHT;
-	}
+	ant->direction = RIGHT;
 
 	return NULL;
 }
@@ -46,10 +41,7 @@ void* Ant_SetDirectionUp(TreeNode* node)
 {
 	Ant* ant = &(g_game.ant);
 
-	if (ant->direction != DOWN)
-	{
-		ant->direction = UP;
-	}
+	ant->direction = UP;
 
 	return NULL;
 }
@@ -58,17 +50,14 @@ void* Ant_SetDirectionDown(TreeNode* node)
 {
 	Ant* ant = &(g_game.ant);
 
-	if (ant->direction != UP)
-	{
-		ant->direction = DOWN;
-	}
+	ant->direction = DOWN;
 
 	return NULL;
 }
 
 void* Ant_Move(TreeNode* node)
 {
-	if (g_game.state == GAME_IS_OVER) return NULL;
+	if (g_game.state == GAME_IS_OVER || g_game.state == GAME_IS_FINISH) return NULL;
 
 	Ant ant = g_game.ant;
 
@@ -88,8 +77,13 @@ void* Ant_Move(TreeNode* node)
 
 			if (Game_IsOver(g_game))
 			{
-				g_game.state = GAME_IS_OVER;
+				g_game.state = GAME_IS_FINISH;
 			}
+		}
+
+		else if (Ant_OnBomb(ant))
+		{
+			g_game.state = GAME_IS_OVER;
 		}
 	}
 
@@ -133,6 +127,36 @@ void* Ant_AheadFood(void* node)
 	return Bool_New(res);
 }
 
+void* Ant_AheadBomb(void* node)
+{
+	Ant ant = g_game.ant;
+
+	bool res = false;
+
+	if (ant.direction == LEFT && ant.i > 0 && g_game.grid[ant.j][ant.i - 1] == CELL_BOMB)
+	{
+		res = true;
+	}
+
+	if (ant.direction == RIGHT && ant.i < GRID_W - 1 && g_game.grid[ant.j][ant.i + 1] == CELL_BOMB)
+	{
+		res = true;
+	}
+
+	if (ant.direction == UP && ant.j > 0 && g_game.grid[ant.j - 1][ant.i] == CELL_BOMB)
+	{
+		res = true;
+	}
+
+	if (ant.direction == DOWN && ant.j < GRID_H - 1 && g_game.grid[ant.j + 1][ant.i] == CELL_BOMB)
+	{
+		res = true;
+	}
+
+	return Bool_New(res);
+}
+
+
 // ------------------------------ Game ------------------------------
 
 Game Game_New(void)
@@ -141,13 +165,13 @@ Game Game_New(void)
 
 	int grid[GRID_H][GRID_W] = {
 		{ 0, 1, 1, 0, 0, 0, 1, 1, 1, 1 },
-		{ 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 },
-		{ 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 },
-		{ 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 },
-		{ 0, 0, 1, 1, 1, 1, 1, 0, 0, 1 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-		{ 0, 0, 0, 0, 1, 1, 1, 0, 0, 1 },
-		{ 0, 0, 0, 0, 1, 0, 1, 0, 0, 1 },
+		{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+		{ 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 1, 0, 0, 0, 1, 0, 2, 1 },
+		{ 0, 0, 1, 0, 0, 1, 1, 0, 0, 1 },
+		{ 0, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
+		{ 0, 0, 0, 2, 0, 1, 1, 0, 0, 1 },
+		{ 0, 0, 0, 0, 0, 0, 1, 0, 0, 2 },
 		{ 0, 0, 0, 0, 1, 0, 1, 0, 0, 1 },
 		{ 1, 1, 1, 1, 1, 0, 1, 1, 1, 1 }
 	};
@@ -171,7 +195,23 @@ void Game_Print(Game game)
 			}
 			else
 			{
-				printf("%c ", ((game.grid[j][i] == CELL_EMPTY) ? '.' : 'o'));
+				switch (game.grid[j][i])
+				{
+				case CELL_EMPTY:
+					printf(". ");
+					break;
+
+				case CELL_FOOD:
+					printf("o ");
+					break;
+
+				case CELL_BOMB:
+					printf("# ");
+					break;
+
+				default:
+					break;
+				}
 			}
 		}
 

@@ -39,6 +39,7 @@ int main(void)
 
 	//DList_InsertLast(F[TYPE_BOOL][0], Function_New("b0", 0, &_in2, TYPE_BOOL, (TypeID[]) { 0 }));
 	DList_InsertLast(F[TYPE_BOOL][0], Function_New("AheadFood", 0, &Ant_AheadFood, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(F[TYPE_BOOL][0], Function_New("AheadBomb", 0, &Ant_AheadBomb, TYPE_BOOL, (TypeID[]) { 0 }));
 	DList_InsertLast(F[TYPE_BOOL][1], Function_New("NOT", 1, &_not, TYPE_BOOL, (TypeID[]) { TYPE_BOOL }));
 	/*DList_InsertLast(F[TYPE_BOOL][2], Function_New(">", 2, &_sup, TYPE_BOOL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));
 	DList_InsertLast(F[TYPE_BOOL][2], Function_New("<", 2, &_inf, TYPE_BOOL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));*/
@@ -137,23 +138,26 @@ int main(void)
 
 		generation += 1;
 
-		printf("\n---------- generation : %d ----------\n\n", generation);
-
-		for (int i = 0; i < 3; i++)
+		if (generation % 10 == 0)
 		{
-			Tree* tree = DList_Get(population, i);
-			printf("score (%d) : %f\n", i, tree->score);
+			printf("\n---------- generation : %d ----------\n\n", generation);
 
-			if (tree->score == 41)
+			for (int i = 0; i < 3; i++)
 			{
-				Tree_Print(tree, &Function_Print);
+				Tree* tree = DList_Get(population, i);
+				printf("score (%d) + SIZE = %d : %f\n", i, Tree_GetSize(tree), tree->score);
 
-				system("pause");
+				if (generation % 1000 == 0)
+				{
+					Tree_Print(tree, &Function_Print);
 
-				in2 = true;
-				TreeAI_UpdateScore(tree, false);
-				in2 = false;
-				break;
+					system("pause");
+
+					in2 = true;
+					TreeAI_UpdateScore(tree, false);
+					in2 = false;
+					break;
+				}
 			}
 		}
 	}

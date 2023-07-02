@@ -294,13 +294,29 @@ void TreeAI_UpdateScore(Tree* tree, bool display)
 
 	int iter = 0;
 
-	while (g_game.state != GAME_IS_OVER && iter < 500)
+	while (g_game.state != GAME_IS_OVER && g_game.state != GAME_IS_FINISH && iter < 100)
 	{
+		int score = g_game.ant.score;
 		TreeAI_Execute(tree);
 		iter++;
+		if (score != g_game.ant.score)
+			iter = 0;
 	}
 
+	int res0 = g_game.state == GAME_IS_OVER;
+	int res1 = g_game.state == GAME_IS_FINISH;
+
 	tree->score = g_game.ant.score;
+	
+	if (res1)
+	{
+		tree->score = 100;
+	}
+
+	if (res0)
+	{
+		tree->score -= 10;
+	}
 }
 
 int TreeAI_CompareScore(Tree* t0, Tree* t1)
@@ -328,6 +344,7 @@ void TreeAI_Crossover(Tree* treeChild, Tree* treeParent)
 	TreeNode* parent = NULL;
 	int child = -1;
 	TreeNode* node = Tree_GetNode(treeChild, index, &parent, &child);
+
 
 	if (!node) abort();
 
@@ -366,9 +383,18 @@ void TreeAI_Mutation(Tree* tree, DList*** F)
 	int child = -1;
 	TreeNode* node = Tree_GetNode(tree, int_random(0, treeSize - 1), &parent, &child);
 
-	Function* func = (Function*)node->value;
+	Function* funcOld = (Function*)node->value;
+	
+	DList* list = F[funcOld->res][funcOld->size];
 
-	node->value = DList_Get(F[func->res][func->size], int_random(0, F[func->res][func->size]->size - 1));
+	Function* funcNew = (Function*)DList_Get(list, int_random(0, list->size - 1));
+
+	for (int i = 0; i < funcNew->size; i++)
+	{
+		if (funcOld->arg[i] != funcNew->arg[i]) return;
+	}
+
+	node->value = funcNew;
 }
 
 void TreeAI_Permutation(Tree* tree)

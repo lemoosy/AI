@@ -1,9 +1,37 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(1098,5): warning MSB8027: Deux ou plusieurs fichiers avec le nom Function.c généreront des sorties vers le même emplacement. Cela peut entraîner une génération incorrecte. Les fichiers impliqués sont PG\Function.c, Utils\Function.c.
-  TreeAI.c
-C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\PG\TreeAI.c(327,1): warning C4133: 'initialisation' : types incompatibles - de 'TreeNode *' à 'DList *'
+  main.c
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(13,8): warning C4244: 'fonction' : conversion de 'time_t' en 'unsigned int', perte possible de données
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(41,79): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(void *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(41,65): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(42,79): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(void *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(42,65): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(43,64): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(TreeNode *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(43,59): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(46,64): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(TreeNode *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(46,59): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(47,62): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(TreeNode *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(47,58): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(48,62): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(TreeNode *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(48,58): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(50,87): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(TreeNode *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(50,66): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(51,89): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(TreeNode *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(51,67): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(52,83): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(TreeNode *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(52,64): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(53,87): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(TreeNode *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(53,66): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(54,69): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(TreeNode *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(54,60): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(55,69): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(TreeNode *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(55,62): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(56,69): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(TreeNode *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(56,62): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(57,62): warning C4047: 'fonction' : les niveaux d'indirection de 'float *' et de 'void *(__cdecl *)(TreeNode *)' sont différents
+C:\Users\Lemoosy\OneDrive\Bureau\Basecode_NN\Basecode_NN\main.c(57,58): warning C4024: 'Function_New' : types différents pour le paramètre formel et réel 3
 x64\Release\Function.obj : warning LNK4042: objet spécifié plus d'une fois ; définitions supplémentaires ignorées
   Génération de code en cours
-  2 of 62 functions ( 3.2%) were compiled, the rest were copied from previous compilation.
+  0 of 66 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Fin de la génération du code
