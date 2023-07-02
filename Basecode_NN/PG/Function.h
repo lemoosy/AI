@@ -1,43 +1,41 @@
 #pragma once
 
 #include "../Settings.h"
+#include "../Utils/DList.h"
+#include "../Utils/Utils.h"
 
-#define MAX_ARG 1 + 2
+#define MAX_ARG 3
 
-typedef enum eFunctionID
+typedef enum eTypeID
 {
-	// 0 argument:
-	FUNCTION_INPUT		=	'x',
+	TYPE_NONE,
+	TYPE_BOOL,
+	TYPE_REAL,
 
-	// 1 argument:
-	FUNCTION_SRT		=	'#',
-
-	// 2 arguments:
-	FUNCTION_ADD		=	'+',
-	FUNCTION_SUB		=	'-',
-	FUNCTION_MUL		=	'*',
-	FUNCTION_DIV		=	'/'
-}FunctionID;
-
-float srt(float x);
-float add(float a, float b);
-float sub(float a, float b);
-float multiply(float a, float b);
-float divide(float a, float b);
+	TYPE_COUNT
+}TypeID;
 
 typedef struct sFunction
 {
-	// ID de la fonction.
-	FunctionID id;
-
+	// Nom pour l'affichage.
+	char* name;
+	
 	// Nombre d'arguments.
 	int size;
 
-	// Fonction OU Entrée.
+	// Fonction.
 	void* f;
+
+	// Type de retour.
+	TypeID res;
+
+	// Type des paramètres.
+	TypeID arg[MAX_ARG + 1];
 }Function;
 
-Function* Function_New(FunctionID id, float* input);
+Function* Function_New(char* name, int size, float* f, TypeID res, TypeID arg[MAX_ARG + 1]);
 Function* Function_Copy(Function* func);
 void      Function_Destroy(Function* func);
+int       Function_CompareRes(void* _func0, void* _func1);
 void      Function_Print(Function* func);
+Function* Function_GetRandomByRes(DList*** F, TypeID res);

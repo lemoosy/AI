@@ -1,106 +1,83 @@
 #include "Function.h"
 
-float srt(float x)
+Function* Function_New(char* name, int size, float* f, TypeID res, TypeID arg[MAX_ARG + 1])
 {
-	return sqrtf(fabsf(x));
-}
+	Function* function = (Function*)calloc(1, sizeof(Function));
+	assert(function);
 
-float add(float a, float b)
-{
-	return (a + b);
-}
+	function->name = _strdup(name);
+	function->size = size;
+	function->f = f;
+	function->res = res;
+	memcpy(function->arg, arg, sizeof(int) * (MAX_ARG + 1));
 
-float sub(float a, float b)
-{
-	return (a - b);
-}
-
-float multiply(float a, float b)
-{
-	return (a * b);
-}
-
-float divide(float a, float b)
-{
-	return ((b == 0.0f) ? 1.0f : (a / b));
-}
-
-// ------------------------------------------------------------------------------------------
-
-Function* Function_New(FunctionID id, float* input)
-{
-	Function* func = (Function*)calloc(1, sizeof(Function));
-	assert(func);
-
-	func->id = id;
-
-	switch (id)
-	{
-	case FUNCTION_INPUT:
-		func->f = input;
-		break;
-
-	case FUNCTION_SRT:
-		func->size = 1;
-		func->f = &srt;
-		break;
-
-	case FUNCTION_ADD:
-		func->size = 2;
-		func->f = &add;
-		break;
-
-	case FUNCTION_SUB:
-		func->size = 2;
-		func->f = &sub;
-		break;
-
-	case FUNCTION_MUL:
-		func->size = 2;
-		func->f = &multiply;
-		break;
-
-	case FUNCTION_DIV:
-		func->size = 2;
-		func->f = &divide;
-		break;
-
-	default:
-		printf("ERROR - Function_New() \n");
-		printf("ERROR - [id=%d] \n", id);
-		abort();
-		break;
-	}
-
-	return func;
+	return function;
 }
 
 Function* Function_Copy(Function* func)
 {
-	Function* res = (Function*)calloc(1, sizeof(Function));
-	assert(res);
-
-	*res = *func;
-
-	return res;
+	return func;
 }
 
 void Function_Destroy(Function* func)
 {
 	if (!func) return;
 
-	if (func->size == 0) free(func->f);
+	free(func->name);
 	free(func);
+}
+
+int Function_CompareRes(void* _func0, void* _func1)
+{
+	Function* func0 = (Function*)_func0;
+	Function* func1 = (Function*)_func1;
+
+	return (func0->res - func1->res);
 }
 
 void Function_Print(Function* func)
 {
 	if (func)
 	{
-		printf("[%c]", func->id);
+		printf("%s", func->name);
 	}
 	else
 	{
-		printf("[NULL]");
+		printf("NULL");
 	}
+}
+
+Function* Function_GetRandomByRes(DList*** F, TypeID res)
+{
+	int tabSize = (MAX_ARG + 1);
+	int* tab = int_tab_random_norep(tabSize);
+	int tabIndex = 0;
+
+	DList* list = NULL;
+
+	while (tabIndex < tabSize)
+	{
+		int i = tab[tabIndex];
+
+		list = F[res][i];
+
+		if (list->size > 0)
+		{
+			break;
+		}
+
+		tabIndex++;
+	}
+
+	if (tabIndex == tabSize)
+	{
+		printf("ERROR - Function_GetRandomByRes()\n");
+		abort();
+	}
+
+	int k = int_random(0, list->size - 1);
+
+	free(tab);
+
+	return DList_Get(list, k);
 }

@@ -3,45 +3,74 @@
 
 #ifdef GAME_PG
 
-#include "PG/BTreeAI.h"
+#include "PG/TreeAI.h"
+#include "PG/Function.h"
+#include "PG/Ant.h"
+
 
 int main(void)
 {
 	srand(time(NULL));
 
-	DList* F[MAX_ARG] = { 0 };
-	
-	for (int i = 0; i < MAX_ARG; i++)
+	DList*** F = (DList***)calloc(TYPE_COUNT, sizeof(DList**));
+	assert(F);
+
+	for (int j = 0; j < TYPE_COUNT; j++)
 	{
-		F[i] = DList_New();
+		F[j] = (DList**)calloc(MAX_ARG + 1, sizeof(DList*));
+		assert(F[j]);
+
+		for (int i = 0; i < MAX_ARG + 1; i++)
+		{
+			F[j][i] = DList_New();
+		}
 	}
 
-	DList_InsertLast(F[0], Function_New(FUNCTION_INPUT, calloc(1, sizeof(float))));
-	DList_InsertLast(F[0], Function_New(FUNCTION_INPUT, calloc(1, sizeof(float))));
+	in2 = false;
 
-	DList_InsertLast(F[1], Function_New(FUNCTION_SRT, NULL));
-	
-	DList_InsertLast(F[2], Function_New(FUNCTION_ADD, NULL));
-	DList_InsertLast(F[2], Function_New(FUNCTION_SUB, NULL));
-	DList_InsertLast(F[2], Function_New(FUNCTION_MUL, NULL));
-	DList_InsertLast(F[2], Function_New(FUNCTION_DIV, NULL));
+	/*DList_InsertLast(F[TYPE_REAL][0], Function_New("x0", 0, &_in0, TYPE_REAL, (TypeID[]) { 0 }));
+	DList_InsertLast(F[TYPE_REAL][0], Function_New("x1", 0, &_in1, TYPE_REAL, (TypeID[]) { 0 }));
+	DList_InsertLast(F[TYPE_REAL][1], Function_New("SRT", 1, &_srt, TYPE_REAL, (TypeID[]) { TYPE_REAL }));
+	DList_InsertLast(F[TYPE_REAL][2], Function_New("+", 2, &_add, TYPE_REAL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));
+	DList_InsertLast(F[TYPE_REAL][2], Function_New("-", 2, &_sub, TYPE_REAL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));
+	DList_InsertLast(F[TYPE_REAL][2], Function_New("*", 2, &_mul, TYPE_REAL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));
+	DList_InsertLast(F[TYPE_REAL][2], Function_New("/", 2, &_div, TYPE_REAL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));
+	DList_InsertLast(F[TYPE_REAL][3], Function_New("IF", 3, &_if, TYPE_REAL, (TypeID[]) { TYPE_BOOL, TYPE_REAL, TYPE_REAL }));*/
 
-	int populationSize = 100;
+	//DList_InsertLast(F[TYPE_BOOL][0], Function_New("b0", 0, &_in2, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(F[TYPE_BOOL][0], Function_New("AheadFood", 0, &Ant_AheadFood, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(F[TYPE_BOOL][1], Function_New("NOT", 1, &_not, TYPE_BOOL, (TypeID[]) { TYPE_BOOL }));
+	/*DList_InsertLast(F[TYPE_BOOL][2], Function_New(">", 2, &_sup, TYPE_BOOL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));
+	DList_InsertLast(F[TYPE_BOOL][2], Function_New("<", 2, &_inf, TYPE_BOOL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));*/
+	DList_InsertLast(F[TYPE_BOOL][2], Function_New("AND", 2, &_and, TYPE_BOOL, (TypeID[]) { TYPE_BOOL, TYPE_BOOL }));
+	DList_InsertLast(F[TYPE_BOOL][2], Function_New("OR", 2, &_or, TYPE_BOOL, (TypeID[]) { TYPE_BOOL, TYPE_BOOL }));
+	DList_InsertLast(F[TYPE_BOOL][3], Function_New("IF", 3, &_if, TYPE_BOOL, (TypeID[]) { TYPE_BOOL, TYPE_BOOL, TYPE_BOOL }));
+
+	DList_InsertLast(F[TYPE_NONE][0], Function_New("SetDirLeft", 0, &Ant_SetDirectionLeft, TYPE_NONE, (TypeID[]) { 0 }));
+	DList_InsertLast(F[TYPE_NONE][0], Function_New("SetDirRight", 0, &Ant_SetDirectionRight, TYPE_NONE, (TypeID[]) { 0 }));
+	DList_InsertLast(F[TYPE_NONE][0], Function_New("SetDirUp", 0, &Ant_SetDirectionUp, TYPE_NONE, (TypeID[]) { 0 }));
+	DList_InsertLast(F[TYPE_NONE][0], Function_New("SetDirDown", 0, &Ant_SetDirectionDown, TYPE_NONE, (TypeID[]) { 0 }));
+	DList_InsertLast(F[TYPE_NONE][0], Function_New("Move", 0, &Ant_Move, TYPE_NONE, (TypeID[]) { 0 }));
+	DList_InsertLast(F[TYPE_NONE][2], Function_New("PROGN2", 2, &_progn, TYPE_NONE, (TypeID[]) { TYPE_NONE, TYPE_NONE }));
+	DList_InsertLast(F[TYPE_NONE][3], Function_New("PROGN3", 3, &_progn, TYPE_NONE, (TypeID[]) { TYPE_NONE, TYPE_NONE, TYPE_NONE }));
+	DList_InsertLast(F[TYPE_NONE][3], Function_New("IF", 3, &_if, TYPE_NONE, (TypeID[]) { TYPE_BOOL, TYPE_NONE, TYPE_NONE }));
+
+	int populationSize = 500;
 	DList* population = DList_New();
 
-	int selectionSize = 10;
+	int selectionSize = 50;
 	DList* selection = DList_New();
 
 	// Create population:
 
 	for (int i = 0; i < populationSize; i++)
 	{
-		BTree* tree = BTreeAI_New(F);
-		BTreeAI_UpdateScore(tree, F);
-		DList_InsertSorted(population, tree, false, &BTreeAI_CompareScore);
+		Tree* tree = TreeAI_New(F, TYPE_NONE);
+		TreeAI_UpdateScore(tree, false);
+		DList_InsertSorted(population, tree, false, &TreeAI_CompareScore);
 	}
 
-	int iterCount = 0;
+	int generation = 0;
 
 	while (1)
 	{
@@ -49,7 +78,7 @@ int main(void)
 
 		for (int i = 0; i < selectionSize; i++)
 		{
-			BTree* tree = (BTree*)DList_PopFirst(population);
+			Tree* tree = (Tree*)DList_PopFirst(population);
 			DList_InsertLast(selection, tree);
 		}
 
@@ -57,74 +86,79 @@ int main(void)
 
 		for (int i = 0; i < populationSize - selectionSize; i++)
 		{
-			BTree* tree = (BTree*)DList_PopFirst(population);
-			BTree_Destroy(tree, NULL);
+			Tree* tree = (Tree*)DList_PopFirst(population);
+			Tree_Destroy(tree, NULL);
 		}
 
-		// Copy selection x2:
+		// Children:
 
 		for (int i = 0; i < selectionSize; i++)
 		{
-			BTree* tree = (BTree*)DList_Get(selection, i);
-			BTree* copy = BTree_Copy(tree, NULL);
+			Tree* tree = (Tree*)DList_Get(selection, i);
+			Tree* copy = Tree_Copy(tree, &Function_Copy);
 			DList_InsertLast(selection, copy);
 		}
 
 		// Crossover + Mutation:
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < selectionSize; i++)
 		{
-			int r1 = int_random(0, selectionSize - 1);
-			int r2 = int_random(0, selectionSize - 1);
+			int r1 = i;
+			int r2 = int_random(selectionSize, selectionSize * 2 - 1);
 
-			BTree* t1 = (BTree*)DList_Get(selection, r1);
-			BTree* t2 = (BTree*)DList_Get(selection, r2);
+			Tree* t1 = (Tree*)DList_Get(selection, r1);
+			Tree* t2 = (Tree*)DList_Get(selection, r2);
 
-			BTreeAI_Crossover(t1, t2);
-			BTreeAI_Mutation(t1, F);
-			BTreeAI_Mutation(t2, F);
+			TreeAI_Crossover(t1, t2);
+			//TreeAI_Mutation(t1, F);
+			//TreeAI_Permutation(t1);
 
-			BTreeAI_UpdateScore(t1, F);
-			BTreeAI_UpdateScore(t2, F);
+			TreeAI_UpdateScore(t1, false);
 		}
-
 
 		// Clear selection:
 
 		for (int i = 0; i < selectionSize * 2; i++)
 		{
-			BTree* tree = (BTree*)DList_PopFirst(selection);
-			DList_InsertSorted(population, tree, false, &BTreeAI_CompareScore);
+			Tree* tree = (Tree*)DList_PopFirst(selection);
+			DList_InsertSorted(population, tree, false, &TreeAI_CompareScore);
 		}
 
 		// Fill population:
 
 		for (int i = 0; i < populationSize - selectionSize * 2; i++)
 		{
-			BTree* tree = BTreeAI_New(F);
-			BTreeAI_UpdateScore(tree, F);
-			DList_InsertSorted(population, tree, false, &BTreeAI_CompareScore);
+			Tree* tree = TreeAI_New(F, TYPE_NONE);
+			TreeAI_UpdateScore(tree, false);
+			DList_InsertSorted(population, tree, false, &TreeAI_CompareScore);
 		}
 
-		// iterCount:
+		// generation:
 
-		iterCount += 1;
+		generation += 1;
 
-		printf("iterCount = %d \n", iterCount);
+		printf("\n---------- generation : %d ----------\n\n", generation);
 
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 3; i++)
 		{
-			BTree* tree = DList_Get(population, i);
+			Tree* tree = DList_Get(population, i);
+			printf("score (%d) : %f\n", i, tree->score);
 
-			if (tree->score == 0.0f)
+			if (tree->score == 41)
 			{
-				BTree_Print(tree, &Function_Print);
+				Tree_Print(tree, &Function_Print);
+
 				system("pause");
+
+				in2 = true;
+				TreeAI_UpdateScore(tree, false);
+				in2 = false;
+				break;
 			}
 		}
 	}
 
-
+	system("pause");
 	return EXIT_SUCCESS;
 }
 

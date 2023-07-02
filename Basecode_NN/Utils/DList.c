@@ -136,6 +136,8 @@ DNode* __DList_Get(DList* list, int index)
 
 void* DList_Get(DList* list, int index)
 {
+	assert((0 <= index) && (index < list->size));
+
 	DNode* node = __DList_Get(list, index);
 
 	return node->value;

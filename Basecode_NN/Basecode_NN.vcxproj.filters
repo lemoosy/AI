@@ -66,16 +66,22 @@
     <ClCompile Include="Connect4\AI.c">
       <Filter>Fichiers sources\Connect4</Filter>
     </ClCompile>
-    <ClCompile Include="PG\BTree.c">
+    <ClCompile Include="PG\Tree.c">
       <Filter>Fichiers sources\PG</Filter>
     </ClCompile>
     <ClCompile Include="PG\Function.c">
       <Filter>Fichiers sources\PG</Filter>
     </ClCompile>
-    <ClCompile Include="PG\BTreeAI.c">
+    <ClCompile Include="PG\TreeAI.c">
       <Filter>Fichiers sources\PG</Filter>
     </ClCompile>
     <ClCompile Include="Utils\Function.c">
+      <Filter>Fichiers sources\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="PG\Ant.c">
+      <Filter>Fichiers d%27en-tête\PG</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Data.c">
       <Filter>Fichiers sources\Utils</Filter>
     </ClCompile>
   </ItemGroup>
@@ -107,16 +113,22 @@
     <ClInclude Include="Connect4\AI.h">
       <Filter>Fichiers d%27en-tête\Connect4</Filter>
     </ClInclude>
-    <ClInclude Include="PG\BTree.h">
+    <ClInclude Include="PG\Tree.h">
       <Filter>Fichiers d%27en-tête\PG</Filter>
     </ClInclude>
     <ClInclude Include="PG\Function.h">
       <Filter>Fichiers d%27en-tête\PG</Filter>
     </ClInclude>
-    <ClInclude Include="PG\BTreeAI.h">
+    <ClInclude Include="PG\TreeAI.h">
       <Filter>Fichiers d%27en-tête\PG</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Function.h">
+      <Filter>Fichiers d%27en-tête\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="PG\Ant.h">
+      <Filter>Fichiers sources\PG</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\Data.h">
       <Filter>Fichiers d%27en-tête\Utils</Filter>
     </ClInclude>
   </ItemGroup>
