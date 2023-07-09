@@ -37,6 +37,18 @@
     <Filter Include="Fichiers d%27en-tête\PG">
       <UniqueIdentifier>{4fcf4766-1545-4889-8d00-e51443b913af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\SDL">
+      <UniqueIdentifier>{1c1fbf07-2816-4886-ac0f-5d290a5dded2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\SDL">
+      <UniqueIdentifier>{2eb048c1-544c-4b5d-8d70-e19bf5a8a62f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Snake">
+      <UniqueIdentifier>{8f53d880-cb22-48d2-934f-34d5ab18e7c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Snake">
+      <UniqueIdentifier>{f3164cf2-e0cd-4aa5-a781-d385b8f03197}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -66,23 +78,32 @@
     <ClCompile Include="Connect4\AI.c">
       <Filter>Fichiers sources\Connect4</Filter>
     </ClCompile>
-    <ClCompile Include="PG\Tree.c">
-      <Filter>Fichiers sources\PG</Filter>
+    <ClCompile Include="Utils\Function.c">
+      <Filter>Fichiers sources\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\Data.c">
+      <Filter>Fichiers sources\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="SDL\Window.c">
+      <Filter>Fichiers sources\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="SDL\Input.c">
+      <Filter>Fichiers sources\SDL</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.c">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Snake\Snake.c">
+      <Filter>Fichiers sources\Snake</Filter>
     </ClCompile>
     <ClCompile Include="PG\Function.c">
       <Filter>Fichiers sources\PG</Filter>
     </ClCompile>
-    <ClCompile Include="PG\TreeAI.c">
+    <ClCompile Include="PG\Tree.c">
       <Filter>Fichiers sources\PG</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\Function.c">
-      <Filter>Fichiers sources\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="PG\Ant.c">
-      <Filter>Fichiers d%27en-tête\PG</Filter>
-    </ClCompile>
-    <ClCompile Include="Utils\Data.c">
-      <Filter>Fichiers sources\Utils</Filter>
+    <ClCompile Include="PG\TreeAI.c">
+      <Filter>Fichiers sources\PG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,11 +146,17 @@
     <ClInclude Include="Utils\Function.h">
       <Filter>Fichiers d%27en-tête\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="PG\Ant.h">
-      <Filter>Fichiers sources\PG</Filter>
-    </ClInclude>
     <ClInclude Include="Utils\Data.h">
       <Filter>Fichiers d%27en-tête\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL\Window.h">
+      <Filter>Fichiers d%27en-tête\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL\Input.h">
+      <Filter>Fichiers d%27en-tête\SDL</Filter>
+    </ClInclude>
+    <ClInclude Include="Snake\Snake.h">
+      <Filter>Fichiers d%27en-tête\Snake</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

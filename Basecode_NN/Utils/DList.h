@@ -29,7 +29,7 @@ typedef struct sDList
 }DList;
 
 // Crée une liste vide.
-DList* DList_New(void);
+DList* DList_Create(void);
 
 // Copie une liste.
 DList* DList_Copy(DList* list, void* (*funcCopy)(void*));

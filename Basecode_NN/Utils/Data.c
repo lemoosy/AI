@@ -66,6 +66,14 @@ void* Float_Div(void* _x0, void* _x1)
 	return Float_New(x1 == 0.0f ? 1.0f : x0 / x1);
 }
 
+void* Float_Equ(void* _x0, void* _x1)
+{
+	float x0 = *(float*)_x0;
+	float x1 = *(float*)_x1;
+
+	return Bool_New(x0 == x1);
+}
+
 void* Float_Sup(void* _x0, void* _x1)
 {
 	float x0 = *(float*)_x0;

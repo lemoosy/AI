@@ -1,6 +1,6 @@
 #include "Tree.h"
 
-Tree* Tree_New(void)
+Tree* Tree_Create(void)
 {
 	Tree* tree = (Tree*)calloc(1, sizeof(Tree));
 	assert(tree);
@@ -14,7 +14,7 @@ TreeNode* Tree_CopyRec(TreeNode* node, void* (*dataCopy)(void*))
 
 	TreeNode* res = (TreeNode*)calloc(1, sizeof(TreeNode));
 	assert(res);
-
+	
 	res->value = dataCopy(node->value);
 	res->size = node->size;
 
@@ -26,46 +26,45 @@ TreeNode* Tree_CopyRec(TreeNode* node, void* (*dataCopy)(void*))
 	return res;
 }
 
-Tree* Tree_Copy(Tree* tree, void* (*funcCopy)(void*))
+Tree* Tree_Copy(Tree* tree, void* (*dataCopy)(void*))
 {
 	if (!tree) return NULL;
 
 	Tree* res = (Tree*)calloc(1, sizeof(Tree));
 	assert(res);
 
-	res->root = Tree_CopyRec(tree->root, funcCopy);
-	res->id = tree->id;
+	res->root = Tree_CopyRec(tree->root, dataCopy);
 	res->score = tree->score;
 
 	return res;
 }
 
-void Tree_DestroyRec(TreeNode* node, void* (*funcDestroy)(void*))
+void Tree_DestroyRec(TreeNode* node, void* (*dataDestroy)(void*))
 {
 	if (!node) return;
 
 	for (int i = 0; i < MAX_CHILDREN; i++)
 	{
-		Tree_DestroyRec(node->children[i], funcDestroy);
+		Tree_DestroyRec(node->children[i], dataDestroy);
 	}
 
-	if (funcDestroy)
+	if (dataDestroy)
 	{
-		funcDestroy(node->value);
+		dataDestroy(node->value);
 	}
 
 	free(node);
 }
 
-void Tree_Destroy(Tree* tree, void* (*funcDestroy)(void*))
+void Tree_Destroy(Tree* tree, void* (*dataDestroy)(void*))
 {
 	if (!tree) return;
 
-	Tree_DestroyRec(tree->root, funcDestroy);
+	Tree_DestroyRec(tree->root, dataDestroy);
 	free(tree);
 }
 
-void Tree_PrintRec(TreeNode* node, void (*funcPrint)(void*), int depth)
+void Tree_PrintRec(TreeNode* node, void (*dataPrint)(void*), int depth)
 {
 	if (!node) return;
 
@@ -74,34 +73,36 @@ void Tree_PrintRec(TreeNode* node, void (*funcPrint)(void*), int depth)
 		putchar('\t');
 	}
 
-	funcPrint(node->value);
+	dataPrint(node->value);
 
 	putchar('\n');
 
 	for (int i = 0; i < MAX_CHILDREN; i++)
 	{
-		Tree_PrintRec(node->children[i], funcPrint, depth + 1);
+		Tree_PrintRec(node->children[i], dataPrint, depth + 1);
 	}
 }
 
-void Tree_Print(Tree* tree, void (*funcPrint)(void*))
+void Tree_Print(Tree* tree, void (*dataPrint)(void*))
 {
 	if (tree)
 	{
 		if (tree->root)
 		{
-			printf("Tree (size=%d)\n", tree->root->size);
-			Tree_PrintRec(tree->root, funcPrint, 0);
+			printf("------------------------------ Tree (size=%d) ------------------------------ \n\n", tree->root->size);
+			Tree_PrintRec(tree->root, dataPrint, 0);
 		}
 		else
 		{
-			printf("Tree is empty.\n");
+			printf("Tree is empty. \n");
 		}
 	}
 	else
 	{
-		printf("Tree is nil.\n");
+		printf("Tree is null. \n");
 	}
+
+	putchar('\n');
 }
 
 int Tree_UpdateSizeRec(TreeNode* node)
@@ -125,63 +126,70 @@ int Tree_UpdateSize(Tree* tree)
 	return Tree_UpdateSizeRec(tree->root);
 }
 
-TreeNode* Tree_GetNodeRec(TreeNode* node, int* index, TreeNode** parent, int* child)
+int Tree_GetSize(Tree* tree)
+{
+	return tree->root->size;
+}
+
+// TreeSearch:
+
+TreeSearch* TreeSearch_Create(TreeNode* node, TreeNode* parent, int child)
+{
+	TreeSearch* search = (TreeSearch*)calloc(1, sizeof(TreeSearch));
+	assert(search);
+
+	search->node = node;
+	search->parent = parent;
+	search->child = child;
+
+	return search;
+}
+
+TreeSearch* Tree_GetNodeByIndexRec(TreeNode* node, int* index, TreeNode* parent, int child)
 {
 	if (!node) return NULL;
 
-	if (*index == 0) return node;
+	if (*index == 0) return TreeSearch_Create(node, parent, child);
+
 	*index -= 1;
-	
+
 	for (int i = 0; i < MAX_CHILDREN; i++)
 	{
-		*parent = node;
-		TreeNode* res = Tree_GetNodeRec(node->children[i], index, parent, child);
+		TreeSearch* res = Tree_GetNodeByIndexRec(node->children[i], index, node, i);
 
-		if (res)
-		{
-			if (*child == -1)
-			{
-				*child = i;
-			}
-
-			return res;
-		}
+		if (res) return res;
 	}
 
 	return NULL;
 }
 
-TreeNode* Tree_GetNode(Tree* tree, int index, TreeNode** parent, int* child)
+TreeSearch* Tree_GetNodeByIndex(Tree* tree, int index)
 {
-	assert((0 <= index) && (index < tree->root->size));
+	assert((0 <= index) && (index < Tree_GetSize(tree)));
 
-	int index2 = index;
-	*parent = NULL;
-	*child = -1;
-
-	return Tree_GetNodeRec(tree->root, &index2, parent, child);
+	return Tree_GetNodeByIndexRec(tree->root, &index, NULL, -1);
 }
 
-void Tree_GetNodeListRec(TreeNode* node, void* value, int (*dataCompare)(void*, void*), DList* list)
+void Tree_GetNodeByValueRec(TreeNode* node, void* value, int (*dataCompare)(void*, void*), TreeNode* parent, int child, DList* list)
 {
-	if (!node) return;
+	if (!node) return NULL;
 
-	if (dataCompare(value, node->value) == 0)
+	if (dataCompare(node->value, value) == 0)
 	{
-		DList_InsertLast(list, node);
+		DList_InsertLast(list, TreeSearch_Create(node, parent, child));
 	}
 
 	for (int i = 0; i < MAX_CHILDREN; i++)
 	{
-		Tree_GetNodeListRec(node->children[i], value, dataCompare, list);
+		Tree_GetNodeByValueRec(node->children[i], value, dataCompare, node, i, list);
 	}
 }
 
-TreeNode* Tree_GetNodeList(Tree* tree, void* value, int (*dataCompare)(void*, void*))
+DList* Tree_GetNodeByValue(Tree* tree, void* value, int (*dataCompare)(void*, void*))
 {
-	DList* list = DList_New();
-
-	Tree_GetNodeListRec(tree->root, value, dataCompare, list);
-
+	DList* list = DList_Create();
+	
+	Tree_GetNodeByValueRec(tree->root, value, dataCompare, NULL, -1, list);
+	
 	return list;
 }

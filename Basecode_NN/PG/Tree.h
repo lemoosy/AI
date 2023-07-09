@@ -3,39 +3,77 @@
 #include "../Settings.h"
 #include "../Utils/DList.h"
 
+/// @brief Nombre d'enfants maximum que possède un noeud.
 #define MAX_CHILDREN 3
 
-// Structure représentant un noeud dans un arbre avec N enfant(s).
+/// @brief Structure représentant un noeud dans un arbre avec N enfants (sous-arbre).
 typedef struct sTreeNode
 {
-	// Valeur du noeud.
+	/// @brief Valeur du noeud.
 	void* value;
 
-	// Nombre de noeud du sous-arbre.
+	/// @brief Nombre de noeuds du sous-arbre.
 	int size;
 
-	// Pointeurs vers les enfants.
+	/// @brief Pointeurs vers les enfants.
 	struct sTreeNode* children[MAX_CHILDREN];
 }TreeNode;
 
-// Structure représentant un arbre avec N enfant(s).
+/// @brief Structure représentant un arbre avec N enfants.
 typedef struct sTree
 {
-	// Racine de l'arbre.
+	/// @brief Racine de l'arbre.
 	TreeNode* root;
 
-	// Variables utilisées pour la programmation génétique.
-
-	int id;			// ID de l'arbre.
-	float score;	// Score obtenue par la fonction de fitness.
+	/// @brief Score obtenue par la fonction de fitness (PG).
+	float score;
 }Tree;
 
-Tree*     Tree_New(void);
+/// @brief Crée un arbre vide.
+Tree* Tree_Create(void);
+
+/// @brief Copie un sous arbre.
 TreeNode* Tree_CopyRec(TreeNode* node, void* (*dataCopy)(void*));
-Tree*     Tree_Copy(Tree* tree, void* (*dataCopy)(void*));
-void      Tree_DestroyRec(TreeNode* node, void* (*dataDestroy)(void*));
-void      Tree_Destroy(Tree* tree, void* (*dataDestroy)(void*));
-void      Tree_Print(Tree* tree, void (*dataPrint)(void*));
-int       Tree_UpdateSize(Tree* tree);
-TreeNode* Tree_GetNode(Tree* tree, int index, TreeNode** parent, int* child);
-TreeNode* Tree_GetNodeList(Tree* tree, void* value, int (*dataCompare)(void*, void*));
+
+/// @brief Copie un arbre.
+Tree* Tree_Copy(Tree* tree, void* (*dataCopy)(void*));
+
+/// @brief Détruit un sous arbre.
+void Tree_DestroyRec(TreeNode* node, void* (*dataDestroy)(void*));
+
+/// @brief Détruit un arbre.
+void Tree_Destroy(Tree* tree, void* (*dataDestroy)(void*));
+
+/// @brief Affiche un sous-arbre.
+void Tree_PrintRec(TreeNode* node, void (*dataPrint)(void*), int depth);
+
+/// @brief Affiche un arbre.
+void Tree_Print(Tree* tree, void (*dataPrint)(void*));
+
+/// @brief Met à jour la taille de chaque noeud d'un sous-arbre.
+int Tree_UpdateSizeRec(TreeNode* node);
+
+/// @brief Met à jour la taille de chaque noeud d'un arbre.
+int Tree_UpdateSize(Tree* tree);
+
+/// @brief Renvoie la taille d'un arbre.
+int Tree_GetSize(Tree* tree);
+
+/// @brief Structure pour les fonctions de recherche.
+typedef struct sTreeSearch
+{
+	/// @brief Noeud.
+	TreeNode* node;
+	
+	/// @brief Parent du noeud.
+	TreeNode* parent;
+
+	/// @brief Indice de l'enfant à partir du parent.
+	int child;
+}TreeSearch;
+
+/// @brief Renvoie à l'indice 'index' le noeud d'un arbre (recherche en profondeur).
+TreeSearch* Tree_GetNodeByIndex(Tree* tree, int index);
+
+/// @brief Recherche les noeuds égalent à 'value' d'un arbre.
+DList* Tree_GetNodeByValue(Tree* tree, void* value, int (*dataCompare)(void*, void*));

@@ -1,6 +1,6 @@
 #include "Function.h"
 
-Function* Function_New(char* name, int size, float* f, TypeID res, TypeID arg[MAX_ARG + 1])
+Function* Function_Create(char* name, int size, float* f, TypeID res, TypeID arg[MAX_ARG + 1])
 {
 	assert((0 <= size) && (size <= MAX_ARG));
 
@@ -40,7 +40,7 @@ int Function_Compare(void* _func0, void* _func1)
 
 	if (func0->size == func1->size)
 	{
-		if (func0->res == func1->size)
+		if (func0->res == func1->res)
 		{
 			int size = func0->size;
 
@@ -57,6 +57,14 @@ int Function_Compare(void* _func0, void* _func1)
 	}
 
 	return -1;
+}
+
+int Function_CompareRes(void* _func0, void* _func1)
+{
+	Function* func0 = (Function*)_func0;
+	Function* func1 = (Function*)_func1;
+
+	return (func0->res - func1->res);
 }
 
 void Function_Print(Function* func)

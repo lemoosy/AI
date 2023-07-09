@@ -10,7 +10,7 @@ DNode* DNode_New(void* value)
 	return node;
 }
 
-DList* DList_New(void)
+DList* DList_Create(void)
 {
 	DList* list = (DList*)calloc(1, sizeof(DList));
 	assert(list);

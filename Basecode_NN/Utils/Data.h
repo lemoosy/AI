@@ -11,5 +11,6 @@ void* Float_Add(void* _x0, void* _x1);
 void* Float_Sub(void* _x0, void* _x1);
 void* Float_Mul(void* _x0, void* _x1);
 void* Float_Div(void* _x0, void* _x1);
+void* Float_Equ(void* _x0, void* _x1);
 void* Float_Sup(void* _x0, void* _x1);
 void* Float_Inf(void* _x0, void* _x1);

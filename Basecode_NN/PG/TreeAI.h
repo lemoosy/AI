@@ -1,47 +1,60 @@
 #pragma once
 
-#include "Tree.h"
-#include "Function.h"
-#include "../Utils/DList.h"
 #include "../Utils/Data.h"
+#include "../Utils/DList.h"
 #include "../Utils/Utils.h"
-#include "Ant.h"
+#include "Function.h"
+#include "Tree.h"
 
-#define MAX_DEPTH 4
+// ------------------------------ Fonctions basiques ------------------------------
 
-float in0;
-float in1;
-bool in2;
+// Type de retour: TYPE_NULL
 
-Tree* TreeAI_New(DList*** F, TypeID res);
+void* __progn(TreeNode* node);
 
-// res = TYPE_NONE
-void* _if(TreeNode* node);
-void* _progn(TreeNode* node);
+// Type de retour: TYPE_REAL
 
-// res = TYPE_REAL
-void* _in0(TreeNode* node);
-void* _in1(TreeNode* node);
-void* _srt(TreeNode* node);
-void* _add(TreeNode* node);
-void* _sub(TreeNode* node);
-void* _mul(TreeNode* node);
-void* _div(TreeNode* node);
+void* __srt(TreeNode* node);
+void* __add(TreeNode* node);
+void* __sub(TreeNode* node);
+void* __mul(TreeNode* node);
+void* __div(TreeNode* node);
 
-// res = TYPE_BOOL
-void* _in2(TreeNode* node);
-void* _not(TreeNode* node);
-void* _sup(TreeNode* node);
-void* _inf(TreeNode* node);
-void* _and(TreeNode* node);
-void* _or(TreeNode* node);
+// Type de retour: TYPE_BOOL
 
+void* __not(TreeNode* node);
+void* __equ(TreeNode* node);
+void* __sup(TreeNode* node);
+void* __inf(TreeNode* node);
+void* __and(TreeNode* node);
+void* __or(TreeNode* node);
+
+// Type de retour: *
+
+void* __if(TreeNode* node);
+
+// ------------------------------ TreeAI >> Programme ------------------------------
+
+/// @brief Profondeur maximum dans un programme.
+#define MAX_DEPTH 5
+
+/// @brief Nombre maximum de noeuds dans un programme.
+#define MAX_NODE 400
+
+/// @brief Crée un programme aléatoire.
+Tree* TreeAI_Create(DList*** F, TypeID res, int depth);
+
+/// @brief Exécute un programme (sous-arbre).
 void* TreeAI_ExecuteRec(TreeNode* node);
+
+/// @brief Exécute un programme.
 void* TreeAI_Execute(Tree* tree);
 
-void  TreeAI_UpdateScore(Tree* tree, bool display);
-int   TreeAI_CompareScore(Tree* t1, Tree* t2);
+/// @brief Compare le score de 2 programmes.
+int TreeAI_CompareScore(Tree* tree1, Tree* tree2);
 
-void  TreeAI_Crossover(Tree* t1, Tree* t2);
-void  TreeAI_Mutation(Tree* tree, DList*** F);
-void  TreeAI_Permutation(Tree* tree);
+/// @brief Coupe une branche à chaque arbre et échange les sous-arbres.
+void TreeAI_Crossover(Tree* tree1, Tree* tree2);
+
+/// @brief Modifie une fonction aléatoirement par une autre.
+void TreeAI_Mutation(Tree* tree, DList*** F);

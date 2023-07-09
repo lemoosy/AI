@@ -1,16 +1,67 @@
-//#include "NN/Network.h"
 #include "Settings.h"
 
-#ifdef GAME_PG
+#ifdef GAME_SNAKE
 
-#include "PG/TreeAI.h"
 #include "PG/Function.h"
-#include "PG/Ant.h"
-
+#include "PG/Tree.h"
+#include "PG/TreeAI.h"
+#include "SDL/Window.h"
+#include "Snake/Snake.h"
+#include "Utils/DList.h"
+#include "Utils/Utils.h"
 
 int main(void)
 {
-	srand(time(NULL));
+	Settings_Init();
+
+	// #####################
+	// ##### Fonctions #####
+	// #####################
+
+	DList* functions = DList_Create();
+
+	DList_InsertLast(functions, Function_Create("__Snake_SetDirectionN", 0, &__Snake_SetDirectionN, TYPE_NULL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_SetDirectionS", 0, &__Snake_SetDirectionS, TYPE_NULL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_SetDirectionW", 0, &__Snake_SetDirectionW, TYPE_NULL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_SetDirectionE", 0, &__Snake_SetDirectionE, TYPE_NULL, (TypeID[]) { 0 }));
+
+	DList_InsertLast(functions, Function_Create("__Snake_HeadBodyN", 0, &__Snake_HeadBodyN, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_HeadBodyS", 0, &__Snake_HeadBodyS, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_HeadBodyW", 0, &__Snake_HeadBodyW, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_HeadBodyE", 0, &__Snake_HeadBodyE, TYPE_BOOL, (TypeID[]) { 0 }));
+
+	DList_InsertLast(functions, Function_Create("__Snake_HeadWallN", 0, &__Snake_HeadWallN, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_HeadWallS", 0, &__Snake_HeadWallS, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_HeadWallW", 0, &__Snake_HeadWallW, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_HeadWallE", 0, &__Snake_HeadWallE, TYPE_BOOL, (TypeID[]) { 0 }));
+
+	DList_InsertLast(functions, Function_Create("__Snake_DirectionHeadIsN", 0, &__Snake_DirectionHeadIsN, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_DirectionHeadIsS", 0, &__Snake_DirectionHeadIsS, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_DirectionHeadIsW", 0, &__Snake_DirectionHeadIsW, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_DirectionHeadIsE", 0, &__Snake_DirectionHeadIsE,	TYPE_BOOL, (TypeID[]) { 0 }));
+	
+	DList_InsertLast(functions, Function_Create("__Snake_AheadFood", 0, &__Snake_AheadFood, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_AheadBody", 0, &__Snake_AheadBody, TYPE_BOOL, (TypeID[]) { 0 }));
+	DList_InsertLast(functions, Function_Create("__Snake_AheadWall2", 0, &__Snake_AheadWall2, TYPE_BOOL, (TypeID[]) { 0 }));
+	
+	DList_InsertLast(functions, Function_Create("PROGN2", 2, &__progn, TYPE_NULL, (TypeID[]) { TYPE_NULL, TYPE_NULL }));
+	DList_InsertLast(functions, Function_Create("NOT", 1, &__not, TYPE_BOOL, (TypeID[]) { TYPE_BOOL }));
+	DList_InsertLast(functions, Function_Create("AND", 2, &__and, TYPE_BOOL, (TypeID[]) { TYPE_BOOL, TYPE_BOOL }));
+	DList_InsertLast(functions, Function_Create("OR", 2, &__or, TYPE_BOOL, (TypeID[]) { TYPE_BOOL, TYPE_BOOL }));
+	DList_InsertLast(functions, Function_Create("IF", 3, &__if, TYPE_NULL, (TypeID[]) { TYPE_BOOL, TYPE_NULL, TYPE_NULL }));
+
+	// Création du tableau 2D de toutes les fonctions (* est un DList):
+	//
+	//				-----------------
+	//				| 0 | 1 | 2 | 3 | ... | MAX_ARG + 1 |
+	//				-----------------
+	// TYPE_NULL	| * | * | * | * |
+	//				-----------------
+	// TYPE_BOOL	| * | * | * | * |
+	//				-----------------
+	// TYPE_REAL	| * | * | * | * |
+	//				-----------------
+	// TYPE_COUNT
 
 	DList*** F = (DList***)calloc(TYPE_COUNT, sizeof(DList**));
 	assert(F);
@@ -22,60 +73,79 @@ int main(void)
 
 		for (int i = 0; i < MAX_ARG + 1; i++)
 		{
-			F[j][i] = DList_New();
+			F[j][i] = DList_Create();
 		}
 	}
 
-	in2 = false;
-
-	/*DList_InsertLast(F[TYPE_REAL][0], Function_New("x0", 0, &_in0, TYPE_REAL, (TypeID[]) { 0 }));
-	DList_InsertLast(F[TYPE_REAL][0], Function_New("x1", 0, &_in1, TYPE_REAL, (TypeID[]) { 0 }));
-	DList_InsertLast(F[TYPE_REAL][1], Function_New("SRT", 1, &_srt, TYPE_REAL, (TypeID[]) { TYPE_REAL }));
-	DList_InsertLast(F[TYPE_REAL][2], Function_New("+", 2, &_add, TYPE_REAL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));
-	DList_InsertLast(F[TYPE_REAL][2], Function_New("-", 2, &_sub, TYPE_REAL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));
-	DList_InsertLast(F[TYPE_REAL][2], Function_New("*", 2, &_mul, TYPE_REAL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));
-	DList_InsertLast(F[TYPE_REAL][2], Function_New("/", 2, &_div, TYPE_REAL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));
-	DList_InsertLast(F[TYPE_REAL][3], Function_New("IF", 3, &_if, TYPE_REAL, (TypeID[]) { TYPE_BOOL, TYPE_REAL, TYPE_REAL }));*/
-
-	//DList_InsertLast(F[TYPE_BOOL][0], Function_New("b0", 0, &_in2, TYPE_BOOL, (TypeID[]) { 0 }));
-	DList_InsertLast(F[TYPE_BOOL][0], Function_New("AheadFood", 0, &Ant_AheadFood, TYPE_BOOL, (TypeID[]) { 0 }));
-	DList_InsertLast(F[TYPE_BOOL][0], Function_New("AheadBomb", 0, &Ant_AheadBomb, TYPE_BOOL, (TypeID[]) { 0 }));
-	DList_InsertLast(F[TYPE_BOOL][1], Function_New("NOT", 1, &_not, TYPE_BOOL, (TypeID[]) { TYPE_BOOL }));
-	/*DList_InsertLast(F[TYPE_BOOL][2], Function_New(">", 2, &_sup, TYPE_BOOL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));
-	DList_InsertLast(F[TYPE_BOOL][2], Function_New("<", 2, &_inf, TYPE_BOOL, (TypeID[]) { TYPE_REAL, TYPE_REAL }));*/
-	DList_InsertLast(F[TYPE_BOOL][2], Function_New("AND", 2, &_and, TYPE_BOOL, (TypeID[]) { TYPE_BOOL, TYPE_BOOL }));
-	DList_InsertLast(F[TYPE_BOOL][2], Function_New("OR", 2, &_or, TYPE_BOOL, (TypeID[]) { TYPE_BOOL, TYPE_BOOL }));
-	DList_InsertLast(F[TYPE_BOOL][3], Function_New("IF", 3, &_if, TYPE_BOOL, (TypeID[]) { TYPE_BOOL, TYPE_BOOL, TYPE_BOOL }));
-
-	DList_InsertLast(F[TYPE_NONE][0], Function_New("SetDirLeft", 0, &Ant_SetDirectionLeft, TYPE_NONE, (TypeID[]) { 0 }));
-	DList_InsertLast(F[TYPE_NONE][0], Function_New("SetDirRight", 0, &Ant_SetDirectionRight, TYPE_NONE, (TypeID[]) { 0 }));
-	DList_InsertLast(F[TYPE_NONE][0], Function_New("SetDirUp", 0, &Ant_SetDirectionUp, TYPE_NONE, (TypeID[]) { 0 }));
-	DList_InsertLast(F[TYPE_NONE][0], Function_New("SetDirDown", 0, &Ant_SetDirectionDown, TYPE_NONE, (TypeID[]) { 0 }));
-	DList_InsertLast(F[TYPE_NONE][0], Function_New("Move", 0, &Ant_Move, TYPE_NONE, (TypeID[]) { 0 }));
-	DList_InsertLast(F[TYPE_NONE][2], Function_New("PROGN2", 2, &_progn, TYPE_NONE, (TypeID[]) { TYPE_NONE, TYPE_NONE }));
-	DList_InsertLast(F[TYPE_NONE][3], Function_New("PROGN3", 3, &_progn, TYPE_NONE, (TypeID[]) { TYPE_NONE, TYPE_NONE, TYPE_NONE }));
-	DList_InsertLast(F[TYPE_NONE][3], Function_New("IF", 3, &_if, TYPE_NONE, (TypeID[]) { TYPE_BOOL, TYPE_NONE, TYPE_NONE }));
-
-	int populationSize = 500;
-	DList* population = DList_New();
-
-	int selectionSize = 50;
-	DList* selection = DList_New();
-
-	// Create population:
-
-	for (int i = 0; i < populationSize; i++)
+	while (functions->size > 0)
 	{
-		Tree* tree = TreeAI_New(F, TYPE_NONE);
-		TreeAI_UpdateScore(tree, false);
-		DList_InsertSorted(population, tree, false, &TreeAI_CompareScore);
+		Function* function = (Function*)DList_PopFirst(functions);
+		DList_InsertLast(F[function->res][function->size], function);
 	}
 
+	DList_Destroy(functions, NULL);
+
+	// ######################
+	// ##### Paramètres #####
+	// ######################
+	
+	int populationSize	=	5000;
+	int selectionSize	=	500;
+	int childrenSize	=	1000;
+	int generationMod	=	10;
+	int scoreEnd		=	100;
+
+	TypeID res			=	TYPE_NULL;
+
+	// ##############
+	// ##### PG #####
+	// ##############
+
+	assert(childrenSize % 2 == 0);
+
+	DList* population = DList_Create();
+	DList* selection = DList_Create();
+
 	int generation = 0;
+	int scoreMax = 0;
 
 	while (1)
 	{
-		// Create selection:
+		// Remplissage de la population.
+
+		int size = populationSize - population->size;
+
+		for (int i = 0; i < size; i++)
+		{
+			Tree* tree = TreeAI_Create(F, res, MAX_DEPTH);
+			__Snake_Fitness(tree, NULL);
+			scoreMax = max(scoreMax, tree->score);
+			DList_InsertLast(population, tree);
+		}
+
+		if (scoreMax >= scoreEnd) break;
+
+		// Affichage des 5 meilleurs.
+
+		generation += 1;
+
+		if (generation % generationMod == 0)
+		{
+			printf("__________ Generation (%d) __________ \n\n", generation);
+
+			printf("scoreMax = %d \n\n", scoreMax);
+
+			for (int i = 0; i < 5; i++)
+			{
+				Tree* tree = DList_Get(population, i);
+
+				printf("%d) treeSize = %.3d | score = %.2f \n", i, Tree_GetSize(tree), tree->score);
+			}
+
+			putchar('\n');
+		}
+
+		// On déplace les meilleurs dans la sélection.
 
 		for (int i = 0; i < selectionSize; i++)
 		{
@@ -83,7 +153,7 @@ int main(void)
 			DList_InsertLast(selection, tree);
 		}
 
-		// Clear population:
+		// On supprime les individus mauvais dans la population.
 
 		for (int i = 0; i < populationSize - selectionSize; i++)
 		{
@@ -91,82 +161,74 @@ int main(void)
 			Tree_Destroy(tree, NULL);
 		}
 
-		// Children:
+		// On génère les enfants.
 
-		for (int i = 0; i < selectionSize; i++)
+		for (int i = 0; i < childrenSize / 2; i++)
 		{
-			Tree* tree = (Tree*)DList_Get(selection, i);
-			Tree* copy = Tree_Copy(tree, &Function_Copy);
-			DList_InsertLast(selection, copy);
+			int r0 = int_random(0, selectionSize - 1);
+			int r1 = int_random(0, selectionSize - 1);
+
+			Tree* parent0 = (Tree*)DList_Get(selection, r0);
+			Tree* parent1 = (Tree*)DList_Get(selection, r1);
+
+			Tree* child0 = Tree_Copy(parent0, &Function_Copy);
+			Tree* child1 = Tree_Copy(parent1, &Function_Copy);
+
+			TreeAI_Crossover(child0, child1);
+
+			TreeAI_Mutation(child0, F);
+			TreeAI_Mutation(child1, F);
+
+			DList_InsertLast(selection, child0);
+			DList_InsertLast(selection, child1);
 		}
 
-		// Crossover + Mutation:
+		// On déplace les enfants ainsi que les sélectionnés dans la population.
 
-		for (int i = 0; i < selectionSize; i++)
-		{
-			int r1 = i;
-			int r2 = int_random(selectionSize, selectionSize * 2 - 1);
+		size = selectionSize + childrenSize;
 
-			Tree* t1 = (Tree*)DList_Get(selection, r1);
-			Tree* t2 = (Tree*)DList_Get(selection, r2);
-
-			TreeAI_Crossover(t1, t2);
-			//TreeAI_Mutation(t1, F);
-			//TreeAI_Permutation(t1);
-
-			TreeAI_UpdateScore(t1, false);
-		}
-
-		// Clear selection:
-
-		for (int i = 0; i < selectionSize * 2; i++)
+		for (int i = 0; i < size; i++)
 		{
 			Tree* tree = (Tree*)DList_PopFirst(selection);
+			__Snake_Fitness(tree, NULL);
+			scoreMax = max(scoreMax, tree->score);
 			DList_InsertSorted(population, tree, false, &TreeAI_CompareScore);
-		}
-
-		// Fill population:
-
-		for (int i = 0; i < populationSize - selectionSize * 2; i++)
-		{
-			Tree* tree = TreeAI_New(F, TYPE_NONE);
-			TreeAI_UpdateScore(tree, false);
-			DList_InsertSorted(population, tree, false, &TreeAI_CompareScore);
-		}
-
-		// generation:
-
-		generation += 1;
-
-		if (generation % 10 == 0)
-		{
-			printf("\n---------- generation : %d ----------\n\n", generation);
-
-			for (int i = 0; i < 3; i++)
-			{
-				Tree* tree = DList_Get(population, i);
-				printf("score (%d) + SIZE = %d : %f\n", i, Tree_GetSize(tree), tree->score);
-
-				if (generation % 1000 == 0)
-				{
-					Tree_Print(tree, &Function_Print);
-
-					system("pause");
-
-					in2 = true;
-					TreeAI_UpdateScore(tree, false);
-					in2 = false;
-					break;
-				}
-			}
 		}
 	}
 
-	system("pause");
+	Tree* treeBest = (Tree*)DList_Get(population, 0);
+	Tree_Print(treeBest, &Function_Print);
+	Window* window = Window_Create("Snake 2023 - PG - LEMOOSY");
+	__Snake_Fitness(treeBest, window);
+	Window_Destroy(window);
+
+	// ###################
+	// ##### Mémoire #####
+	// ###################
+
+	for (int i = 0; i < populationSize; i++)
+	{
+		Tree* tree = (Tree*)DList_PopFirst(population);
+		Tree_Destroy(tree, NULL);
+	}
+
+	DList_Destroy(selection, NULL);
+	DList_Destroy(population, NULL);
+
+	for (int j = 0; j < TYPE_COUNT; j++)
+	{
+		for (int i = 0; i < MAX_ARG + 1; i++)
+		{
+			DList_Destroy(F[j][i], &Function_Destroy);
+		}
+	}
+
+	Settings_Quit();
+
 	return EXIT_SUCCESS;
 }
 
-#endif
+#endif // GAME_SNAKE
 
 #ifdef GAME_CONNECT4
 

@@ -5,7 +5,7 @@ Network* Network_New(float learningStep)
 	Network* net = (Network*)calloc(1, sizeof(Network));
 	assert(net);
 
-	net->layers = DList_New();
+	net->layers = DList_Create();
 	net->learningStep = learningStep;
 
 	return net;

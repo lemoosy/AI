@@ -104,10 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../SDL2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../SDL2/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -118,12 +121,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../SDL2/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../SDL2/lib/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -133,10 +139,13 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="NN\Layer.c" />
     <ClCompile Include="NN\Network.c" />
-    <ClCompile Include="PG\Ant.c" />
     <ClCompile Include="PG\Tree.c" />
     <ClCompile Include="PG\TreeAI.c" />
     <ClCompile Include="PG\Function.c" />
+    <ClCompile Include="SDL\Input.c" />
+    <ClCompile Include="SDL\Window.c" />
+    <ClCompile Include="Settings.c" />
+    <ClCompile Include="Snake\Snake.c" />
     <ClCompile Include="Utils\DList.c" />
     <ClCompile Include="Utils\Data.c" />
     <ClCompile Include="Utils\Function.c" />
@@ -149,11 +158,13 @@
     <ClInclude Include="Connect4\Game.h" />
     <ClInclude Include="NN\Layer.h" />
     <ClInclude Include="NN\Network.h" />
-    <ClInclude Include="PG\Ant.h" />
     <ClInclude Include="PG\Tree.h" />
     <ClInclude Include="PG\TreeAI.h" />
     <ClInclude Include="PG\Function.h" />
+    <ClInclude Include="SDL\Input.h" />
+    <ClInclude Include="SDL\Window.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="Snake\Snake.h" />
     <ClInclude Include="Utils\DList.h" />
     <ClInclude Include="Utils\Data.h" />
     <ClInclude Include="Utils\Function.h" />
