@@ -82,7 +82,7 @@ void Function_Print(Function* func)
 Function* Function_GetRandomByRes(DList*** F, TypeID res)
 {
 	int tabSize = (MAX_ARG + 1);
-	int* tab = int_tab_random_norep(tabSize);
+	int* tab = Int_TabRandomNoRep(tabSize);
 	int tabIndex = 0;
 
 	DList* list = NULL;
@@ -108,7 +108,7 @@ Function* Function_GetRandomByRes(DList*** F, TypeID res)
 		abort();
 	}
 
-	int k = int_random(0, list->size - 1);
+	int k = Int_Random(0, list->size - 1);
 
 	free(tab);
 

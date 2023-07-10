@@ -1,6 +1,6 @@
 #include "DList.h"
 
-DNode* DNode_New(void* value)
+DNode* DNode_Create(void* value)
 {
 	DNode* node = (DNode*)calloc(1, sizeof(DNode));
 	assert(node);
@@ -24,28 +24,40 @@ DList* DList_Create(void)
 	return list;
 }
 
-DList* DList_Copy(DList* list, void* (*funcCopy)(void*))
+DList* DList_Copy(DList* list, void* (*dataCopy)(void*))
 {
-	// TODO
+	if (!list) return NULL;
 
-	return NULL;
-}
-
-void DList_Destroy(DList* list, void (*funcDestroy)(void*))
-{
-	if (!list) return;
+	DList* res = DList_Create();
 
 	DNode* sent = list->sentinel;
 	DNode* curr = sent->next;
+
+	while (curr != sent)
+	{
+		DList_InsertLast(res, dataCopy(curr->value));
+		curr = curr->next;
+	}
+
+	return res;
+}
+
+void DList_Destroy(DList* list, void (*dataDestroy)(void*))
+{
+	if (!list) return;
+
 	DNode* remove;
 
-	if (funcDestroy)
+	DNode* sent = list->sentinel;
+	DNode* curr = sent->next;
+
+	if (dataDestroy)
 	{
 		while (curr != sent)
 		{
 			remove = curr;
 			curr = curr->next;
-			funcDestroy(remove->value);
+			dataDestroy(remove->value);
 			free(remove);
 		}
 	}
@@ -63,7 +75,7 @@ void DList_Destroy(DList* list, void (*funcDestroy)(void*))
 	free(list);
 }
 
-void DList_Print(DList* list, void (*funcPrint)(void*))
+void DList_Print(DList* list, void (*dataPrint)(void*))
 {
 	printf("(size=%d) : ", list->size);
 
@@ -72,7 +84,7 @@ void DList_Print(DList* list, void (*funcPrint)(void*))
 
 	while (curr != sent)
 	{
-		funcPrint(curr->value);
+		dataPrint(curr->value);
 		curr = curr->next;
 	}
 
@@ -84,14 +96,14 @@ bool DList_IsEmpty(DList* list)
 	return (list->size == 0);
 }
 
-bool DList_IsIn(DList* list, void* value, int (*funcCompare)(void*, void*))
+bool DList_IsIn(DList* list, void* value, int (*dataCompare)(void*, void*))
 {
 	DNode* sent = list->sentinel;
 	DNode* curr = sent->next;
 
 	while (curr != sent)
 	{
-		if (funcCompare(curr->value, value) == 0)
+		if (dataCompare(curr->value, value) == 0)
 		{
 			return true;
 		}
@@ -112,8 +124,8 @@ DNode* __DList_Get(DList* list, int index)
 
 		while (index > 0)
 		{
+			index -= 1;
 			curr = curr->next;
-			index--;
 		}
 	}
 	else if ((0 > index) && (index >= -list->size))
@@ -122,13 +134,9 @@ DNode* __DList_Get(DList* list, int index)
 
 		while (index < -1)
 		{
+			index += 1;
 			curr = curr->prev;
-			index++;
 		}
-	}
-	else
-	{
-		abort();
 	}
 
 	return curr;
@@ -140,7 +148,7 @@ void* DList_Get(DList* list, int index)
 
 	DNode* node = __DList_Get(list, index);
 
-	return node->value;
+	return (node ? node->value : NULL);
 }
 
 void __DList_InsertFirst(DList* list, DNode* node)
@@ -156,7 +164,7 @@ void __DList_InsertFirst(DList* list, DNode* node)
 
 void DList_InsertFirst(DList* list, void* value)
 {
-	DNode* node = DNode_New(value);
+	DNode* node = DNode_Create(value);
 
 	__DList_InsertFirst(list, node);
 }
@@ -174,28 +182,28 @@ void __DList_InsertLast(DList* list, DNode* node)
 
 void DList_InsertLast(DList* list, void* value)
 {
-	DNode* node = DNode_New(value);
+	DNode* node = DNode_Create(value);
 
 	__DList_InsertLast(list, node);
 }
 
-void __DList_InsertSorted(DList* list, DNode* node, bool reverse, int (*funcCompare)(void*, void*))
+void __DList_InsertSorted(DList* list, DNode* node, bool reverse, int (*dataCompare)(void*, void*))
 {
+	void* value = node->value;
+
 	DNode* sent = list->sentinel;
 	DNode* curr = sent->next;
 
-	void* value = node->value;
-
 	if (reverse)
 	{
-		while ((curr != sent) && (funcCompare(curr->value, value) > 0))
+		while ((curr != sent) && (dataCompare(curr->value, value) > 0))
 		{
 			curr = curr->next;
 		}
 	}
 	else
 	{
-		while ((curr != sent) && (funcCompare(curr->value, value) < 0))
+		while ((curr != sent) && (dataCompare(curr->value, value) < 0))
 		{
 			curr = curr->next;
 		}
@@ -210,16 +218,17 @@ void __DList_InsertSorted(DList* list, DNode* node, bool reverse, int (*funcComp
 	list->size += 1;
 }
 
-void DList_InsertSorted(DList* list, void* value, bool reverse, int (*funcCompare)(void*, void*))
+void DList_InsertSorted(DList* list, void* value, bool reverse, int (*dataCompare)(void*, void*))
 {
-	DNode* node = DNode_New(value);
+	DNode* node = DNode_Create(value);
 
-	__DList_InsertSorted(list, node, reverse, funcCompare);
+	__DList_InsertSorted(list, node, reverse, dataCompare);
 }
 
 void __DList_InsertBefore(DList* list, DNode* node, int index)
 {
 	DNode* curr = __DList_Get(list, index);
+	assert(curr);
 
 	node->prev = curr->prev;
 	node->next = curr;
@@ -232,7 +241,7 @@ void __DList_InsertBefore(DList* list, DNode* node, int index)
 
 void DList_InsertBefore(DList* list, void* value, int index)
 {
-	DNode* node = DNode_New(value);
+	DNode* node = DNode_Create(value);
 
 	__DList_InsertBefore(list, node, index);
 }
@@ -240,6 +249,7 @@ void DList_InsertBefore(DList* list, void* value, int index)
 void __DList_InsertAfter(DList* list, DNode* node, int index)
 {
 	DNode* curr = __DList_Get(list, index);
+	assert(curr);
 
 	node->prev = curr;
 	node->next = curr->next;
@@ -252,17 +262,17 @@ void __DList_InsertAfter(DList* list, DNode* node, int index)
 
 void DList_InsertAfter(DList* list, void* value, int index)
 {
-	DNode* node = DNode_New(value);
+	DNode* node = DNode_Create(value);
 
 	__DList_InsertAfter(list, node, index);
 }
 
-DNode* __DList_FirstOf(DList* list, void* value, int (*funcCompare)(void*, void*))
+DNode* __DList_FirstOf(DList* list, void* value, int (*dataCompare)(void*, void*))
 {
 	DNode* sent = list->sentinel;
 	DNode* curr = sent->next;
 
-	while ((curr != sent) && (funcCompare(value, curr->value) != 0))
+	while ((curr != sent) && (dataCompare(value, curr->value) != 0))
 	{
 		curr = curr->next;
 	}
@@ -270,19 +280,19 @@ DNode* __DList_FirstOf(DList* list, void* value, int (*funcCompare)(void*, void*
 	return curr;
 }
 
-void* DList_FirstOf(DList* list, void* value, int (*funcCompare)(void*, void*))
+void* DList_FirstOf(DList* list, void* value, int (*dataCompare)(void*, void*))
 {
-	DNode* node = __DList_FirstOf(list, value, funcCompare);
+	DNode* node = __DList_FirstOf(list, value, dataCompare);
 
-	return node->value;
+	return (node ? node->value : NULL);
 }
 
-DNode* __DList_LastOf(DList* list, void* value, int (*funcCompare)(void*, void*))
+DNode* __DList_LastOf(DList* list, void* value, int (*dataCompare)(void*, void*))
 {
 	DNode* sent = list->sentinel;
 	DNode* curr = sent->prev;
 
-	while ((curr != sent) && (funcCompare(value, curr->value) != 0))
+	while ((curr != sent) && (dataCompare(value, curr->value) != 0))
 	{
 		curr = curr->prev;
 	}
@@ -290,11 +300,11 @@ DNode* __DList_LastOf(DList* list, void* value, int (*funcCompare)(void*, void*)
 	return curr;
 }
 
-void* DList_LastOf(DList* list, void* value, int (*funcCompare)(void*, void*))
+void* DList_LastOf(DList* list, void* value, int (*dataCompare)(void*, void*))
 {
-	DNode* node = __DList_LastOf(list, value, funcCompare);
+	DNode* node = __DList_LastOf(list, value, dataCompare);
 
-	return node->value;
+	return (node ? node->value : NULL);
 }
 
 DNode* __DList_PopFirst(DList* list)
@@ -350,6 +360,7 @@ void* DList_PopLast(DList* list)
 DNode* __DList_RemoveAt(DList* list, int index)
 {
 	DNode* node = __DList_Get(list, index);
+	assert(node);
 
 	node->prev->next = node->next;
 	node->next->prev = node->prev;
@@ -368,14 +379,4 @@ void* DList_RemoveAt(DList* list, int index)
 	free(node);
 
 	return value;
-}
-
-DList* DList_Fusion(DList* l1, DList* l2)
-{
-	if (l1->size == 0) return l1;
-	if (l2->size == 0) return l2;
-
-
-
-	return NULL;
 }

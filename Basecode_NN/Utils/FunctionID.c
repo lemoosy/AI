@@ -1,5 +1,4 @@
-#include "Function.h"
-#include "Function.h"
+#include "FunctionID.h"
 
 float linear(float x)
 {

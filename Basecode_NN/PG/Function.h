@@ -2,7 +2,7 @@
 
 #include "../Settings.h"
 #include "../Utils/DList.h"
-#include "../Utils/Utils.h"
+#include "../Utils/Type/Int.h"
 
 /// @brief Nombre maximum d'arguments pour une fonction.
 #define MAX_ARG 3

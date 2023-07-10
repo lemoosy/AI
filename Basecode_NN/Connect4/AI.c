@@ -22,7 +22,7 @@
 //    free(tree);
 //}
 //
-//AINode* AINode_Minimax_New(Game* game, PlayerID turn, int depth, bool minLayer, float A, float B)
+//AINode* AINode_Minimax_Create(Game* game, PlayerID turn, int depth, bool minLayer, float A, float B)
 //{
 //    AINode* node = (AINode*)calloc(1, sizeof(AINode));
 //    assert(node);
@@ -66,7 +66,7 @@
 //        Game* copy = Game_Copy(game);
 //        Game_PlayAt(copy, i);
 //
-//        node->children[i] = AINode_Minimax_New(
+//        node->children[i] = AINode_Minimax_Create(
 //            copy,
 //            turn,
 //            depth - 1,
@@ -110,13 +110,13 @@
 //    return node;
 //}
 //
-//AIBTree* AIBTree_Minimax_New(Game* game, PlayerID turn)
+//AIBTree* AIBTree_Minimax_Create(Game* game, PlayerID turn)
 //{
 //    AIBTree* tree = (AIBTree*)calloc(1, sizeof(AIBTree));
 //    assert(tree);
 //
 //    Game* copy = Game_Copy(game);
-//    tree->root = AINode_Minimax_New(copy, turn, DEPTH_MAX, false, -1000, +1000);
+//    tree->root = AINode_Minimax_Create(copy, turn, DEPTH_MAX, false, -1000, +1000);
 //
 //    assert(tree->root->move != -1);
 //
@@ -125,7 +125,7 @@
 //
 //int AI_Minimax_GetMove(Game* game, PlayerID turn)
 //{
-//    AIBTree* tree = AIBTree_Minimax_New(game, turn);
+//    AIBTree* tree = AIBTree_Minimax_Create(game, turn);
 //    int res = tree->root->move;
 //    AIBTree_Destroy(tree);
 //
@@ -136,7 +136,7 @@
 //{
 //    int size = GRID_W * GRID_H;
 //
-//    Mat* m = Mat_New(1, size * 2);
+//    Mat* m = Mat_Create(1, size * 2);
 //    data* values = m->values;
 //
 //    for (int j = 0; j < GRID_H; j++)
@@ -165,7 +165,7 @@
 //{
 //    int move = AI_Minimax_GetMove(game, game->turn);
 //
-//    Mat* outputs = Mat_New(1, GRID_W);
+//    Mat* outputs = Mat_Create(1, GRID_W);
 //    outputs->values[move] = 1.0f;
 //
 //    return outputs;
@@ -203,7 +203,7 @@
 //
 //int AI_Random_GetMove(Game* game)
 //{
-//    int* moves = int_tab_random_norep(GRID_W);
+//    int* moves = Int_TabRandomNoRep(GRID_W);
 //
 //    int index = 0;
 //

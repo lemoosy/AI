@@ -1,6 +1,6 @@
 #include "Mat.h"
 
-Mat* Mat_New(int w, int h)
+Mat* Mat_Create(int w, int h)
 {
 	assert((w > 0) && (h > 0));
 
@@ -20,7 +20,7 @@ Mat* Mat_Copy(Mat* m)
 {
 	if (!m) return NULL;
 
-	Mat* res = Mat_New(m->w, m->h);
+	Mat* res = Mat_Create(m->w, m->h);
 
 	memcpy(res->values, m->values, sizeof(data) * m->w * m->h);
 
@@ -74,6 +74,8 @@ void Mat_Print(Mat* m)
 	{
 		printf("matrix = NULL \n");
 	}
+
+	putchar('\n');
 }
 
 void Mat_Add(Mat* m1, Mat* m2)
@@ -171,7 +173,7 @@ Mat* Mat_Multiply(Mat* m1, Mat* m2)
 	
 	assert(w1 == m2->h);
 
-	Mat* res = Mat_New(w2, h1);
+	Mat* res = Mat_Create(w2, h1);
 
 	for (int j = 0; j < h1; j++)
 	{
@@ -248,7 +250,7 @@ Mat* Mat_Transpose(Mat* m)
 	int w = m->w;
 	int h = m->h;
 
-	Mat* res = Mat_New(h, w);
+	Mat* res = Mat_Create(h, w);
 
 	for (int j = 0; j < h; j++)
 	{

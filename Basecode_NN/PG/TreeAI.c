@@ -99,12 +99,12 @@ void* __div(TreeNode* node)
 
 // Type de retour: TYPE_BOOL
 
-void* __equ(TreeNode* node)
+void* __equal(TreeNode* node)
 {
 	void* _x0 = TreeAI_ExecuteRec(node->children[0]);
 	void* _x1 = TreeAI_ExecuteRec(node->children[1]);
 
-	void* res = Float_Equ(_x0, _x1);
+	void* res = Float_Equal(_x0, _x1);
 
 	free(_x0);
 	free(_x1);
@@ -217,7 +217,7 @@ TreeNode* TreeAI_CreateRec(DList*** F, TypeID res, int depth)
 
 	if (depth == 0)
 	{
-		function = (Function*)DList_Get(F[res][0], int_random(0, F[res][0]->size - 1));
+		function = (Function*)DList_Get(F[res][0], Int_Random(0, F[res][0]->size - 1));
 	}
 	else
 	{
@@ -226,7 +226,7 @@ TreeNode* TreeAI_CreateRec(DList*** F, TypeID res, int depth)
 
 	if (function == NULL)
 	{
-		printf("ERROR - TreeAI_NewRec() \n");
+		printf("ERROR - TreeAI_CreateRec() \n");
 		abort();
 	}
 
@@ -288,14 +288,14 @@ void TreeAI_Crossover(Tree* tree0, Tree* tree1)
 	int treeSize0 = Tree_GetSize(tree0);
 	int treeSize1 = Tree_GetSize(tree1);
 
-	TreeSearch* search0 = Tree_GetNodeByIndex(tree0, int_random(0, treeSize0 - 1));
+	TreeSearch* search0 = Tree_GetNodeByIndex(tree0, Int_Random(0, treeSize0 - 1));
 	Function* function0 = (Function*)search0->node->value;
 
 	DList* list = Tree_GetNodeByValue(tree1, function0, &Function_CompareRes);
 
 	if (list->size > 0)
 	{
-		int* tab = int_tab_random_norep(list->size);
+		int* tab = Int_TabRandomNoRep(list->size);
 
 		for (int i = 0; i < list->size; i++)
 		{
@@ -341,13 +341,13 @@ void TreeAI_Mutation(Tree* tree, DList*** F)
 {
 	int treeSize = Tree_GetSize(tree);
 
-	TreeSearch* search = Tree_GetNodeByIndex(tree, int_random(0, treeSize - 1));
+	TreeSearch* search = Tree_GetNodeByIndex(tree, Int_Random(0, treeSize - 1));
 
 	Function* funcOld = (Function*)search->node->value;
 	
 	DList* list = F[funcOld->res][funcOld->size];
 
-	Function* funcNew = (Function*)DList_Get(list, int_random(0, list->size - 1));
+	Function* funcNew = (Function*)DList_Get(list, Int_Random(0, list->size - 1));
 
 	if (Function_Compare(funcOld, funcNew) == 0)
 	{

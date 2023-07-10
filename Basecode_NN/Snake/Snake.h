@@ -4,7 +4,6 @@
 
 #ifdef GAME_SNAKE
 
-#include "../Utils/Utils.h"
 #include "../SDL/Window.h"
 
 #define GRID_W 10
@@ -85,9 +84,8 @@ void  Game_Draw(Game* game, Window* window);
 
 // ------------------------------ TreeAI ------------------------------
 
-#include "../PG/Tree.h"
 #include "../PG/TreeAI.h"
-#include "../Utils/Data.h"
+#include "../Utils/Type/Float.h"
 
 Game* g_game;
 

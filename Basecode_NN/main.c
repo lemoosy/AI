@@ -3,12 +3,12 @@
 #ifdef GAME_SNAKE
 
 #include "PG/Function.h"
-#include "PG/Tree.h"
 #include "PG/TreeAI.h"
 #include "SDL/Window.h"
 #include "Snake/Snake.h"
+#include "Utils/Tree/Tree.h"
+#include "Utils/Tree/BinHeap.h"
 #include "Utils/DList.h"
-#include "Utils/Utils.h"
 
 int main(void)
 {
@@ -103,7 +103,7 @@ int main(void)
 
 	assert(childrenSize % 2 == 0);
 
-	DList* population = DList_Create();
+	BinHeap* population = BinHeap_Create(true, populationSize);
 	DList* selection = DList_Create();
 
 	int generation = 0;
@@ -120,7 +120,7 @@ int main(void)
 			Tree* tree = TreeAI_Create(F, res, MAX_DEPTH);
 			__Snake_Fitness(tree, NULL);
 			scoreMax = max(scoreMax, tree->score);
-			DList_InsertLast(population, tree);
+			BinHeap_Insert(population, tree, &TreeAI_CompareScore);
 		}
 
 		if (scoreMax >= scoreEnd) break;
@@ -137,7 +137,7 @@ int main(void)
 
 			for (int i = 0; i < 5; i++)
 			{
-				Tree* tree = DList_Get(population, i);
+				Tree* tree = (Tree*)population->values[i];
 
 				printf("%d) treeSize = %.3d | score = %.2f \n", i, Tree_GetSize(tree), tree->score);
 			}
@@ -149,7 +149,7 @@ int main(void)
 
 		for (int i = 0; i < selectionSize; i++)
 		{
-			Tree* tree = (Tree*)DList_PopFirst(population);
+			Tree* tree = (Tree*)BinHeap_PopFirst(population, &TreeAI_CompareScore);
 			DList_InsertLast(selection, tree);
 		}
 
@@ -157,7 +157,7 @@ int main(void)
 
 		for (int i = 0; i < populationSize - selectionSize; i++)
 		{
-			Tree* tree = (Tree*)DList_PopFirst(population);
+			Tree* tree = (Tree*)BinHeap_PopFirst(population, &TreeAI_CompareScore);
 			Tree_Destroy(tree, NULL);
 		}
 
@@ -165,8 +165,8 @@ int main(void)
 
 		for (int i = 0; i < childrenSize / 2; i++)
 		{
-			int r0 = int_random(0, selectionSize - 1);
-			int r1 = int_random(0, selectionSize - 1);
+			int r0 = Int_Random(0, selectionSize - 1);
+			int r1 = Int_Random(0, selectionSize - 1);
 
 			Tree* parent0 = (Tree*)DList_Get(selection, r0);
 			Tree* parent1 = (Tree*)DList_Get(selection, r1);
@@ -192,11 +192,11 @@ int main(void)
 			Tree* tree = (Tree*)DList_PopFirst(selection);
 			__Snake_Fitness(tree, NULL);
 			scoreMax = max(scoreMax, tree->score);
-			DList_InsertSorted(population, tree, false, &TreeAI_CompareScore);
+			BinHeap_Insert(population, tree, &TreeAI_CompareScore);
 		}
 	}
 
-	Tree* treeBest = (Tree*)DList_Get(population, 0);
+	Tree* treeBest = (Tree*)population->values[0];
 	Tree_Print(treeBest, &Function_Print);
 	Window* window = Window_Create("Snake 2023 - PG - LEMOOSY");
 	__Snake_Fitness(treeBest, window);
@@ -213,7 +213,7 @@ int main(void)
 	}
 
 	DList_Destroy(selection, NULL);
-	DList_Destroy(population, NULL);
+	BinHeap_Destroy(population, NULL);
 
 	for (int j = 0; j < TYPE_COUNT; j++)
 	{
@@ -241,7 +241,7 @@ int main(void)
 
 	Batch* batch = Batch_Import("../Data/iris_softmax.txt");
 
-	Network* net = Network_New(0.1f);
+	Network* net = Network_Create(0.1f);
 	Network_AddLayer(net, GRID_W * GRID_H * 2, FUNCTION_LINEAR);
 	Network_AddLayer(net, 256, FUNCTION_SIGMOID);
 	Network_AddLayer(net, 256, FUNCTION_SIGMOID);

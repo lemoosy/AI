@@ -190,8 +190,8 @@ Position* Food_Create(CellID grid[][GRID_W])
 	Position* pos = (Position*)calloc(1, sizeof(Position));
 	assert(pos);
 
-	int* tabI = int_tab_random_norep(GRID_W);
-	int* tabJ = int_tab_random_norep(GRID_H);
+	int* tabI = Int_TabRandomNoRep(GRID_W);
+	int* tabJ = Int_TabRandomNoRep(GRID_H);
 
 	bool quit = false;
 
@@ -469,104 +469,104 @@ void* __Snake_HeadFoodN(void* node)
 {
 	Position pos = g_game->snake->head->pos;
 	Position_Update(&pos, N);
-	return Bool_New(g_game->grid[pos.j][pos.i] == CELL_FOOD);
+	return Bool_Create(g_game->grid[pos.j][pos.i] == CELL_FOOD);
 }
 
 void* __Snake_HeadFoodS(void* node)
 {
 	Position pos = g_game->snake->head->pos;
 	Position_Update(&pos, S);
-	return Bool_New(g_game->grid[pos.j][pos.i] == CELL_FOOD);
+	return Bool_Create(g_game->grid[pos.j][pos.i] == CELL_FOOD);
 }
 
 void* __Snake_HeadFoodW(void* node)
 {
 	Position pos = g_game->snake->head->pos;
 	Position_Update(&pos, W);
-	return Bool_New(g_game->grid[pos.j][pos.i] == CELL_FOOD);
+	return Bool_Create(g_game->grid[pos.j][pos.i] == CELL_FOOD);
 }
 
 void* __Snake_HeadFoodE(void* node)
 {
 	Position pos = g_game->snake->head->pos;
 	Position_Update(&pos, E);
-	return Bool_New(g_game->grid[pos.j][pos.i] == CELL_FOOD);
+	return Bool_Create(g_game->grid[pos.j][pos.i] == CELL_FOOD);
 }
 
 void* __Snake_HeadBodyN(void* node)
 {
 	Position pos = g_game->snake->head->pos;
 	Position_Update(&pos, N);
-	return Bool_New(g_game->grid[pos.j][pos.i] == CELL_SNAKE);
+	return Bool_Create(g_game->grid[pos.j][pos.i] == CELL_SNAKE);
 }
 
 void* __Snake_HeadBodyS(void* node)
 {
 	Position pos = g_game->snake->head->pos;
 	Position_Update(&pos, S);
-	return Bool_New(g_game->grid[pos.j][pos.i] == CELL_SNAKE);
+	return Bool_Create(g_game->grid[pos.j][pos.i] == CELL_SNAKE);
 }
 
 void* __Snake_HeadBodyW(void* node)
 {
 	Position pos = g_game->snake->head->pos;
 	Position_Update(&pos, W);
-	return Bool_New(g_game->grid[pos.j][pos.i] == CELL_SNAKE);
+	return Bool_Create(g_game->grid[pos.j][pos.i] == CELL_SNAKE);
 }
 
 void* __Snake_HeadBodyE(void* node)
 {
 	Position pos = g_game->snake->head->pos;
 	Position_Update(&pos, E);
-	return Bool_New(g_game->grid[pos.j][pos.i] == CELL_SNAKE);
+	return Bool_Create(g_game->grid[pos.j][pos.i] == CELL_SNAKE);
 }
 
 void* __Snake_HeadWallN(void* node)
 {
 	Position pos = g_game->snake->head->pos;
 	Position_Update(&pos, N);
-	return Bool_New(Position_OutOfDimension(pos));
+	return Bool_Create(Position_OutOfDimension(pos));
 }
 
 void* __Snake_HeadWallS(void* node)
 {
 	Position pos = g_game->snake->head->pos;
 	Position_Update(&pos, S);
-	return Bool_New(Position_OutOfDimension(pos));
+	return Bool_Create(Position_OutOfDimension(pos));
 }
 
 void* __Snake_HeadWallW(void* node)
 {
 	Position pos = g_game->snake->head->pos;
 	Position_Update(&pos, W);
-	return Bool_New(Position_OutOfDimension(pos));
+	return Bool_Create(Position_OutOfDimension(pos));
 }
 
 void* __Snake_HeadWallE(void* node)
 {
 	Position pos = g_game->snake->head->pos;
 	Position_Update(&pos, E);
-	return Bool_New(Position_OutOfDimension(pos));
+	return Bool_Create(Position_OutOfDimension(pos));
 }
 
 void* __Snake_DirectionHeadIsN(void* node)
 {
-	return Bool_New(g_game->snake->head->dir == N);
+	return Bool_Create(g_game->snake->head->dir == N);
 }
 
 void* __Snake_DirectionHeadIsS(void* node)
 {
-	return Bool_New(g_game->snake->head->dir == S);
+	return Bool_Create(g_game->snake->head->dir == S);
 }
 
 void* __Snake_DirectionHeadIsW(void* node)
 {
-	return Bool_New(g_game->snake->head->dir == W);
+	return Bool_Create(g_game->snake->head->dir == W);
 }
 
 void* __Snake_DirectionHeadIsE(void* node)
 {
-	return Bool_New(g_game->snake->head->dir == E);
+	return Bool_Create(g_game->snake->head->dir == E);
 }
 
 void* __Snake_AheadFood(void* node)
@@ -578,9 +578,9 @@ void* __Snake_AheadFood(void* node)
 	{
 		Position_Update(&pos, dir);
 
-		if (Position_OutOfDimension(pos)) return Bool_New(false);
+		if (Position_OutOfDimension(pos)) return Bool_Create(false);
 
-		if (g_game->grid[pos.j][pos.i] == CELL_FOOD) return Bool_New(true);
+		if (g_game->grid[pos.j][pos.i] == CELL_FOOD) return Bool_Create(true);
 	}
 
 	assert(false);
@@ -595,9 +595,9 @@ void* __Snake_AheadBody(void* node)
 	{
 		Position_Update(&pos, dir);
 
-		if (Position_OutOfDimension(pos)) return Bool_New(false);
+		if (Position_OutOfDimension(pos)) return Bool_Create(false);
 
-		if (g_game->grid[pos.j][pos.i] == CELL_SNAKE) return Bool_New(true);
+		if (g_game->grid[pos.j][pos.i] == CELL_SNAKE) return Bool_Create(true);
 	}
 
 	assert(false);
@@ -610,11 +610,11 @@ void* __Snake_AheadWall2(void* node)
 
 	Position_Update(&pos, dir);
 
-	if (Position_OutOfDimension(pos)) return Bool_New(false);
+	if (Position_OutOfDimension(pos)) return Bool_Create(false);
 
 	Position_Update(&pos, dir);
 
-	return Bool_New(Position_OutOfDimension(pos));
+	return Bool_Create(Position_OutOfDimension(pos));
 }
 
 #endif // GAME_SNAKE

@@ -1,6 +1,6 @@
 #include "Layer.h"
 
-Layer* Layer_New(Layer* layerPrev, int size, FunctionID funcActivationID)
+Layer* Layer_Create(Layer* layerPrev, int size, FunctionID funcActivationID)
 {
 	Layer* layer = (Layer*)calloc(1, sizeof(Layer));
 	assert(layer);
@@ -9,20 +9,20 @@ Layer* Layer_New(Layer* layerPrev, int size, FunctionID funcActivationID)
 
 	if (layerPrev)
 	{
-		layer->W = Mat_New(layerPrev->size, size);
-		layer->B = Mat_New(1, size);
+		layer->W = Mat_Create(layerPrev->size, size);
+		layer->B = Mat_Create(1, size);
 
-		Mat_Randomize(layer->W, (data)-1, (data)+1, &float_random);
-		Mat_Randomize(layer->B, (data)-1, (data)+1, &float_random);
+		Mat_Randomize(layer->W, (data)-1, (data)+1, &Float_Random);
+		Mat_Randomize(layer->B, (data)-1, (data)+1, &Float_Random);
 	}
 
-	layer->Z = Mat_New(1, size);
-	layer->A = Mat_New(1, size);
-	layer->S = Mat_New(1, size);
+	layer->Z = Mat_Create(1, size);
+	layer->A = Mat_Create(1, size);
+	layer->S = Mat_Create(1, size);
 
 	layer->funcActivationID = funcActivationID;
 
-	/*switch (funcActivationID)
+	switch (funcActivationID)
 	{
 	case FUNCTION_LINEAR:
 		layer->funcActivation = &linear;
@@ -50,11 +50,11 @@ Layer* Layer_New(Layer* layerPrev, int size, FunctionID funcActivationID)
 		break;
 
 	default:
-		printf("ERROR - Layer_New() \n");
+		printf("ERROR - Layer_Create() \n");
 		printf("ERROR - [funcActivationID=%d] \n", funcActivationID);
 		abort();
 		break;
-	}*/
+	}
 
 	return layer;
 }
@@ -66,7 +66,7 @@ Layer* Layer_Copy(Layer* layer)
 
 	res->size = layer->size;
 	res->W = Mat_Copy(layer->W);
-	res->W = Mat_Copy(layer->B);
+	res->B = Mat_Copy(layer->B);
 	res->Z = Mat_Copy(layer->Z);
 	res->A = Mat_Copy(layer->A);
 	res->S = Mat_Copy(layer->S);

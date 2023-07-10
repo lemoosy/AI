@@ -51,7 +51,7 @@
 //}Game;
 //
 //// Crée une partie.
-//Game* Game_New();
+//Game* Game_Create();
 //
 //// Copie une partie.
 //Game* Game_Copy(Game* game);

@@ -1,46 +1,46 @@
 #pragma once
 
-#include "../Utils/Function.h"
 #include "../Settings.h"
+#include "../Utils/FunctionID.h"
 #include "../Utils/Mat.h"
-#include "../Utils/Utils.h"
+#include "../Utils/Type/Float.h"
 
-// Structure représentant une couche dans un réseau de neurones.
+/// @brief Structure représentant une couche dans un réseau de neurones.
 typedef struct sLayer
 {
-	// Nombre de neurones.
+	/// @brief Nombre de neurones.
 	int size;
 
-	// Poids.
+	/// @brief Poids.
 	Mat* W;
 
-	// Biais.
+	/// @brief Biais.
 	Mat* B;
 
-	// Sorties de la fonction somme.
+	/// @brief Sorties de la fonction somme.
 	Mat* Z;
 
-	// Sorties de la fonction d'activation.
+	/// @brief Sorties de la fonction d'activation.
 	Mat* A;
 
-	// Valeurs intermédiaires pour la backpropagation (dE/dz).
+	/// @brief Valeurs intermédiaires pour la backpropagation (dE/dz).
 	Mat* S;
 
-	// ID de la fonction d'activation.
+	/// @brief ID de la fonction d'activation.
 	FunctionID funcActivationID;
 
-	// Fonction d'activation.
+	/// @brief Fonction d'activation.
 	data (*funcActivation)(data);
 
-	// Dérivée de la fonction d'activation.
+	/// @brief Dérivée de la fonction d'activation.
 	data (*funcActivationDer)(data);
 }Layer;
 
-// Crée une couche.
-Layer* Layer_New(Layer* layerPrev, int size, FunctionID funcActivationID);
+/// @brief Crée une couche (les poids et les biais sont inialisées aléatoirement entre -1 et +1).
+Layer* Layer_Create(Layer* layerPrev, int size, FunctionID funcActivationID);
 
-// Copie une couche.
+/// @brief Copie une couche.
 Layer* Layer_Copy(Layer* layer);
 
-// Détruit une couche.
+/// @brief Détruit une couche.
 void Layer_Destroy(Layer* layer);

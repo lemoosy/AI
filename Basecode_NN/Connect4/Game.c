@@ -1,12 +1,12 @@
 //#include "Game.h"
 //#include "Game.h"
 //
-//Game* Game_New()
+//Game* Game_Create()
 //{
 //	Game* game = (Game*)calloc(1, sizeof(Game));
 //	assert(game);
 //
-//	game->turn = int_random(PLAYER_1, PLAYER_2);
+//	game->turn = Int_Random(PLAYER_1, PLAYER_2);
 //
 //	return game;
 //}
@@ -74,7 +74,7 @@
 //
 //void Game_MinimaxVSPlayer(void)
 //{
-//	Game* game = Game_New();
+//	Game* game = Game_Create();
 //
 //	while (game->state == GAME_IN_PROGRESS)
 //	{
@@ -129,7 +129,7 @@
 //
 //	for (int i = 0; i < gameCount; i++)
 //	{
-//		Game* game = Game_New();
+//		Game* game = Game_Create();
 //
 //		for (int j = 0; j < 4; j++)
 //		{

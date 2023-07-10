@@ -27,7 +27,7 @@ Batch* Batch_Import(char* path)
 
 	for (int i = 0; i < size; i++)
 	{
-		samples[i].X = Mat_New(1, xSize);
+		samples[i].X = Mat_Create(1, xSize);
 		values = samples[i].X->values;
 
 		for (int j = 0; j < xSize; j++)
@@ -35,7 +35,7 @@ Batch* Batch_Import(char* path)
 			fscanf(file, "%f", &values[j]);
 		}
 
-		samples[i].Y = Mat_New(1, ySize);
+		samples[i].Y = Mat_Create(1, ySize);
 		values = samples[i].Y->values;
 
 		for (int j = 0; j < ySize; j++)

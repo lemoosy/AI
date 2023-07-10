@@ -133,13 +133,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Batch.c" />
     <ClCompile Include="Connect4\AI.c" />
     <ClCompile Include="Connect4\Game.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="NN\Batch.c" />
     <ClCompile Include="NN\Layer.c" />
     <ClCompile Include="NN\Network.c" />
-    <ClCompile Include="PG\Tree.c" />
     <ClCompile Include="PG\TreeAI.c" />
     <ClCompile Include="PG\Function.c" />
     <ClCompile Include="SDL\Input.c" />
@@ -147,18 +146,21 @@
     <ClCompile Include="Settings.c" />
     <ClCompile Include="Snake\Snake.c" />
     <ClCompile Include="Utils\DList.c" />
-    <ClCompile Include="Utils\Data.c" />
-    <ClCompile Include="Utils\Function.c" />
+    <ClCompile Include="Utils\FunctionID.c" />
     <ClCompile Include="Utils\Mat.c" />
-    <ClCompile Include="Utils\Utils.c" />
+    <ClCompile Include="Utils\Tree\BinHeap.c" />
+    <ClCompile Include="Utils\Tree\Tree.c" />
+    <ClCompile Include="Utils\Type\Bool.c" />
+    <ClCompile Include="Utils\Type\Float.c" />
+    <ClCompile Include="Utils\Type\Int.c" />
+    <ClCompile Include="Utils\Type\Void.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Batch.h" />
     <ClInclude Include="Connect4\AI.h" />
     <ClInclude Include="Connect4\Game.h" />
+    <ClInclude Include="NN\Batch.h" />
     <ClInclude Include="NN\Layer.h" />
     <ClInclude Include="NN\Network.h" />
-    <ClInclude Include="PG\Tree.h" />
     <ClInclude Include="PG\TreeAI.h" />
     <ClInclude Include="PG\Function.h" />
     <ClInclude Include="SDL\Input.h" />
@@ -166,10 +168,14 @@
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Snake\Snake.h" />
     <ClInclude Include="Utils\DList.h" />
-    <ClInclude Include="Utils\Data.h" />
-    <ClInclude Include="Utils\Function.h" />
+    <ClInclude Include="Utils\FunctionID.h" />
     <ClInclude Include="Utils\Mat.h" />
-    <ClInclude Include="Utils\Utils.h" />
+    <ClInclude Include="Utils\Tree\BinHeap.h" />
+    <ClInclude Include="Utils\Tree\Tree.h" />
+    <ClInclude Include="Utils\Type\Bool.h" />
+    <ClInclude Include="Utils\Type\Float.h" />
+    <ClInclude Include="Utils\Type\Int.h" />
+    <ClInclude Include="Utils\Type\Void.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,6 @@
 #include "Network.h"
 
-Network* Network_New(float learningStep)
+Network* Network_Create(float learningStep)
 {
 	Network* net = (Network*)calloc(1, sizeof(Network));
 	assert(net);
@@ -41,7 +41,7 @@ void Network_AddLayer(Network* net, int size, FunctionID funcActivationID)
 		layerEnd = DList_Get(net->layers, -1);
 	}
 
-	Layer* layerAdd = Layer_New(layerEnd, size, funcActivationID);
+	Layer* layerAdd = Layer_Create(layerEnd, size, funcActivationID);
 
 	DList_InsertLast(net->layers, layerAdd);
 }
@@ -76,8 +76,6 @@ void Network_PrintLayer(Network* net, int index, char var)
 		abort();
 		break;
 	}
-
-	putchar('\n');
 }
 
 void Network_Forward(Network* net, Mat* inputs)
@@ -107,7 +105,7 @@ void Network_Forward(Network* net, Mat* inputs)
 
 	if (layerCurr->funcActivationID == FUNCTION_SOFTMAX)
 	{
-		Mat_Scale(layerCurr->A, 1.0f / Mat_Sum(layerCurr->A));
+		Mat_Scale(layerCurr->A, (data)1 / Mat_Sum(layerCurr->A));
 	}
 }
 
@@ -186,7 +184,7 @@ void Network_Backward(Network* net, Mat* outputs)
 void Network_Learning(Network* net, Batch* batch)
 {
 	int size = batch->size;
-	int* index = int_tab_random_norep(size);
+	int* index = Int_TabRandomNoRep(size);
 
 	for (int _ = 0; _ < size; _++)
 	{

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Settings.h"
-#include "../Utils/DList.h"
+#include "../../Settings.h"
+#include "../../Utils/DList.h"
 
 /// @brief Nombre d'enfants maximum que possède un noeud.
 #define MAX_CHILDREN 3
@@ -75,5 +75,5 @@ typedef struct sTreeSearch
 /// @brief Renvoie à l'indice 'index' le noeud d'un arbre (recherche en profondeur).
 TreeSearch* Tree_GetNodeByIndex(Tree* tree, int index);
 
-/// @brief Recherche les noeuds égalent à 'value' d'un arbre.
+/// @brief Recherche les noeuds égalent à 'value' dans un arbre.
 DList* Tree_GetNodeByValue(Tree* tree, void* value, int (*dataCompare)(void*, void*));
