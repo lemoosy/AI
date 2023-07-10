@@ -7,11 +7,11 @@
 
 
 // ##################################
-// ##### Sélectionne le jeu ici #####
+// ##### Sï¿½lectionne le jeu ici #####
 // ##################################
 
-#define GAME_SNAKE
 //#define GAME_CONNECT4
+#define GAME_SNAKE
 
 
 
@@ -69,7 +69,7 @@ int main(void)
 	DList_InsertLast(functions, Function_Create("OR", 2, &__or, TYPE_BOOL, (TypeID[]) { TYPE_BOOL, TYPE_BOOL }));
 	DList_InsertLast(functions, Function_Create("IF", 3, &__if, TYPE_NULL, (TypeID[]) { TYPE_BOOL, TYPE_NULL, TYPE_NULL }));
 
-	// Création du tableau 2D de toutes les fonctions (* est un DList):
+	// Crï¿½ation du tableau 2D de toutes les fonctions (* est un DList):
 	//
 	//				-----------------
 	//				| 0 | 1 | 2 | 3 | ... | MAX_ARG |
@@ -105,7 +105,7 @@ int main(void)
 	DList_Destroy(functions, NULL);
 
 	// ######################
-	// ##### Paramètres #####
+	// ##### Paramï¿½tres #####
 	// ######################
 	
 	int populationSize	=	5000;
@@ -164,7 +164,7 @@ int main(void)
 			putchar('\n');
 		}
 
-		// On déplace les meilleurs dans la sélection.
+		// On dï¿½place les meilleurs dans la sï¿½lection.
 
 		for (int i = 0; i < selectionSize; i++)
 		{
@@ -180,7 +180,7 @@ int main(void)
 			Tree_Destroy(tree, NULL);
 		}
 
-		// On génère les enfants.
+		// On gï¿½nï¿½re les enfants.
 
 		for (int i = 0; i < childrenSize / 2; i++)
 		{
@@ -202,7 +202,7 @@ int main(void)
 			DList_InsertLast(selection, child1);
 		}
 
-		// On déplace les enfants ainsi que les sélectionnés dans la population.
+		// On dï¿½place les enfants ainsi que les sï¿½lectionnï¿½s dans la population.
 
 		size = selectionSize + childrenSize;
 
@@ -222,7 +222,7 @@ int main(void)
 	Window_Destroy(window);
 
 	// ###################
-	// ##### Mémoire #####
+	// ##### Mï¿½moire #####
 	// ###################
 
 	DList_Destroy(selection, NULL);
