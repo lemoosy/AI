@@ -101,7 +101,7 @@ Sur l'axe des ordonnées: [Minimax_Win - NN_Win]
 
 Pour le jeu du serpent, j'ai fais de la [Programmation Génétique](https://fr.wikipedia.org/wiki/Programmation_g%C3%A9n%C3%A9tique).
 
-Le principe est simple, je crée plusieurs programmes aléatoires (qui sont des arbres à N enfants, [LISP](https://fr.wikipedia.org/wiki/Lisp)), chaque nœud interne est une fonction, chaque feuille est une variable, chaque arbre à un nombre limité de nœuds (dans ce projet, j'ai limité à **100 nœuds**).
+Le principe est simple, je crée plusieurs programmes aléatoires (qui sont des arbres à N enfants, [LISP](https://fr.wikipedia.org/wiki/Lisp)), chaque nœud interne est une fonction, chaque feuille est une variable ou une fonction à 0 argument, chaque arbre à un nombre limité de nœuds (dans ce projet, j'ai limité à **100 nœuds**).
 
 J'évalue chaque programme avec ce qu'on appelle une fonction de fitness (par exemple le nombre de nourritures récoltées par un serpent), je sélectionne les meilleurs, je génère des enfants (je mix des programmes entre eux), puis je recommence le processus jusqu'à obtenir la meilleur solution, c'est-à-dire un programme capable de récolter N pommes (**100 pommes**).
 
