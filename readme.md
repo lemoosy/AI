@@ -91,7 +91,7 @@ Sur l'axe des ordonnées: [Minimax_Win - NN_Win]
 
 
 
-<img src="C:\Users\Lemoosy\OneDrive\Bureau\Basecode_AI\Readme\Minimax VS NN.png" style="zoom:80%;" />
+<img src="Minimax VS NN.png" style="zoom:80%;" />
 
 
 
@@ -185,7 +185,7 @@ J'évalue chaque programme avec ce qu'on appelle une fonction de fitness (par ex
 
 
 
-<img src="C:\Users\Lemoosy\OneDrive\Bureau\Basecode_AI\Readme\Snake.gif" style="zoom: 67%;" />
+<img src="Snake.gif" style="zoom: 67%;" />
 
 
 
