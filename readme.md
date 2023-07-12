@@ -185,7 +185,7 @@ J'évalue chaque programme avec ce qu'on appelle une fonction de fitness (par ex
 
 
 
-<img src="C:\Users\Lemoosy\OneDrive\Bureau\Basecode_AI\Readme\Sans-titre-3.gif" style="zoom: 67%;" />
+<img src="C:\Users\Lemoosy\OneDrive\Bureau\Basecode_AI\Readme\Snake.gif" style="zoom: 67%;" />
 
 
 
